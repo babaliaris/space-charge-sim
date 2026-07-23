@@ -1,0 +1,13 @@
+{
+  "venvPath": ".",
+  "venv": ".venv",
+  "include": [
+    "solver",
+    "main.py"
+  ],
+  "executionEnvironments": [
+    {
+      "root": "."
+    }
+  ]
+}
