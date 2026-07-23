@@ -6,7 +6,7 @@ A software application simulating the effects of positive space charge accumulat
 
 ### 1. Set Up the Virtual Environment
 ```bash
-git clone [https://github.com/babaliaris/space-charge-sim.git](https://github.com/babaliaris/space-charge-sim.git)
+git clone https://github.com/babaliaris/space-charge-sim.git
 ```
 ```bash
 cd space-charge-sim
