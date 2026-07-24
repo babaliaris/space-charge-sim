@@ -5,7 +5,7 @@ matplotlib.use('TkAgg')
 import numpy as np
 import matplotlib.pyplot as plt
 from solver.fields import calculate_e_sp, calculate_e_rod_image
-from solver.constants import calculate_qcs_from_field, calculate_A_from_charge
+from solver.utilities import calculate_qcs_from_field, calculate_A_from_charge
 
 import csv
 

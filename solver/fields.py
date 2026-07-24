@@ -143,3 +143,103 @@ def calculate_e_rod_image(z, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsabs=1e
         e_rod_results[i] = coeff * res[0]
 
     return e_rod_results if isinstance(z, np.ndarray) else e_rod_results[0]
+
+
+
+def _e_plane_image_integrand(r, theta, z, d, R, A, B, C):
+    """
+    Evaluates the scalar integrand of E_{I_plane} at a single point (r, theta).
+    """
+    cos_t = np.cos(theta)
+    sin_t = np.sin(theta)
+
+    # Axial displacement from the grounded plane image charge to field point z
+    # dz_plane = 2d - r*cos(theta) - R - z
+    dz_plane = (2.0 * d) - (r * cos_t) - R - z
+
+    # Distance r5 from the plane image charge element to the field point
+    r5 = np.sqrt((r * sin_t)**2 + dz_plane**2)
+
+    # Safeguard against division by zero
+    if r5 == 0:
+        return 0.0
+
+    # Charge density at r
+    rho = charge_density(r, A, B, C)
+
+    # Integrand: [rho * r^2 * sin(theta) / r5^3] * dz_plane
+    numerator = rho * (r**2) * sin_t * dz_plane
+    denominator = r5**3
+
+    return numerator / denominator
+
+
+def calculate_e_plane_image(z, d, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsabs=1e-8, epsrel=1e-8):
+    """
+    Calculates the axial grounded plane image electric field E_{I_plane}(z).
+
+    Parameters:
+    -----------
+    z : float or np.ndarray
+        Observation point(s) along the symmetry axis [m].
+    d : float
+        Total gap distance from rod tip to grounded plane [m].
+    R : float
+        Rod tip radius [m].
+    L_cs : float
+        Length of space charge region [m].
+    theta_B : float
+        Total cone boundary angle [rad].
+    A, B, C : float
+        Parameters for charge density rho(r) = A * (r + C)^B.
+    epsilon_r : float
+        Relative permittivity of ambient medium (default = 1.0 for air).
+    epsabs, epsrel : float
+        Absolute and relative error tolerances for adaptive quadrature.
+        
+    Returns:
+    --------
+    E_I_plane : float or np.ndarray
+        Grounded plane image electric field magnitude [V/m].
+    """
+    # Front coefficient matches the direct space charge: +1 / (2 * eps_r * eps_0)
+    coeff = 1.0 / (2.0 * epsilon_r * EPSILON_0)
+    theta_max = theta_B / 2.0
+
+    z_arr = np.atleast_1d(z)
+    e_plane_results = np.zeros_like(z_arr, dtype=float)
+
+    for i, z_val in enumerate(z_arr):
+        res = dblquad(
+            _e_plane_image_integrand,
+            0.0, theta_max,
+            lambda _: 0.0,
+            lambda _: L_cs,
+            args=(z_val, d, R, A, B, C),
+            epsabs=epsabs,
+            epsrel=epsrel
+        )
+        e_plane_results[i] = coeff * res[0]
+
+    return e_plane_results if isinstance(z, np.ndarray) else e_plane_results[0]
+
+
+def calculate_total_field(z, d, R, L_cs, theta_B, A, B, C, V_applied, epsilon_r=1.0):
+    """
+    Calculates total electric field along the gap axis including 
+    external geometric field, space charge, rod image, and plane image.
+    """
+
+    # TODO: Use the Charge Simulation Method
+    # 1. External field approximation (e.g., standard hyperbolic or parallel plate baseline)
+    # Depending on your specific formulation, substitute your external field term here:
+    E_ext = V_applied / d # Placeholder or your specific rod-plane geometric field function
+
+    # 2. Compute individual space-charge components
+    E_sp = calculate_e_sp(z, R, L_cs, theta_B, A, B, C, epsilon_r)
+    E_rod_img = calculate_e_rod_image(z, R, L_cs, theta_B, A, B, C, epsilon_r)
+    E_plane_img = calculate_e_plane_image(z, d, R, L_cs, theta_B, A, B, C, epsilon_r)
+
+    return E_ext + E_sp + E_rod_img + E_plane_img
+
+

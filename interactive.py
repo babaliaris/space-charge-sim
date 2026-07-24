@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, Button
 from solver.fields import calculate_e_sp, calculate_e_rod_image
-from solver.constants import calculate_qcs_from_field, calculate_A_from_charge
+from solver.utilities import calculate_qcs_from_field, calculate_A_from_charge
 
 # Setup figure with extra space at the bottom for multiple sliders and button
 fig, ax = plt.subplots(figsize=(10, 8.5))
