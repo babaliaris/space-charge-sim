@@ -1,0 +1,8210 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass scrartcl
+\begin_preamble
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{siunitx}
+\pgfplotsset{compat=newest}
+\usepackage[utf8]{inputenc}
+\usepackage[greek,english]{babel}
+\usepackage{alphabeta} % Enables Greek Unicode input
+\pgfplotsset{compat=newest}
+\usetikzlibrary{positioning, shapes, arrows.meta}
+\usetikzlibrary{shapes.geometric, decorations.pathreplacing}
+\usetikzlibrary{calc}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{intersections}
+\usepackage{xcolor}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children no
+\language american
+\language_package default
+\inputencoding utf8
+\fontencoding auto
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement class
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008080
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content true
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Electromagnetism I
+\end_layout
+
+\begin_layout Author
+Bampaliaris Nikolaos
+\end_layout
+
+\begin_layout Date
+23/07/2025 - 00/00/2025
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Μαθηματικά
+\end_layout
+
+\begin_layout Subsection
+Gradient
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\nabla=(\frac{\partial}{\partial x},\frac{\partial}{\partial y},\frac{\partial}{\partial z})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\nabla f=\frac{\partial f}{\partial x}\hat{i}+\frac{\partial f}{\partial y}\hat{j}+\frac{\partial f}{\partial z}\hat{k}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Divergence
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\nabla\cdot\vec{A}=\frac{\partial A_{x}}{\partial x}+\frac{\partial A_{y}}{\partial y}+\frac{\partial A_{z}}{\partial z}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\nabla\cdot\vec{A}\in\mathbb{R}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Curl
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\nabla\times\vec{A}=\begin{array}{|ccc|}
+\hat{i} & \hat{j} & \hat{k}\\
+\frac{\partial}{\partial x} & \frac{\partial}{\partial y} & \frac{\partial}{\partial z}\\
+A_{x} & A_{y} & A_{z}
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Key Identities in Vector Calculus
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\nabla\cdot(\nabla\times\vec{A})=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\nabla\times(\nabla f)=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Laplacian
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\nabla^{2}f=\nabla\cdot\nabla f=\frac{\partial^{2}f}{\partial x^{2}}+\frac{\partial^{2}f}{\partial y^{2}}+\frac{\partial^{2}f}{\partial z^{2}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Gradient Theorem (Fundamental Theorem for Line Integrals)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\int_{C}\nabla f\cdot d\vec{l}=f(end)-f(start)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Divergence Theorem (Gauss’s Theorem)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\int_{V}(\nabla\cdot\vec{A})dV=\oint_{\partial V}\vec{A}\cdot d\vec{A}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Stokes’ Theorem
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\int_{S}(\nabla\times\vec{A})\cdot d\vec{A}=\oint_{\partial S}\vec{A}\cdot d\vec{l}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Polar Coordinates 
+\begin_inset Formula $(\rho,\phi)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+d\vec{l}=d\rho\hat{\rho}+\rho d\phi\hat{\phi}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Polar to Cartesian
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+x=\rho cos(\phi),y=\rho sin(\phi)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Cartesian to Polar
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\rho=\sqrt{x^{2}+y^{2}},\phi=tan^{-1}(\frac{y}{x})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Differential Surface
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+d\vec{S}=\rho d\rho d\phi
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Cylindrical Coordinates 
+\begin_inset Formula $(\rho,\phi,z)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+d\vec{l}=d\rho\hat{\rho}+\rho d\phi\hat{\phi}+dz\hat{z}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\rho$
+\end_inset
+
+:
+ radial distance from the z-axis (like radius in polar),
+ 
+\begin_inset Formula $\phi$
+\end_inset
+
+:
+ azimuthal angle (angle in x-y plane),
+ z:
+ same as Cartesian z.
+\end_layout
+
+\begin_layout Subsubsection
+Cylindrical to Cartesian
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+x=\rho cos(\phi)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+y=\rho sin(\phi)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+z=z
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Cartesian to Cylindrical
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\rho=\sqrt{x^{2}+y^{2}},\phi=tan^{-1}(\frac{y}{x}),z=z
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Unit Vectors
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\hat{\rho}=cos(\phi)\hat{i}+sin(\phi)\hat{j}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\hat{\phi}=-sin(\phi)\hat{i}+cos(\phi)\hat{j}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\hat{z}=\hat{k}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Differential Surface Elements
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+d\vec{S}_{\rho}=\rho d\phi dz\hat{\rho}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+d\vec{S}_{\phi}=d\rho dz\hat{\phi}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+d\vec{S}_{z}=\rho d\rho d\phi\hat{z}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+dV=\rho d\rho d\phi dz
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Spherical Coordinates 
+\begin_inset Formula $(r,\theta,\phi)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+d\vec{l}=dr\hat{r}+rd\theta\hat{\theta}+rsin(\theta)d\phi\hat{\phi}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $r$
+\end_inset
+
+:
+ radial distance from the origin,
+ 
+\begin_inset Formula $0\leq\theta\leq\pi$
+\end_inset
+
+:
+ polar angle (angle from +z axis),
+ 
+\begin_inset Formula $0\leq\phi\leq2\pi$
+\end_inset
+
+:
+ azimuthal angle (angle in x-y plane).
+\end_layout
+
+\begin_layout Subsubsection
+Spherical to Cartesian
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+x=rsin(\theta)cos(\phi)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+y=rsin(\theta)sin(\phi)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+z=rcos(\theta)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Cartesian to Spherical
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+r=\sqrt{x^{2}+y^{2}+z^{2}},\theta=cos^{-1}(\frac{z}{r}),\phi=tan^{-1}(\frac{y}{z})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Unit Vectors
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\hat{r}=sin(\theta)cos(\phi)\hat{i}+sin(\theta)sin(\phi)\hat{j}+cos(\theta)\hat{k}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\hat{\theta}=cos(\theta)cos(\phi)\hat{i}+cos(\theta)sin(\phi)\hat{j}-sin(\theta)\hat{k}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\hat{\phi}=-sin(\phi)\hat{i}+cos(\phi)\hat{j}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Differential Surface Elements
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+d\vec{S}_{r}=r^{2}sin(\theta)d\theta d\phi\hat{r}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+d\vec{S}_{\theta}=rsin(\theta)drd\phi\hat{\theta}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+d\vec{S}_{\phi}=rdrd\theta\hat{\phi}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+dV=r^{2}sin(\theta)drd\theta d\phi
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Integrals
+\end_layout
+
+\begin_layout Subsubsection
+Building Blocks Of Integration
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="9" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\size footnotesize
+Integral
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\size footnotesize
+Result
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\size footnotesize
+Domain
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\int dx$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $x+C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $x\in\mathbb{R}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\int x^{n}dx$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\frac{x^{n+1}}{n+1}+C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $x\in\mathbb{R},n\neq-1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\int\frac{1}{x}dx$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $ln(x)+C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $x>0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\int a^{x}dx$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\frac{a^{x}}{ln(a)}+C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $x\in\mathbb{R},a>0,a\neq1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\int ln(x)dx$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $xln(x)-x+C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $x>0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\int e^{x}dx$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $e^{x}+C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $x\in\mathbb{R}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\int|x|dx$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\frac{x|x|}{2}+C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $x\in\mathbb{R}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\int x^{n}ln(x)dx$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\frac{x^{n+1}}{n+1}(lnx-\frac{1}{n+1})+C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $x>0,x\neq-1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Algebraic Rational Forms with Square Roots
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="14" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row topspace="default" bottomspace="default" interlinespace="default">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\size footnotesize
+Integral
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\size footnotesize
+Result
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\size footnotesize
+Domain
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\int\frac{dx}{\sqrt{x^{2}+a^{2}}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $ln|x+\sqrt{x^{2}+a^{2}}|+C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $x\in\mathbb{R}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\int\frac{xdx}{\sqrt{x^{2}+a^{2}}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\sqrt{x^{2}+a^{2}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $x\in\mathbb{R}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\int\frac{dx}{(x^{2}+a^{2})^{3/2}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\frac{x}{a^{2}\sqrt{x^{2}+a^{2}}}+C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $x\in\mathbb{R}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\int\frac{xdx}{(x^{2}+a^{2})^{3/2}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $-\frac{1}{\sqrt{x^{2}+a^{2}}}+C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $x\in\mathbb{R}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\int\frac{dx}{x^{2}+a^{2}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\frac{1}{a}tan^{-1}(\frac{x}{a})+C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $x\in\mathbb{R}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\int\frac{xdx}{x^{2}+a^{2}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\frac{1}{2}ln(x^{2}+a^{2})+C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $x\in\mathbb{R}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\int\frac{dx}{\sqrt{a^{2}-x^{2}}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $sin^{-1}(\frac{x}{a})+C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $|\frac{x}{a}|\leq1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\int\frac{dx}{x\sqrt{x^{2}-a^{2}}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\frac{1}{a}cos^{-1}(\frac{a}{x})+C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $|x|>a>0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\int\frac{xdx}{\sqrt{a^{2}-x^{2}}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $-\sqrt{a^{2}-x^{2}}+C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $x\leq a$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\int\sqrt{x^{2}+a^{2}}dx$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\frac{x}{2}\sqrt{x^{2}+a^{2}}+\frac{a^{2}}{2}ln|x+\sqrt{x^{2}+a^{2}}|+C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $x\in\mathbb{R}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\int\frac{dx}{\sqrt{1-x^{2}}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $sin^{-1}(x)+C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $|x|\leq1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\int\frac{dx}{\sqrt{1+x^{2}}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $tan^{-1}(x)+C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $|x|\leq1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset Formula $\int\sqrt{x^{2}+a^{2}}dx$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset Formula $\frac{x}{2}\sqrt{x^{2}+a^{2}}+\frac{a^{2}}{2}ln\left|x+\sqrt{x^{2}+a^{2}}\right|+C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset Formula $x\in\mathbb{R}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Exponential & Trig Integrals
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="10" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row topspace="default" bottomspace="default" interlinespace="default">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\size footnotesize
+Integral
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\size footnotesize
+Result
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\size footnotesize
+Domain
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\int e^{ax}dx$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\frac{1}{a}e^{ax}+C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $x\in\mathbb{R}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\int e^{-x^{2}}dx$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+No closed form exists
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $x\in\mathbb{R}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\int_{-\infty}^{\infty}e^{-x^{2}}dx$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\sqrt{\pi}$
+\end_inset
+
+ (Gaussian Integral)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $x\in\mathbb{R}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\int cos(ax)dx$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\frac{1}{a}sin(ax)+C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $x\in\mathbb{R}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\int sin(ax)dx$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $-\frac{1}{a}cos(ax)+C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $x\in\mathbb{R}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\int\frac{1}{cos^{2}(x)}dx$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $tan(x)+C=\frac{sinx}{cosx}+C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $x\notin\{\frac{\pi}{2}+k\pi|k\in\mathbb{Z}\}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\int\frac{1}{sin^{2}(x)}dx$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $-cot(x)+C=-\frac{cosx}{sinx}+C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $x\notin\{k\pi|k\in\mathbb{Z}\}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\int cos^{2}(x)dx$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\frac{x}{2}+\frac{sin(2x)}{4}+C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $x\in\mathbb{R}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\int sin^{2}(x)dx$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $\frac{x}{2}-\frac{sin(2x)}{4}+C$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\begin_inset Formula $x\in\mathbb{R}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+
+\size small
+Τριγωνομετρικές Ταυτότητες
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size footnotesize
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+\begin_inset Formula $sin^{2}(x)+cos^{2}(x)=1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+\begin_inset Formula $1+tan^{2}(x)=sec^{2}(x)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+\begin_inset Formula $1+cot^{2}(x)=csc^{2}(x)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+\begin_inset Formula $sin(A\pm B)=sin(A)cos(B)\pm cos(A)sin(B)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+\begin_inset Formula $sin(A)sin(B)=\frac{1}{2}\left[cos(A-B)-cos(A+B)\right]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+\begin_inset Formula $cos(A)cos(B)=\frac{1}{2}\left[cos(A-B)+cos(A+B)\right]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+\begin_inset Formula $cos(A\pm B)=cos(A)cos(B)\mp sin(A)sin(B)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+\begin_inset Formula $sin(A)cos(B)=\frac{1}{2}\left[sin(A+B)+sin(A-B)\right]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+\begin_inset Formula $sin(2x)=2sin(x)cos(x)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+\begin_inset Formula $sin^{2}(x)=\frac{1-cos(2x)}{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+\begin_inset Formula $cos^{2}(x)=\frac{1+cos(2x)}{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+\begin_inset Formula $cos(2x)=cos^{2}(x)-sin^{2}(x)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+\begin_inset Formula $e^{j\theta}=cos(\theta)+jsin(\theta)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+\begin_inset Formula $cos(\theta)=\frac{e^{j\theta}+e^{-j\theta}}{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+\begin_inset Formula $sin(\theta)=\frac{e^{j\theta}-e^{-j\theta}}{2j}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+\begin_inset Formula $cos(x)=sin(x+\frac{\pi}{2})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size tiny
+\begin_inset Formula $sin(x)=cos(x-\frac{\pi}{2})$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size tiny
+\begin_inset Formula $cos(x)=sin(\frac{\pi}{2}-x)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size tiny
+\begin_inset Formula $sin(x)=cos(\frac{\pi}{2}-x)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Εισαγωγή 
+\end_layout
+
+\begin_layout Subsection
+Vector Field - Διανυσματικό Πεδίο - Διανυσματική Συνάρτηση
+\end_layout
+
+\begin_layout Standard
+Είναι μία συνάρτηση 
+\begin_inset Formula $A:\mathbb{R}^{n}\rightarrow\mathbb{R}^{m}$
+\end_inset
+
+ όπου 
+\begin_inset Formula $n,m\in\mathbb{Z}^{+}$
+\end_inset
+
+ και 
+\begin_inset Formula $A\in\mathbb{R}^{m}$
+\end_inset
+
+,
+ με απλά λόγια είναι ένα διάνυσμα το οποίο δεν είναι σταθερό αλλά η κάθε συνιστώσα του εξαρτάτε από κάποιο μεταβλητό μέγεθος.
+ Για παράδειγμα,
+ το παρακάτω διάνυσμα 
+\begin_inset Formula $\vec{P}(\vec{r})\in\mathbb{R}^{3}$
+\end_inset
+
+ είναι ένα διανυσματικό πεδίο θέσης,
+ ένα διάνυσμα το οποίο εξαρτάτε από τις διαστάσεις του 
+\series bold
+χώρου
+\series default
+ και για κάθε σημείο 
+\begin_inset Formula $\vec{r}=(x,y,z)\in\mathbb{R}^{3}$
+\end_inset
+
+ σου λέει που βρίσκεσε στον χώρο (κατεύθυνση - διεύθυνση - απόσταση) σε σχέση ως προς κάποιο σημείο αναφοράς (το 
+\series bold
+(0,0,0)
+\series default
+ του συστήματος συντεταγμένων):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\vec{r}=(x(t),y(t),z(t))\in\mathbb{R}^{3}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\vec{P}(\vec{r})=x(t)\hat{i}+y(t)\hat{j}+z(t)\hat{k}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\vec{P}(\vec{r}):\mathbb{R}^{3}\rightarrow\mathbb{R}^{3}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+οι μεταβλητές x(t),
+ y(t),
+ z(t) μπορούν να μεταβάλλονται με έναν οποιονδήποτε τρόπο,
+ άρα μεταβάλλεται και το 
+\begin_inset Formula $\vec{P}(\vec{r})$
+\end_inset
+
+.
+ Στην περίπτωση του διανύσματος θέσης,
+ η μεταβολή τους είναι η ταχύτητα:
+ 
+\begin_inset Formula $\vec{V}=\frac{d\vec{r}}{dt}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Στατικό Πεδίο
+\end_layout
+
+\begin_layout Standard
+Ένα οποιοδήποτε πεδιακό μέγεθος 
+\begin_inset Formula $\vec{A}$
+\end_inset
+
+,
+ λέμε ότι είναι στατικό έαν δεν μεταβάλετε με τον χρόνο,
+ δηλαδή:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{d\vec{A}}{dt}=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Quasi Static Field - Σχεδόν Στατικό Πεδίο
+\end_layout
+
+\begin_layout Standard
+Ένα σχεδόν στατικό πεδίο,
+ είναι ένα πεδίο του οποίου η μεταβολή του ως προς τον χρόνο είναι αμελητέα,
+ ή πιο αυστηρά,
+ τείνει στο μηδέν:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{d\vec{A}}{dt}\rightarrow0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Time Variant Field - Χρονικά Μεταβαλλόμενο Πεδίο
+\end_layout
+
+\begin_layout Standard
+Όταν το πεδιακό μέγεθος μεταβάλετε με τον χρόνο:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{d\vec{A}}{dt}\neq0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Σχέση Χρονικής Μεταβολής και Συχνότητας
+\end_layout
+
+\begin_layout Standard
+Η χρονική μεταβολή ενός πεδίου συνδέεται άμεσα με την συχνότητα f ή ισοδύναμα τη γωνιακή συχνότητα 
+\series bold
+ω=2πf
+\series default
+.
+ Όταν ένα πεδίο μεταβάλλεται με τον χρόνο,
+ μπορεί να εκφραστεί ως συνδυασμός από αρμονικές συναρτήσεις,
+ μέσω της ανάλυσης Fourier:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\vec{A}(t)=\sum_{n}\vec{A}_{n}\cdot e^{j\omega_{n}t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+όπου κάθε 
+\begin_inset Formula $\omega_{n}$
+\end_inset
+
+ αντιστοιχεί σε μια συχνότητα.
+ Αν ένα πεδίο δεν μεταβάλλεται με τον χρόνο (στατικό),
+ τότε η αντίστοιχη συχνότητα είναι μηδενική:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{d\vec{A}}{dt}=0\Rightarrow\omega=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Εάν όμως το πεδίο μεταβάλλεται περιοδικά ή μη,
+ τότε η ανάλυσή του στο πεδίο της συχνότητας περιγράφει πώς κατανέμεται η ενέργειά του στις διαφορετικές συχνότητες.
+\end_layout
+
+\begin_layout Standard
+Στα ηλεκτροστατικά προβλήματα,
+ τα πεδία είναι χρονικά σταθερά (DC):
+ 
+\begin_inset Formula $\omega=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Στα AC κυκλώματα και ηλεκτρομαγνητικά κύματα,
+ μεταβάλλονται περιοδικά:
+ 
+\begin_inset Formula $\omega\neq0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Σε παροδικά φαινόμενα ή παλμούς,
+ τα πεδία μεταβάλλονται μη περιοδικά και έχουν φασματική συνιστώσα σε ευρύ φάσμα συχνοτήτων.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Συστήματα Γ.Ο.Ι (Γραμμικά - Ομογενή και Μη-Ομογενή - Ισοτροπικά)
+\end_layout
+
+\begin_layout Subsubsection
+Γραμμικά
+\end_layout
+
+\begin_layout Standard
+Ένα σύστημα T λέγεται γραμμικό όταν ικανοποιεί ταυτόχρονα τις ιδιότητες της επαλληλίας (προστιθεμενικότητα) και της ομογένειας (κλιμακωσιμότητα).
+ Δηλαδή,
+ για κάθε είσοδο 
+\begin_inset Formula $x_{1}(t)$
+\end_inset
+
+ και 
+\begin_inset Formula $x_{2}(t)$
+\end_inset
+
+ και σταθερές 
+\begin_inset Formula $a,b\in\mathbb{R}$
+\end_inset
+
+,
+ τότε:
+\end_layout
+
+\begin_layout Subsubsection*
+Επαλληλία:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T[x_{1}(t)]=y_{1}(t),T[x_{2}(t)]=y_{2}(t)\Rightarrow T[x_{1}(t)+x_{2}(t)]=y_{1}(t)+y_{2}(t)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Ομογένεια (Γραμμικότητας όχι Γ.Ο.Ι):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T[ax(t)]=a\cdot y(t)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Γραμμικά Συστήματα:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T[α_{1}(t)+bx_{2}(t)]=ay_{1}(t)+by_{2}(t)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Ομογενή
+\end_layout
+
+\begin_layout Standard
+Ένα πεδιακό σύστημα λέγεται ομογενές όταν οι φυσικές του ιδιότητες παραμένουν σταθερές σε όλη την έκτασή του.
+ Στην περίπτωση των ηλεκτρομαγνητικών πεδίων,
+ αυτό σημαίνει ότι η διηλεκτρική σταθερά ε είναι σταθερή σε κάθε σημείο του χώρου:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+ε=\text{σταθερά}\in\mathbb{R}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Μη-Ομογενή
+\end_layout
+
+\begin_layout Standard
+Ένα πεδιακό σύστημα λέγεται μη ομογενές όταν οι φυσικές του ιδιότητες μεταβάλλονται στον χώρο.
+ Δηλαδή,
+ η διηλεκτρική σταθερά ε είναι συνάρτηση της θέσης 
+\begin_inset Formula $\vec{r}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+ε=ε(\vec{r})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Ισοτροπικά
+\end_layout
+
+\begin_layout Standard
+Ένα πεδιακό σύστημα λέγεται ισοτροπικό όταν οι φυσικές του ιδιότητες είναι ίδιες προς όλες τις κατευθύνσεις.
+ Δηλαδή,
+ η απόκριση του δεν εξαρτάται από τη διεύθυνση εφαρμογής ενός πεδίου.
+ Για παράδειγμα,
+ η διηλεκτρική σταθερά ε είναι μοναδιαία και όχι τενσορική:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\vec{D}=ε\vec{E},ε\in\mathbb{R}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Αντίθετα,
+ σε ανισοτροπικά μέσα,
+ η ε εξαρτάται από τη διεύθυνση:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\vec{D}=ε\cdot\vec{E},ε\in\mathbb{R}^{3}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+
+\size small
+Ο Νόμος του Coulomb
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset Formula 
+\[
+\vec{F}_{q_{1}\rightarrow q_{2}}=\frac{1}{4\piε}\frac{|q_{1}||q_{2}|}{\Vert\vec{r}_{q_{1},q_{2}}\Vert^{3}}\vec{r}_{q_{1},q_{2}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size small
+όπου 
+\begin_inset Formula $q_{1}[C],q_{2}[C]$
+\end_inset
+
+:
+ Δύο φορτία,
+ 
+\begin_inset Formula $\vec{r}_{q_{1},q_{2}}$
+\end_inset
+
+:
+ Το διάνυσμα απόστασης του από το 
+\begin_inset Formula $q_{1}$
+\end_inset
+
+ έως το 
+\begin_inset Formula $q_{2}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $ε[\frac{C^{2}}{N\cdot m^{2}}]$
+\end_inset
+
+:
+ Η διηλεκτρική 
+\begin_inset Quotes eld
+\end_inset
+
+σταθερά
+\begin_inset Quotes erd
+\end_inset
+
+,
+ 
+\begin_inset Formula $\vec{F}_{q_{1}\rightarrow q_{2}}[N=\frac{kg\cdot m}{s^{2}}]$
+\end_inset
+
+:
+ Η δύναμη που ασκεί το φορτίο 1 στο φορτίο 2.
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset Formula 
+\[
+\begin{cases}
+ε\in\mathbb{R} & \text{εάν το υλικό είναι ομογενές}\\
+ε:\mathbb{R}^{3}\rightarrow\mathbb{R}^{+} & \text{εάν μη ομογενές υλικό}
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size small
+η 
+\series bold
+ε
+\series default
+ προκύπτει πάντα σε σχέση με την διηλεκτρική σταθερά στο κενό 
+\begin_inset Formula $ε_{o}=8.854\cdot10^{-12}\frac{F}{m}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset Formula 
+\[
+ε=ε_{r}ε_{o}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+\size small
+όπου
+\series default
+:
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset Formula 
+\[
+ε_{r}=f(x,y,z)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+
+\size small
+Τρίτος Νόμος του Νεύτωνα (Αρχή Δράσης–Αντίδρασης)
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset Formula 
+\[
+\vec{F}_{q_{1}\rightarrow q_{2}}=-\vec{F}_{q_{2}\rightarrow q_{1}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+
+\size small
+Είδη Γεωμετρικών Κατανομών
+\end_layout
+
+\begin_layout Standard
+
+\size small
+Για να μελετήσουμε κατανομές φορτίου στον χώρο,
+ εισάγουμε τις πυκνότητες φορτίου ως ρυθμούς μεταβολής του φορτίου ως προς το μήκος,
+ το εμβαδόν ή τον όγκο,
+ σε κατάλληλες υποπεριοχές του χώρου.
+ Αυτές οι πυκνότητες ορίζονται με τη βοήθεια του ορίου απειροελάχιστης μεταβολής φορτίου σε σχέση με το αντίστοιχο γεωμετρικό μέγεθος.
+\end_layout
+
+\begin_layout Subsubsection
+
+\size small
+Γραμμική
+\end_layout
+
+\begin_layout Standard
+
+\size small
+Για φορτίο κατανεμημένο κατά μήκος μιας καμπύλης 
+\begin_inset Formula $\gamma\subset\mathbb{R}^{3}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset Formula 
+\[
+lim_{\Delta l\rightarrow0}=\frac{\Delta q}{\Delta l}\Rightarrow P_{l}=\frac{dq}{dl}[\frac{C}{m}],dl\in\mathbb{R}^{+}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+
+\size small
+Επιφανειακή
+\end_layout
+
+\begin_layout Standard
+
+\size small
+Για φορτίο κατανεμημένο σε επιφάνεια 
+\begin_inset Formula $S\subset\mathbb{R}^{3}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset Formula 
+\[
+lim_{\Delta S\rightarrow0}=\frac{\Delta q}{\Delta S}\Rightarrow P_{s}=\frac{dq}{dS}[\frac{C}{m^{2}}],dS\in\mathbb{R}^{+}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+
+\size small
+Χωριτική
+\end_layout
+
+\begin_layout Standard
+
+\size small
+Για φορτίο κατανεμημένο σε όγκο 
+\begin_inset Formula $V\subset\mathbb{R}^{3}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset Formula 
+\[
+lim_{\Delta V\rightarrow0}=\frac{\Delta q}{\Delta V}\Rightarrow P_{V}=\frac{dq}{dV}[\frac{C}{m^{3}}],dV\in\mathbb{R}^{+}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Παράδειγμα Υπολογισμού Δύναμης Σημειακών Φορτίων
+\end_layout
+
+\begin_layout Standard
+
+\size small
+Με βάση το παρακάτω σχήμα,
+ υπολόγισε την συνολική δύναμη που δέχεται το φορτίο 
+\series bold
+q4
+\series default
+ από τα υπόλοιπα:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename Assets/1.simple_force_excersice.jpg
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset Formula 
+\[
+\vec{r}_{14}=a\hat{x_{o}}+0\hat{y_{o}},\vec{r}_{34}=0\hat{x_{o}}+a\hat{y_{o}},\vec{r}_{24}=-a\hat{x_{o}}-a\hat{y_{o}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset Formula 
+\[
+\vec{F}_{total}=\vec{F}_{14}+\vec{F}_{34}+\vec{F}_{24}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset Formula 
+\[
+\vec{F}_{total}=\frac{1}{4\piε}\frac{|q_{1}||q_{4}|}{\Vert\vec{r}_{14}\Vert^{3}}\vec{r}_{14}+\frac{1}{4\piε}\frac{|q_{3}||q_{4}|}{\Vert\vec{r}_{34}\Vert^{3}}\vec{r}_{34}+\frac{1}{4\piε}\frac{|q_{2}||q_{4}|}{\Vert\vec{r}_{24}\Vert^{3}}\vec{r}_{24}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset Formula 
+\[
+\vec{F}_{total}=\frac{1}{4\piε}\frac{|+q||+q|}{\Vert\vec{r}_{14}\Vert^{3}}\vec{r}_{14}+\frac{1}{4\piε}\frac{|+q||+q|}{\Vert\vec{r}_{34}\Vert^{3}}\vec{r}_{34}+\frac{1}{4\piε}\frac{|-2q||+q|}{\Vert\vec{r}_{24}\Vert^{3}}\vec{r}_{24}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset Formula 
+\[
+\vec{F}_{total}=\frac{1}{4\piε}\frac{q^{2}}{\Vert\vec{r}_{14}\Vert^{3}}\vec{r}_{14}+\frac{1}{4\piε}\frac{q^{2}}{\Vert\vec{r}_{34}\Vert^{3}}\vec{r}_{34}+\frac{2}{4\piε}\frac{q^{2}}{\Vert\vec{r}_{24}\Vert^{3}}\vec{r}_{24}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset Formula 
+\[
+\vec{F}_{total}=\frac{q^{2}}{4\piε}\left[\frac{1}{\Vert\vec{r}_{14}\Vert^{3}}\vec{r}_{14}+\frac{1}{\Vert\vec{r}_{34}\Vert^{3}}\vec{r}_{34}+\frac{2}{\Vert\vec{r}_{24}\Vert^{3}}\vec{r}_{24}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset Formula 
+\[
+\vec{F}_{total}=\frac{q^{2}}{4\piε}\left[\frac{1}{a^{3}}a\hat{x_{o}}+\frac{1}{a^{3}}a\hat{y_{o}}+\frac{2}{\sqrt{a^{2}+a^{2}}^{3}}\left(-a\hat{x_{o}}-a\hat{y_{o}}\right)\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset Formula 
+\[
+\vec{F}_{total}=\frac{q^{2}}{4\piε}\left[\frac{1}{a^{2}}\hat{x_{o}}+\frac{1}{a^{2}}\hat{y_{o}}+\frac{2}{2a^{3}\sqrt{2}}\left(-a\hat{x_{o}}-a\hat{y_{o}}\right)\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset Formula 
+\[
+\vec{F}_{total}=\frac{q^{2}}{4\piε}\left[\frac{1}{a^{2}}\hat{x_{o}}+\frac{1}{a^{2}}\hat{y_{o}}-\frac{a}{a^{3}\sqrt{2}}a\hat{x_{o}}-\frac{a}{a^{3}\sqrt{2}}a\hat{y_{o}}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset Formula 
+\[
+\vec{F}_{total}=\frac{q^{2}}{4\piε}\left[\left(\frac{1}{a^{2}}-\frac{1}{a^{2}\sqrt{2}}\right)\hat{x_{o}}+\left(\frac{1}{a^{2}}-\frac{1}{a^{2}\sqrt{2}}\hat{y_{o}}\right)\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset Formula 
+\[
+\vec{F}_{total}=\frac{q^{2}}{4a^{2}\piε}\left[\frac{\sqrt{2}-1}{\sqrt{2}}\hat{x_{o}}+\frac{\sqrt{2}-1}{\sqrt{2}}\hat{y_{o}}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset Formula 
+\[
+\vec{F}_{total}=\frac{q^{2}}{4a^{2}\piε}\frac{\sqrt{2}-1}{\sqrt{2}}\left(\hat{x_{o}}+\hat{y_{o}}\right)\quad\left[N\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Παράδειγμα Υπολογισμού Δύναμης Γραμμικής Κατανομής
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename Assets/2.simple_line_charge.jpg
+	scale 25
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size footnotesize
+Υπολόγισε την δύναμη που δέχετε το +Q από το +q (tip:
+ 
+\begin_inset Formula $\vec{F_{q\rightarrow Q}}=-\vec{F_{Q\rightarrow q}}$
+\end_inset
+
+).
+ 
+\series bold
+ΠΑΝΤΑ
+\series default
+ υπολογίζεις την δύναμη από την ποιο περίπλοκη κατανομή προς στην ποιο απλή.
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size footnotesize
+Υπολογισμός Διανύσματος Απόστασης:
+\end_layout
+
+\begin_layout Standard
+
+\size footnotesize
+\begin_inset Formula 
+\[
+\vec{r}=\vec{B}-\vec{C}=\left(0\hat{x}_{o}+a\hat{y}_{o}\right)-\left(x'\hat{x}_{o}+0\hat{y}_{o}\right)\Rightarrow\vec{r}=-x'\hat{x}_{o}+a\hat{y}_{o}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size footnotesize
+\begin_inset Formula 
+\[
+\left\Vert \vec{r}\right\Vert =\sqrt{x'^{2}+a^{2}}=\left(x'^{2}+a^{2}\right)^{1/2}\quad\left[m\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size footnotesize
+Υπολογισμός Πυκνότητας Φορτίου:
+\end_layout
+
+\begin_layout Standard
+
+\size footnotesize
+\begin_inset Formula 
+\[
+P_{L}=\frac{dq}{dL}\Rightarrow dq=P_{L}dL\Rightarrow dq=P_{L}dx',x'\in[0,L]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size footnotesize
+\begin_inset Formula 
+\[
+\int_{0}^{Q}dq=\int_{0}^{L}P_{L}dx'\xRightarrow{P_{L}\in\mathbb{R}}Q=LP_{L}\Rightarrow P_{L}=\frac{Q}{L}\in\mathbb{R}\quad\left[\frac{C}{m}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size footnotesize
+Υπολογισμός Δύναμης 
+\begin_inset Formula $\vec{F}_{Q\rightarrow q}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+
+\size footnotesize
+\begin_inset Formula 
+\[
+d\vec{F}_{Q\rightarrow q}=\frac{1}{4\piε}\frac{|+dq||+q|}{\left\Vert \vec{r}\right\Vert ^{3}}\vec{r}=\frac{q}{4\piε}\frac{dq}{\left\Vert \vec{r}\right\Vert ^{3}}\vec{r}=\frac{q}{4\piε}\frac{P_{L}dx'}{\left\Vert \vec{r}\right\Vert ^{3}}\vec{r}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size footnotesize
+\begin_inset Formula 
+\[
+\int_{0}^{\vec{F}_{Q\rightarrow q}}d\vec{F}_{Q\rightarrow q}=\int_{0}^{L}\frac{q}{4\piε}\frac{P_{L}dx'}{\left\Vert \vec{r}\right\Vert ^{3}}\vec{r}\Rightarrow\vec{F}_{Q\rightarrow q}=\frac{qP_{L}}{4\piε}\int_{0}^{L}\frac{dx'}{\left(x'^{2}+a^{2}\right)^{3/2}}\left(-x'\hat{x}_{o}+a\hat{y}_{o}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size footnotesize
+\begin_inset Formula 
+\[
+\vec{F}_{Q\rightarrow q}=\frac{qP_{L}}{4\piε}\left[-\int_{0}^{L}\frac{x'dx'}{\left(x'^{2}+a^{2}\right)^{3/2}}\hat{x}_{o}+a\int_{0}^{L}\frac{dx'}{\left(x'^{2}+a^{2}\right)^{3/2}}\hat{y}_{o}\right]=\frac{qP_{L}}{4\piε}\left\{ -\left[\frac{-1}{\sqrt{x'^{2}+a^{2}}}\right]_{0}^{L}\hat{x}_{o}+a\left[\frac{x'}{a^{2}\sqrt{x'^{2}+a^{2}}}\right]_{0}^{L}\hat{y}_{o}\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size footnotesize
+\begin_inset Formula 
+\[
+\vec{F}_{Q\rightarrow q}=\frac{qP_{L}}{4\piε}\left[\left(\frac{1}{\sqrt{L^{2}+a^{2}}}-\frac{1}{a}\right)\hat{x}_{o}+\frac{L}{a\sqrt{L^{2}+a^{2}}}\hat{y}_{o}\right]\quad\left[N\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size footnotesize
+Υπολογισμός Δύναμης 
+\begin_inset Formula $\vec{F}_{q\rightarrow Q}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+
+\size footnotesize
+\begin_inset Formula 
+\[
+\vec{F}_{q\rightarrow Q}=-\vec{F}_{Q\rightarrow q}=-\frac{qP_{L}}{4\piε}\left[\left(\frac{1}{\sqrt{L^{2}+a^{2}}}-\frac{1}{a}\right)\hat{x}_{o}+\frac{L}{a\sqrt{L^{2}+a^{2}}}\hat{y}_{o}\right]\quad\left[N\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Ηλεκτροστατικό Πεδίο Και Διαφορά Δυναμικού
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Ορισμός Ηλεκτρικού Πεδίου:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{E}\triangleq\frac{\vec{F}_{Q\rightarrow+q_{test}}}{+q_{test}}=\frac{1}{4\piε}\frac{|Q||+q_{test}|}{\left\Vert \vec{r}_{Q,q_{test}}\right\Vert ^{3}\left(+q_{test}\right)}\vec{r}_{Q,q_{test}}\Rightarrow\vec{E}=\frac{1}{4\piε}\frac{|Q|}{\left\Vert \vec{r}_{Q,q_{test}}\right\Vert ^{3}}\vec{r}_{Q,q_{test}}=\frac{1}{4\piε}\frac{|Q|}{\left\Vert \vec{r}_{Q,q_{test}}\right\Vert ^{2}}\hat{r}_{o}\quad[\frac{V}{m}=\frac{N}{C}]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Διαφορικό Ηλεκτρικό Πεδίο:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+d\vec{E}=\frac{1}{4\piε}\frac{|dq|}{\left\Vert \vec{r}_{Q,q_{test}}\right\Vert ^{3}}\vec{r}_{Q,q_{test}}\quad[\frac{V}{m}]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Φορά Πεδιακών Καμπυλών:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\begin{cases}
+\nabla\cdot\vec{E}>0 & ,Q>0\\
+\nabla\cdot\vec{E}<0 & ,Q<0
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Το Πεδίο Είναι Εφαπτομενικό Στις Πεδιακές Καμπύλες:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{E}\times d\vec{l}=0\Rightarrow\vec{E}||d\vec{l}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Έργο:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+W_{A\rightarrow B}=\int_{A}^{B}\vec{F}_{Q\rightarrow+q_{test}}\cdot d\vec{l}=\int_{A}^{B}q_{test}\vec{E}\cdot d\vec{l}\Rightarrow W_{A\rightarrow B}=q_{test}\int_{A}^{B}\vec{E}\cdot d\vec{l}\;[J]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Διαφορά Δυναμικού:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+V\triangleq\frac{W_{A\rightarrow B}}{q_{test}}=\int_{A}^{B}\vec{E}\cdot d\vec{l}\quad[V=\frac{J}{C}]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Υπολογισμός Τύπου Δυναμικού:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+Έστω απειροστό διάνυσμα σε μια τυχαία κατεύθηνση 
+\begin_inset Formula $\hat{r}_{o}$
+\end_inset
+
+:
+ 
+\begin_inset Formula $d\vec{l}=dr\hat{r}_{o}$
+\end_inset
+
+ και δύο σημεία 
+\begin_inset Formula $P$
+\end_inset
+
+:
+ Σε απόσταση 
+\series bold
+r
+\series default
+ από το |Q|,
+ 
+\begin_inset Formula $P_{\infty}$
+\end_inset
+
+:
+ Σε άπειρη απόσταση από το |Q|.
+ Εάν οι διαστάσεις του πεδιακού συστήματος είναι πεπερασμένες,
+ τότε:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+V_{P\rightarrow P_{\infty}}=\int_{P}^{\infty}\vec{E}\cdot d\vec{l}=\int_{r}^{\infty}\frac{1}{4\piε}\frac{Q}{\left\Vert \vec{r}_{Q,q_{test}}\right\Vert ^{2}}\hat{r}_{o}\cdot d\vec{l}=\int_{r}^{\infty}\frac{1}{4\piε}\frac{Q}{\left\Vert \vec{r}_{Q,q_{test}}\right\Vert ^{2}}\hat{r}_{o}\cdot dr\cdot\hat{r}_{o}\xRightarrow{\hat{r}_{o}\cdot\hat{r}_{o}=1}V_{P\rightarrow P_{\infty}}=\frac{Q}{4\piε}\int_{r}^{\infty}\frac{1}{\left\Vert \vec{r}_{Q,q_{test}}\right\Vert ^{2}}dr
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+V_{P\rightarrow P_{\infty}}=\frac{Q}{4\piε}\int_{r}^{\infty}\left\Vert \vec{r}_{Q,q_{test}}\right\Vert ^{-2}dr=\frac{Q}{4\piε}\left[\frac{\left\Vert \vec{r}_{Q,q_{test}}\right\Vert ^{-2+1}}{-2+1}\right]_{r}^{\infty}=\frac{Q}{4\piε}\left[-\frac{1}{\left\Vert \vec{r}_{Q,q_{test}}\right\Vert }\right]_{r}^{\infty}=\frac{Q}{4\piε}\left[-\frac{1}{\infty}+\frac{1}{r}\right]=\frac{Q}{4\piε}\left[0+\frac{1}{r}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+V_{P\rightarrow P_{\infty}}=\frac{Q}{4\piεr}\quad[V]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size footnotesize
+Τελικά:
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size footnotesize
+\begin_inset Formula 
+\[
+\begin{cases}
+d\vec{E}=\frac{1}{4\piε}\frac{|dq|}{\left\Vert \vec{r}_{Q,q_{test}}\right\Vert ^{3}}\vec{r}_{Q,q_{test}}\quad[\frac{V}{m}] & \vec{E}:\mathbb{R}^{3}\rightarrow\mathbb{R}^{3}\\
+dφ=\frac{dq}{4\pi\varepsilon\left\Vert \vec{r}_{Q,q_{test}}\right\Vert }\quad[V] & φ:\mathbb{R}^{3}\rightarrow\mathbb{R}\\
+\vec{E}=-\nablaφ & \vec{E}:\mathbb{R}^{3}\rightarrow\mathbb{R}^{3}
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Γεωμετρικός Τόπος Σταθερού Δυναμικού
+\end_layout
+
+\begin_layout Standard
+
+\size footnotesize
+\begin_inset Formula 
+\[
+r=\left\Vert \vec{r}\right\Vert =\sqrt{x^{2}+y^{2}+z^{2}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size footnotesize
+\begin_inset Formula 
+\[
+φ=\frac{Q}{4\piεr}=C,C\in\mathbb{R}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size footnotesize
+\begin_inset Formula 
+\[
+r=\frac{Q}{4\piεC}=\rho\in\mathbb{R}\Rightarrow\sqrt{x^{2}+y^{2}+z^{2}}=\rho
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+x^{2}+y^{2}+z^{2}=\rho^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+φ=\frac{Q}{4\piε\rho}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Βλέπου ότι ο γεωμετρικός τόπος είναι σφαίρες με ακτίνες 
+\begin_inset Formula $\rho$
+\end_inset
+
+.
+ Το δυναμικό 
+\series bold
+φ
+\series default
+ είναι αντιστόφος ανάλογο της ακτίνας 
+\begin_inset Formula $\rho$
+\end_inset
+
+,
+ επομένος μεγαλύτερη ακτίνα (καθώς απομακρυνόμαστε από το φορτίο |Q|) μικρότερο το δυναμικό σε εκείνο το σημείο.
+\end_layout
+
+\begin_layout Subsection
+Ο Νόμος Του Αστρόβιλου
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\nabla\times\left(-\nablaφ\right)=-\nabla\times\left(\nablaφ\right)=\nabla\times\vec{E}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+V_{A\rightarrow A}=\int_{A}^{A}\vec{E}\cdot d\vec{l}=\oint_{C}\vec{E}\cdot d\vec{l}=\int\int_{S}\left(\nabla\times\vec{E}\right)\cdot d\vec{S}=0\Rightarrow\nabla\times\vec{E}=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\nabla\times\left(\nablaφ\right)=\begin{array}{|ccc|}
+\hat{x}_{o} & \hat{y}_{o} & \hat{k}_{o}\\
+\frac{\partial}{\partial x} & \frac{\partial}{\partial y} & \frac{\partial}{\partial z}\\
+\frac{\partialφ}{\partial x} & \frac{\partialφ}{\partial y} & \frac{\partialφ}{\partial z}
+\end{array}=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Το ηλεκτροστατικό πεδίο έχει στροβιλισμό μηδέν:
+ 
+\begin_inset Formula $\nabla\times\vec{E}=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Είναι συντηρητικό και προέρχεται από δυναμικό:
+ 
+\begin_inset Formula $\vec{E}=-\nablaφ$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Το πεδίο δείχνει την μέγιστη κατεύθυνση 
+\series bold
+\bar under
+μείωσης
+\series default
+\bar default
+ του δυναμικού.
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Παράδειγμα Γραμμικής Κατανομής Και Τυχαίου Δοκιμαστικού Φορτίου
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename Assets/3.elect_and_potential_line_distribution.jpg
+	scale 22
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Διάνυσμα Απόστασης:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{r}=\vec{P}-\vec{Q}=(x\hat{x}_{o}+y\hat{y}_{o}+z\hat{z}_{o})-(0\hat{x}_{o}+0\hat{y}_{o}+z'\hat{z}_{o})\Rightarrow\vec{r}=x\hat{x}_{o}+y\hat{y}_{o}+(z-z')\hat{z}_{o}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\left\Vert \vec{r}\right\Vert =\sqrt{x^{2}+y^{2}+(z-z')^{2}}\quad\left[m\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Πυκνότητα Φορτίου:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+P_{L}=\frac{dq}{dL}\Rightarrow dq=P_{L}dL\Rightarrow dq=P_{L}dz',z'\in[L_{1},L_{1}+L]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\int_{0}^{Q}dq=P_{L}\int_{L_{1}}^{L_{1}+L}dz'=P_{L}(L_{1}+L-L_{1})=LP_{L}\Rightarrow P_{L}=\frac{Q}{L}\quad\left[\frac{C}{m}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Δυναμικό:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+dφ=\frac{dq}{4\piε\left\Vert \vec{r}\right\Vert }\Rightarrow\int_{0}^{φ}dφ=\int_{L_{1}}^{L_{1}+L}\frac{P_{L}dz'}{4\piε\left(x^{2}+y^{2}+(z-z')^{2}\right)^{1/2}}\Rightarrowφ=\frac{P_{L}}{4\piε}\int_{L_{1}}^{L_{1}+L}\frac{dz'}{\left(x^{2}+y^{2}+(z-z')^{2}\right)^{1/2}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size footnotesize
+\begin_inset Formula 
+\[
+u=z-z'\Rightarrow dz'=-du
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size footnotesize
+\begin_inset Formula 
+\[
+R^{2}=x^{2}+y^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size footnotesize
+\begin_inset Formula 
+\[
+\begin{cases}
+u(L_{1})=z-L_{1}\\
+u(L_{1}+L)=z-L_{1}-L
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+φ=\frac{P_{L}}{4\piε}\int_{z-L_{1}}^{z-L_{1}-L}\frac{-du}{\sqrt{R^{2}+u^{2}}}=\frac{P_{L}}{4\piε}\left[-ln\left|u+\sqrt{u^{2}+R^{2}}\right|\right]_{z-L_{1}}^{z-L_{1}-L}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+φ=\frac{P_{L}}{4\piε}\left[-ln\left|(z-L_{1}-L)+\sqrt{(z-L_{1}-L)^{2}+x^{2}+y^{2}}\right|+ln\left|(z-L_{1})+\sqrt{(z-L_{1})^{2}+x^{2}+y^{2}}\right|\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size footnotesize
+\begin_inset Formula 
+\[
+φ=\frac{P_{L}}{4\piε}ln\left|\frac{(z-L_{1})+\sqrt{(z-L_{1})^{2}+x^{2}+y^{2}}}{(z-L_{1}-L)+\sqrt{(z-L_{1}-L)^{2}+x^{2}+y^{2}}}\right|\quad\left[V\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Ηλεκτροστατικό Πεδίο:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+d\vec{E}=\frac{|dq|}{4\piε\left\Vert \vec{r}\right\Vert ^{3}}\vec{r}\Rightarrow\int_{0}^{\vec{E}}d\vec{E}=\int_{L_{1}}^{L_{1}+L}\frac{P_{L}dz'}{4\piε\left(x^{2}+y^{2}+(z-z')^{2}\right)^{3/2}}\left(x\hat{x}_{o}+y\hat{y}_{o}+(z-z')\hat{z}_{o}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{E}=\frac{P_{L}}{4\piε}\left[x\int_{L_{1}}^{L_{1}+L}\frac{dz'}{\left(x^{2}+y^{2}+(z-z')^{2}\right)^{3/2}}\hat{x}_{o}+y\int_{L_{1}}^{L_{1}+L}\frac{dz'}{\left(x^{2}+y^{2}+(z-z')^{2}\right)^{3/2}}\hat{y}_{o}+\int_{L_{1}}^{L_{1}+L}\frac{(z-z')dz'}{\left(x^{2}+y^{2}+(z-z')^{2}\right)^{3/2}}\hat{z}_{0}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{E}=\frac{P_{L}}{4\piε}\left[\int_{L_{1}}^{L_{1}+L}\frac{dz'}{\left(x^{2}+y^{2}+(z-z')^{2}\right)^{3/2}}\left(x\hat{x}_{o}+y\hat{y}_{o}\right)+\int_{L_{1}}^{L_{1}+L}\frac{(z-z')dz'}{\left(x^{2}+y^{2}+(z-z')^{2}\right)^{3/2}}\hat{z}_{0}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Λύση Πρώτου Ολοκληρώματος:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+u=z-z'\Rightarrow dz'=-du
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+R^{2}=x^{2}+y^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\begin{cases}
+u(L_{1})=z-L_{1}\\
+u(L_{1}+L)=z-L_{1}-L
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\int_{L_{1}}^{L_{1}+L}\frac{dz'}{\left(x^{2}+y^{2}+(z-z')^{2}\right)^{3/2}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+-\int_{z-L_{1}}^{z-L_{1}-L}\frac{du}{\left(R^{2}+u^{2}\right)^{3/2}}=-\left[\frac{u}{R^{2}\sqrt{u^{2}+R^{2}}}\right]_{z-L_{1}}^{z-L_{1}-L}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\int_{L_{1}}^{L_{1}+L}\frac{dz'}{\left(x^{2}+y^{2}+(z-z')^{2}\right)^{3/2}}=\frac{L+L_{1}-z}{\left(x^{2}+y^{2}\right)\sqrt{(z-L_{1}-L)^{2}+x^{2}+y^{2}}}+\frac{z-L_{1}}{\left(x^{2}+y^{2}\right)\sqrt{(z-L_{1})^{2}+x^{2}+y^{2}}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Λύση Δεύτερου Ολοκληρώματος:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+u=z-z'\Rightarrow dz'=-du
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+R^{2}=x^{2}+y^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\begin{cases}
+u(L_{1})=z-L_{1}\\
+u(L_{1}+L)=z-L_{1}-L
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\int_{L_{1}}^{L_{1}+L}\frac{(z-z')dz'}{\left(x^{2}+y^{2}+(z-z')^{2}\right)^{3/2}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+-\int_{z-L_{1}}^{z-L_{1}-L}\frac{udu}{\left(R^{2}+u^{2}\right)^{3/2}}=-\left[\frac{-1}{\sqrt{u^{2}+R^{2}}}\right]_{z-L_{1}}^{z-L_{1}-L}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\int_{L_{1}}^{L_{1}+L}\frac{(z-z')dz'}{\left(x^{2}+y^{2}+(z-z')^{2}\right)^{3/2}}=\frac{1}{\sqrt{(z-L_{1}-L)^{2}+x^{2}+y^{2}}}-\frac{1}{\sqrt{(z-L_{1})^{2}+x^{2}+y^{2}}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Τελικό Αποτέλεσμα Ηλεκτροστατικού Πεδίο:
+\end_layout
+
+\begin_layout Standard
+
+\size tiny
+\begin_inset Formula 
+\[
+\vec{E}=\frac{P_{L}}{4\piε}\left[\int_{L_{1}}^{L_{1}+L}\frac{dz'}{\left(x^{2}+y^{2}+(z-z')^{2}\right)^{3/2}}\left(x\hat{x}_{o}+y\hat{y}_{o}\right)+\int_{L_{1}}^{L_{1}+L}\frac{(z-z')dz'}{\left(x^{2}+y^{2}+(z-z')^{2}\right)^{3/2}}\hat{z}_{0}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula $\vec{E}=\frac{P_{L}}{4\pi\varepsilon}\left[\left(\frac{L+L_{1}-z}{\left(x^{2}+y^{2}\right)\sqrt{(z-L_{1}-L)^{2}+x^{2}+y^{2}}}+\frac{z-L_{1}}{\left(x^{2}+y^{2}\right)\sqrt{(z-L_{1})^{2}+x^{2}+y^{2}}}\right)\left(x\hat{x}_{o}+y\hat{y}_{o}\right)+\left(\frac{1}{\sqrt{(z-L_{1}-L)^{2}+x^{2}+y^{2}}}-\frac{1}{\sqrt{(z-L_{1})^{2}+x^{2}+y^{2}}}\right)\hat{z}_{0}\right]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Παράδειγμα Κυκλικής Γραμμικής Κατανομής
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename Assets/4.elct_and_potential_cirlular_line_distribution.jpg
+	scale 20
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+Θετικό φορτίο 
+\series bold
++Q
+\series default
+ είναι ομοιόμορφα κατανεμημένο στην περίμετρο του κύκλου 
+\begin_inset Formula $x^{2}+y^{2}=a^{2}\Rightarrow a=\sqrt{x^{2}+y^{2}}$
+\end_inset
+
+.
+ Υπολόγισε το Δυναμικό και το Ηλεκτρικό πεδίο σε ένα τυχαίο σημείο 
+\series bold
+P
+\series default
+(0,0,z).
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Διάνυσμα Απόστασης (Καρτεσιανή Μορφή):
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{r}=\vec{P}-\vec{Q}=\left(0\hat{x}_{o}+0\hat{y}_{o}+z\hat{z}_{o}\right)-\left(x\hat{x}_{o}+y\hat{y}_{o}+0\hat{z}_{o}\right)\Rightarrow\vec{r}=-x\hat{x}_{o}-y\hat{y}_{o}+z\hat{z}_{o}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Διάνυσμα Απόστασης (Κυλινδρική Μορφή):
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+\size tiny
+\bar under
+Θυμήσου:
+
+\series default
+\bar default
+ Σε κυλινδρικές συντεταγμένες εκφράζουμε το 
+\series bold
+επίπεδο x,y
+\series default
+ σε πολικές συντεταγμένες (δηλαδή πολικό διάνυσμα 
+\begin_inset Formula $\vec{\rho}$
+\end_inset
+
+) και την 
+\series bold
+z
+\series default
+ διάσταση την αφήνουμε σε καρτεσιανή μορφή.
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{\rho}=x\hat{x}_{o}+y\hat{y}_{o}=\left\Vert \vec{\rho}\right\Vert \hat{\rho}_{o},\left\Vert \vec{\rho}\right\Vert =\sqrt{x^{2}+y^{2}}=a\in\mathbb{R}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\hat{\rho}_{o}=\frac{\vec{\rho}}{\left\Vert \vec{\rho}\right\Vert }=\frac{x}{\sqrt{x^{2}+y^{2}}}\hat{x}_{o}+\frac{y}{\sqrt{x^{2}+y^{2}}}\hat{y}_{o}=\frac{\sqrt{x^{2}+y^{2}}cos(\phi)}{\sqrt{x^{2}+y^{2}}}\hat{x}_{o}+\frac{\sqrt{x^{2}+y^{2}}sin(\phi)}{\sqrt{x^{2}+y^{2}}}\hat{y}_{o}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\hat{\rho}_{o}=cos(\phi)\hat{x}_{o}+sin(\phi)\hat{y}_{o}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+\size scriptsize
+και επομένως
+\series default
+:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{r}=-(x\hat{x}_{o}+y\hat{y}_{o})+z\hat{z}_{o}=-\sqrt{x^{2}+y^{2}}\hat{\rho}_{o}+z\hat{z}_{o}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size footnotesize
+\begin_inset Formula 
+\[
+\vec{r}=-a\hat{\rho}_{o}+z\hat{z}_{o},\left\Vert \vec{r}\right\Vert =\sqrt{a^{2}+z^{2}},\hat{\rho}_{o}\bot\hat{z}_{o}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Πυκνότητα Φορτίου (
+\begin_inset Formula $\vec{dl}$
+\end_inset
+
+ σε κυλινδρικές συντεταγμένες):
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\frac{dq}{\left\Vert \vec{dl}\right\Vert }=P_{l}\Rightarrow dq=P_{l}\left\Vert \vec{dl}\right\Vert =P_{l}\left\Vert d\rho\hat{\rho}_{o}+\rho d\phi\hat{\phi}_{o}+dz\hat{z}_{o}\right\Vert \Rightarrow dq=P_{l}\sqrt{\left(d\rho\right)^{2}+\left(\rho d\phi\right)^{2}+\left(dz\right)^{2}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size tiny
+εφόσον το φορτίο είναι ομοιόμορφα κατανεμημένο
+\begin_inset Formula $\rightarrow P_{L}\in\mathbb{R}$
+\end_inset
+
+ πάνω στην περίπετρο του κύκλου (Δηλαδή μεταβάλετε μόνο το 
+\begin_inset Formula $d\phi$
+\end_inset
+
+,
+ ενώ 
+\begin_inset Formula $d\rho=dz=0$
+\end_inset
+
+),
+ τότε:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+dq=P_{l}\sqrt{0+\left(\rho d\phi\right)^{2}+0}\xRightarrow{\rho=a\in\mathbb{R}}dq=aP_{l}d\phi\Rightarrow Q=aP_{l}\int_{0}^{2\pi}d\phi\Rightarrow P_{l}=\frac{Q}{2a\pi}\in\mathbb{R}\quad\left[\frac{C}{m}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Δυναμικό:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+dφ=\frac{dq}{4\piε\left\Vert \vec{r}\right\Vert }\Rightarrowφ=\int_{0}^{2\pi}\frac{aP_{l}d\phi}{4\piε\sqrt{a^{2}+z^{2}}}=\frac{aP_{l}}{4\piε\sqrt{a^{2}+z^{2}}}\int_{0}^{2\pi}d\phi=\frac{2\pi aP_{l}}{4\piε\sqrt{a^{2}+z^{2}}}\Rightarrowφ=\frac{aP_{l}}{2ε\sqrt{a^{2}+z^{2}}}\quad\left[V\right]
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\vec{dE}=\frac{|dq|}{4\piε\left\Vert \vec{r}\right\Vert ^{3}}\vec{r}\Rightarrow\vec{E}=\int_{0}^{2\pi}\frac{aP_{l}d\phi}{4\piε\left(a^{2}+z^{2}\right)^{3/2}}\left(-a\hat{\rho}_{o}+z\hat{z}_{o}\right)\Rightarrow\vec{E}=\frac{aP_{l}}{4\piε\left(a^{2}+z^{2}\right)^{3/2}}\int_{0}^{2\pi}-a\hat{\rho}_{o}d\phi+\int_{0}^{2\pi}z\hat{z}_{o}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Ηλεκτροστατικό Πεδίο:
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size footnotesize
+\begin_inset Formula 
+\[
+\vec{dE}=\frac{|dq|}{4\piε\left\Vert \vec{r}\right\Vert ^{3}}\vec{r}\Rightarrow\vec{E}=\int_{0}^{2\pi}\frac{aP_{l}d\phi}{4\piε\left(a^{2}+z^{2}\right)^{3/2}}\left(-a\hat{\rho}_{o}+z\hat{z}_{o}\right)\Rightarrow\vec{E}=\frac{aP_{l}}{4\piε\left(a^{2}+z^{2}\right)^{3/2}}\left[\int_{0}^{2\pi}-a\hat{\rho}_{o}d\phi+\int_{0}^{2\pi}z\hat{z}_{o}d\phi\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size footnotesize
+\begin_inset Formula 
+\[
+\vec{E}=\frac{aP_{l}}{4\piε\left(a^{2}+z^{2}\right)^{3/2}}\left[-a\int_{0}^{2\pi}\left(cos(\phi)\hat{x}_{o}+sin(\phi)\hat{y}_{o}\right)d\phi+\int_{0}^{2\pi}z\hat{z}_{o}d\phi\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size footnotesize
+\begin_inset Formula 
+\[
+\vec{E}=\frac{aP_{l}}{4\piε\left(a^{2}+z^{2}\right)^{3/2}}\left[-a\int_{0}^{2\pi}cos(\phi)d\phi\hat{x}_{o}-a\int_{0}^{2\pi}sin(\phi)d\phi\hat{y}_{o}+z\int_{0}^{2\pi}d\phi\hat{z}_{o}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size footnotesize
+\begin_inset Formula 
+\[
+\vec{E}=\frac{aP_{l}}{4\piε\left(a^{2}+z^{2}\right)^{3/2}}\left\{ \left[-asin(\phi)\right]_{0}^{2\pi}\hat{x}_{o}+[acos(\phi)]_{0}^{2\pi}\hat{y}_{o}+2\pi z\hat{z}_{o}\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size footnotesize
+\begin_inset Formula 
+\[
+\vec{E}=\frac{aP_{l}}{4\piε\left(a^{2}+z^{2}\right)^{3/2}}\left\{ \left[-asin(2\pi)+asin(0)\right]\hat{x}_{o}+\left[acos(2\pi)-acos(0)\right]\hat{y}_{o}+2\pi z\hat{z}_{o}\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size footnotesize
+\begin_inset Formula 
+\[
+\vec{E}=\frac{aP_{l}}{4\piε\left(a^{2}+z^{2}\right)^{3/2}}\left\{ \left[0+0\right]\hat{x}_{o}+\left[a-a\right]\hat{y}_{o}+2\pi z\hat{z}_{o}\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size footnotesize
+\begin_inset Formula 
+\[
+\vec{E}=\frac{aP_{l}}{4\piε\left(a^{2}+z^{2}\right)^{3/2}}\left\{ 0\hat{x}_{o}+0\hat{y}_{o}+2\pi z\hat{z}_{o}\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size footnotesize
+\begin_inset Formula 
+\[
+\vec{E}=\frac{aP_{l}}{4\piε\left(a^{2}+z^{2}\right)^{3/2}}2\pi z\hat{z}_{o}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Ηλεκτροστατικό Πεδίο (Τελικό Αποτέλεσμα):
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset Formula 
+\[
+\vec{E}=\frac{aP_{l}}{2ε\left(a^{2}+z^{2}\right)^{3/2}}z\hat{z}_{o}\quad\left[\frac{V}{m}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Τελικό Αποτέλεσμα (Σχόλια):
+\end_layout
+
+\begin_layout Standard
+Βλέπουμε ότι το ηλεκτροστατικό πεδίο εξαρτάτε μόνο από την διεύθυνση στο 
+\begin_inset Formula $\hat{z}_{o}$
+\end_inset
+
+.
+ 
+\series bold
+\bar under
+Ο λόγος είναι
+\series default
+\bar default
+:
+ Η συμμετρία του κύκλου με άξονα συμμετρίας τον 
+\series bold
+Z
+\series default
+,
+ οδηγεί σε απαλειφή των συμμετρικών δυνάμεων στα διάφορα φορτία 
+\series bold
+dq
+\series default
+ τα οποία είναι ομοιόμορφα κατανεμημένα στην περίμετρο του κύκλου 
+\begin_inset Formula $x^{2}+y^{2}=a^{2}$
+\end_inset
+
+,
+ επομένως και οι δυναμικές γραμμές του ηλεκτροστατικού πεδίου στο επίπεδο 
+\series bold
+x,y
+\series default
+ απαλείφονται.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Παράδειγμα Κυκλικής Επιφανειακής Κατανομής
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename Assets/5.circle_surface_distribution.jpg
+	scale 24
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size tiny
+Φορτίο 
+\series bold
++Q
+\series default
+ είναι ομοιόμορφα διανεμημένο στην επιφάνεια του κύκλου 
+\begin_inset Formula $x^{2}+y^{2}=a^{2},z=0$
+\end_inset
+
+.
+ Υπολόγισε το Ηλεκτροστατικό Πεδίο και το Δυναμικό στα σημεία P(0,0,z).
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size tiny
+Διάνυσμα Απόστασης:
+\end_layout
+
+\begin_layout Standard
+
+\size tiny
+Αφού το φορτίο είναι θετικό 
+\series bold
++Q
+\series default
+,
+ θα πρέπει να 
+\begin_inset Quotes eld
+\end_inset
+
+σπρώχνει
+\begin_inset Quotes erd
+\end_inset
+
+ το δοκιμαστικό φορτίο 
+\series bold
++q
+\series default
+ σε οποιοδήποτε τυχαίο σημείο 
+\series bold
+P(0,0,z)
+\series default
+.
+ Άρα το διάνυσμα πρέπει να 
+\begin_inset Quotes eld
+\end_inset
+
+δείχνει
+\begin_inset Quotes erd
+\end_inset
+
+ από τυχαίο 
+\series bold
+dq
+\series default
+ (Σημείο 
+\series bold
+Α
+\series default
+) προς το σημείο P(0,0,z).
+\end_layout
+
+\begin_layout Standard
+
+\size tiny
+\begin_inset Formula 
+\[
+\vec{r}=\vec{P}-\vec{A}=0\hat{x}_{0}+0\hat{y}_{0}+z\hat{z}_{0}-\rho\hat{\rho}_{0}\Rightarrow\vec{r}=-\rho\hat{\rho}_{0}+z\hat{z}_{0}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size tiny
+\begin_inset Formula 
+\[
+\left\Vert \vec{r}\right\Vert =\sqrt{\rho^{2}+z^{2}}\;,\;\hat{\rho}_{0}\bot\hat{z}_{0}\quad[m]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size tiny
+Πυκνότητα Φορτίου (Επιφανειακό):
+\end_layout
+
+\begin_layout Standard
+
+\size tiny
+\begin_inset Formula 
+\[
+P_{s}=\frac{dq}{ds}\Rightarrow dq=P_{s}ds\Rightarrow dq=P_{s}\rho d\rho d\phi
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size tiny
+\begin_inset Formula 
+\[
+\int_{0}^{Q}dq=P_{s}\int_{0}^{2\pi}\int_{0}^{a}\rho d\rho d\phi\Rightarrow Q=P_{s}\int_{0}^{2\pi}d\phi\int_{0}^{a}\rho d\rho=2\pi P_{s}\left[\frac{\rho^{2}}{2}\right]_{0}^{a}=2\pi P_{s}\frac{a^{2}}{2}\Rightarrow P_{s}=\frac{Q}{\pi a^{2}}\quad\left[\frac{C}{m^{2}}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size tiny
+Δυναμικό:
+\end_layout
+
+\begin_layout Standard
+
+\size tiny
+\begin_inset Formula 
+\[
+dφ=\frac{dq}{4\piε\left\Vert \vec{r}\right\Vert }\Rightarrowφ=\int_{0}^{2\pi}\int_{0}^{a}\frac{P_{s}\rho d\rho d\phi}{4\piε\sqrt{\rho^{2}+z^{2}}}=\frac{P_{s}}{4\piε}\int_{0}^{2\pi}d\phi\int_{0}^{a}\frac{\rho d\rho}{\sqrt{\rho^{2}+z^{2}}}=2\pi\frac{P_{s}}{4\piε}\left[\sqrt{\rho^{2}+z^{2}}\right]_{0}^{a}\Rightarrowφ=\frac{P_{s}}{2ε}\left[\sqrt{\rho^{2}+z^{2}}-|z|\right]\quad\left[V\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size tiny
+Ηλεκτροστατικό Πεδίο:
+\end_layout
+
+\begin_layout Standard
+
+\size tiny
+\begin_inset Formula 
+\[
+\vec{dE}=\frac{dq}{4\piε\left\Vert \vec{r}\right\Vert ^{3}}\vec{r}\Rightarrow\vec{E}=\int_{0}^{2\pi}\int_{0}^{a}\frac{P_{s}\rho d\rho d\phi}{4\piε\left[\rho^{2}+z^{2}\right]^{3/2}}\left(-\rho\hat{\rho}_{0}+z\hat{z}_{0}\right)=\frac{P_{s}}{4\piε}\left\{ -\int_{0}^{2\pi}\int_{0}^{a}\frac{\rho^{2}d\rho d\phi}{\left[\rho^{2}+z^{2}\right]^{3/2}}\hat{\rho}_{0}+z\int_{0}^{2\pi}\int_{0}^{a}\frac{\rho d\rho d\phi}{\left[\rho^{2}+z^{2}\right]^{3/2}}\hat{z}_{0}\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size tiny
+\begin_inset Formula 
+\[
+\vec{E}=\frac{P_{s}}{4\piε}\left\{ -\int_{0}^{2\pi}\int_{0}^{a}\frac{\rho^{2}d\rho d\phi}{\left[\rho^{2}+z^{2}\right]^{3/2}}\left(cos(\phi)\hat{x}_{0}+sin(\phi)\hat{y}_{0}\right)+2\pi z\int_{0}^{a}\frac{\rho d\rho}{\left[\rho^{2}+z^{2}\right]^{3/2}}\hat{z}_{0}\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size tiny
+\begin_inset Formula 
+\[
+\vec{E}=\frac{P_{s}}{4\piε}\left\{ -\int_{0}^{a}\frac{\rho^{2}d\rho}{\left[\rho^{2}+z^{2}\right]^{3/2}}\cancelto{0}{\int_{0}^{2\pi}\left(cos(\phi)\hat{x}_{0}+sin(\phi)\hat{y}_{0}\right)d\phi}+2\pi z\left[\frac{-1}{\sqrt{\rho^{2}+z^{2}}}\right]_{0}^{a}\hat{z}_{0}\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{E}=\frac{zP_{s}}{2ε}\left[-\frac{1}{\sqrt{a^{2}+z^{2}}}+\frac{1}{|z|}\right]\hat{z}_{0}\quad\left[\frac{V}{m}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Παράδειγμα Κυλινδρικής Χωρικής Κατανομής
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename Assets/6.cilinder_space_distribution.jpg
+	scale 22
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+Φορτίο 
+\series bold
++Q
+\series default
+ είναι ομοιόμορφα διανεμημένο σε χωρική κυλινδρική κατανομή 
+\begin_inset Formula $x^{2}+y^{2}=a^{2}\;,\;z=z'\in[0,L]$
+\end_inset
+
+.
+ Να βρεθεί το Ηλεκτροστατικό Πεδίο και το Δυναμικό στα σημεία 
+\series bold
+P(0,0,z)
+\series default
+ 
+\begin_inset Formula $\forall z\in\mathbb{R}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Υπολογισμός Διανύσματος Απόστασης:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+Αφού 
+\series bold
++Q
+\series default
+,
+ το διάνυσμα θα πρέπει να δείχνει από το σημείο A προς το P.
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{r}=\vec{P}-\vec{A}=\left(0\hat{x}_{0}+0\hat{y}_{0}+z\hat{z}_{0}\right)-\left(x\hat{x}_{0}+y\hat{y}_{0}+z'\hat{z}_{0}\right)=-x\hat{x}_{0}+-y\hat{y}_{0}+\left(z-z'\right)\hat{z}_{0}\Rightarrow\vec{r}=-\rho\hat{\rho}_{0}+\left(z-z'\right)\hat{z}_{0}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Υπολογισμός Πυκνότητας Φορτίου (Κυλινδικές Συντεταγμένες):
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\frac{dq}{dv}=P_{v}\Rightarrow dq=P_{v}\rho d\rho d\phi dz'
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+Q=P_{v}\int_{0}^{L}\int_{0}^{2\pi}\int_{0}^{a}\rho d\rho d\phi dz'=P_{v}\int_{0}^{L}dz'\int_{0}^{2\pi}d\phi\int_{0}^{a}\rho d\rho=2\pi LP_{v}\left[\frac{\rho^{2}}{2}\right]_{0}^{a}=2\pi LP_{v}\frac{a^{2}}{2}\Rightarrow P_{v}=\frac{Q}{\pi a^{2}L}\quad\left[\frac{C}{m^{3}}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Υπολογισμός Δυναμικού:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+dφ=\frac{dq}{4\piε\left\Vert \vec{r}\right\Vert }\Rightarrowφ=\int_{0}^{L}\int_{0}^{2\pi}\int_{0}^{a}\frac{P_{v}\rho d\rho d\phi dz'}{4\piε\sqrt{\rho^{2}+\left(z-z'\right)^{2}}}=\frac{P_{v}}{4\piε}\int_{0}^{2\pi}d\phi\int_{0}^{L}\int_{0}^{a}\frac{\rho d\rho dz'}{\sqrt{\rho^{2}+\left(z-z'\right)^{2}}}=\frac{P_{v}}{4\piε}2\pi\int_{0}^{L}\int_{0}^{a}\frac{\rho d\rho dz'}{\sqrt{\rho^{2}+\left(z-z'\right)^{2}}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+φ=\frac{P_{v}}{4\piε}2\pi\int_{0}^{L}\left[\sqrt{\rho^{2}+\left(z-z'\right)^{2}}\right]_{0}^{a}dz'=\frac{P_{v}}{4\piε}2\pi\int_{0}^{L}\sqrt{a^{2}+\left(z-z'\right)^{2}}-|z-z'|dz'=\frac{P_{v}}{2ε}\left\{ \int_{0}^{L}\sqrt{a^{2}+\left(z-z'\right)^{2}}dz'-\int_{0}^{L}|z-z'|dz'\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\text{Let}\;u=z-z'\;,\;\frac{du}{dz'}=-1\Rightarrow dz'=-du
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+u(0)=z\;,\;u(L)=z-L
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+φ=\frac{P_{v}}{2ε}\left\{ \int_{z}^{z-L}\sqrt{u^{2}+a^{2}}\left(-du\right)-\int_{z}^{z-L}|u|\left(-du\right)\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+φ=\frac{P_{v}}{2ε}\left\{ -\left[\frac{u}{2}\sqrt{u^{2}+a^{2}}+\frac{a^{2}}{2}ln\left|u+\sqrt{u^{2}+a^{2}}\right|\right]_{z}^{z-L}+\int_{z}^{z-L}|u|du\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+φ=\frac{P_{v}}{2ε}\left\{ -\frac{z-L}{2}\sqrt{\left(z-L\right)^{2}+a^{2}}-\frac{a^{2}}{2}ln\left|z-L+\sqrt{\left(z-L\right)^{2}+a^{2}}\right|+\frac{z}{2}\sqrt{z^{2}+a^{2}}+\frac{a^{2}}{2}ln\left|z+\sqrt{z^{2}+a^{2}}\right|+\int_{z}^{z-L}|u|du\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+φ=\frac{P_{v}}{2ε}\left\{ \frac{L-z}{2}\sqrt{\left(z-L\right)^{2}+a^{2}}+\frac{z}{2}\sqrt{z^{2}+a^{2}}+\frac{a^{2}}{2}ln\left|\frac{z+\sqrt{z^{2}+a^{2}}}{z-L+\sqrt{\left(z-L\right)^{2}+a^{2}}}\right|+\int_{z}^{z-L}|u|du\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\int_{z}^{z-L}|u|du=\left[\frac{u|u|}{2}\right]_{z}^{z-L}=\frac{\left(z-L\right)|z-L|}{2}-\frac{z|z|}{2}=\frac{\left(z-L\right)|z-L|-z|z|}{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+φ=\frac{P_{v}}{2ε}\left\{ \frac{L-z}{2}\sqrt{\left(z-L\right)^{2}+a^{2}}+\frac{z}{2}\sqrt{z^{2}+a^{2}}+\frac{a^{2}}{2}ln\left|\frac{z+\sqrt{z^{2}+a^{2}}}{z-L+\sqrt{\left(z-L\right)^{2}+a^{2}}}\right|+\frac{\left(z-L\right)|z-L|-z|z|}{2}\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Παράδειγμα Σφαιρικής Επιφανειακής Κατανομής
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename Assets/7.spherical_surface_distribution.jpg
+	scale 20
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+Έστω φορτίο 
+\series bold
++Q
+\series default
+ ομοιόμορφα κατανεμημένο στην επιφάνεια σφαίρας ακτίνας 
+\begin_inset Formula $R\in\mathbb{R}\rightarrow$
+\end_inset
+
+ σταθερή (δηλαδή σε σφαιρικό φλοιό 
+\begin_inset Formula $x^{2}+y^{2}+z^{2}=R^{2}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $x,y,z\in[-R,R]$
+\end_inset
+
+).
+ Να υπολογιστεί το ηλεκτρικό δυναμικό και το ηλεκτρικό πεδίο σε σημείο του άξονα z,
+ δηλαδή στα σημεία της μορφής 
+\series bold
+P(0,0,z)
+\series default
+ 
+\begin_inset Formula $\forall z\in\mathbb{R}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Υπολογισμός Διανύσματος Απόστασης:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+Έστω τυχαίο φορτίο 
+\series bold
+dq
+\series default
+ στο σημείο 
+\series bold
+A(x',y',z')
+\series default
+ (Με κόκκινο στο σχήμα,
+ δεν φαίνεται καλά) της σφαιρικής κατανομής.
+ Αφού το συνολικό φορτίο της κατανομής είναι 
+\series bold
++Q
+\series default
+ τότε θα 
+\begin_inset Quotes eld
+\end_inset
+
+σπρώχνει
+\begin_inset Quotes erd
+\end_inset
+
+ δοκιμαστικό φορτίο 
+\series bold
++q
+\series default
+ στο σημείο 
+\series bold
+P(0,0,z)
+\series default
+ άρα το διάνυσμα απόστασης 
+\series bold
++dq
+\series default
+ 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ 
+\series bold
++q
+\series default
+ θα πρέπει νε δείχνει από το σημείο 
+\series bold
+Α
+\series default
+(dq) στο 
+\series bold
+P
+\series default
+(+q).
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{r}=\vec{P}-\vec{A}=0\hat{x}_{0}+0\hat{y}_{0}+z\hat{z}_{0}-\left(x'\hat{x}_{0}+y'\hat{y}_{0}+z'\hat{z}_{0}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\text{Spherical Coordinates:}\;x'\hat{x}_{0}+y'\hat{y}_{0}+z'\hat{z}_{0}=r\hat{r}_{0}\;,\;\hat{r}_{0}\not\perp\hat{z}_{0}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\text{Spherical Coordinates:}\;\hat{r}_{0}=sin(\theta)cos(\phi)\hat{x}_{0}+sin(\theta)sin(\phi)\hat{y}_{0}+cos(\theta)\hat{z}_{0}\;,\;\theta\in[0,\pi]\;,\;\phi\in[0,2\pi]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{r}=0\hat{x}_{0}+0\hat{y}_{0}+z\hat{z}_{0}-r\hat{r}_{0}\xRightarrow{r=R\in\mathbb{R}}\vec{r}=-R\hat{r}_{0}+z\hat{z}_{0}\;,\;\left\Vert \vec{r}\right\Vert \neq\sqrt{R^{2}+z^{2}}\;,\;\text{αφού}\;\hat{r}_{0}\not\perp\hat{z}_{0}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{r}=-R(sin(\theta)cos(\phi)\hat{x}_{0}+sin(\theta)sin(\phi)\hat{y}_{0}+cos(\theta)\hat{z}_{0})+z\hat{z}_{0}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{r}=-Rsin(\theta)cos(\phi)\hat{x}_{0}-Rsin(\theta)sin(\phi)\hat{y}_{0}+(z-Rcos(\theta))\hat{z}_{0}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\left\Vert \vec{r}\right\Vert =\sqrt{R^{2}sin^{2}(\theta)cos^{2}(\phi)+R^{2}sin^{2}(\theta)sin^{2}(\phi)+(z-Rcos(\theta))^{2}}=\sqrt{R^{2}sin^{2}(\theta)\cancelto{1}{\left[cos^{2}(\phi)+sin^{2}(\phi)\right]}+z^{2}-2zRcos(\theta)+R^{2}cos^{2}(\theta)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\left\Vert \vec{r}\right\Vert =\sqrt{R^{2}\cancelto{1}{\left[cos^{2}(\theta)+sin^{2}(\theta)\right]}+z^{2}-2zRcos(\theta)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{r}=-Rsin(\theta)cos(\phi)\hat{x}_{0}-Rsin(\theta)sin(\phi)\hat{y}_{0}+(z-Rcos(\theta))\hat{z}_{0}\;,\;\left\Vert \vec{r}\right\Vert =\sqrt{R^{2}-2zRcos(\theta)+z^{2}}\quad\left[m\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Πυκνότητα Φορτίου (Επιφανειακή - Σφαιρικές Συντεταγμένες):
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\frac{dq}{ds}=P_{s}\Rightarrow dq=P_{s}ds\Rightarrow dq=P_{s}r^{2}sin(\theta)d\theta d\phi\xRightarrow{r=R\in\mathbb{R}}dq=P_{s}R^{2}sin(\theta)d\theta d\phi
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+Q=\int_{0}^{2\pi}\int_{0}^{\pi}P_{s}R^{2}sin(\theta)d\theta d\phi=P_{s}R^{2}\int_{0}^{2\pi}d\phi\int_{0}^{\pi}sin(\theta)d\theta=2\pi P_{s}R^{2}\cancelto{2}{\left[-cos(\pi)+cos(0)\right]}\Rightarrow P_{s}=\frac{Q}{4\pi R^{2}}\quad\left[\frac{C}{m^{2}}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Υπολογισμός Δυναμικού:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+dφ=\frac{dq}{4\piε\left\Vert \vec{r}\right\Vert }=\frac{P_{s}R^{2}sin(\theta)d\theta d\phi}{4\piε\sqrt{R^{2}-2zRcos(\theta)+z^{2}}}\Rightarrowφ=\int_{0}^{2\pi}\int_{0}^{\pi}\frac{P_{s}R^{2}sin(\theta)d\theta d\phi}{4\piε\sqrt{R^{2}-2zRcos(\theta)+z^{2}}}=\frac{P_{s}R^{2}}{2ε}\int_{0}^{\pi}\frac{sin(\theta)d\theta}{\sqrt{R^{2}-2zRcos(\theta)+z^{2}}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\text{Let\;}u(\theta)=R^{2}-2zRcos(\theta)+z^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\frac{du(\theta)}{d\theta}=2zRsin(\theta)\Rightarrow d\theta=\frac{du}{2zRsin(\theta)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+u(0)=R^{2}-2zR+z^{2}\Rightarrow u(0)=\left(R-z\right)^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+u(\pi)=R^{2}+2zR+z^{2}\Rightarrow u(\pi)=\left(R+z\right)^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+φ=\frac{P_{s}R^{2}}{2ε}\int_{u(0)}^{u(\pi)}\frac{sin(\theta)}{\sqrt{u}}\cdot\frac{du}{2zRsin(\theta)}=\frac{P_{s}R^{2}}{4zRε}\int_{u(0)}^{u(\pi)}\frac{du}{\sqrt{u}}=\frac{P_{s}R^{2}}{4zRε}\int_{u(0)}^{u(\pi)}u^{-1/2}du=\frac{P_{s}R^{2}}{4zRε}\left[\frac{u^{-1/2+1}}{-1/2+1}\right]_{u(0)}^{u(\pi)}=\frac{P_{s}R}{2zε}\left[\sqrt{u}\right]_{u(0)}^{u(\pi)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+φ=\frac{P_{s}R}{2zε}\left[\sqrt{u(\pi)}-\sqrt{u(0)}\right]=\frac{P_{s}R}{2zε}\left[\sqrt{\left(R+z\right)^{2}}-\sqrt{\left(R-z\right)^{2}}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+φ=\frac{P_{s}R}{2zε}\left[|R+z|-|R-z|\right]\quad\left[V\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size scriptsize
+\begin_inset Formula 
+\[
+φ=\begin{cases}
+\frac{P_{s}R}{2zε}\left[R+z-\left(R-z\right)\right] & ,\;\begin{cases}
+R+z>0\Rightarrow z>-R\\
+R-z>0\Rightarrow z<R
+\end{cases}\Rightarrow|z|<R\\
+\frac{P_{s}R}{2zε}\left[-R-z-\left(R-z\right)\right] & ,\;z<-R\\
+\frac{P_{s}R}{2zε}\left[R+z-\left(z-R\right)\right] & ,\;z>R
+\end{cases}\Rightarrow\varphi=\begin{cases}
+\frac{\frac{Q}{4\pi R^{2}}R}{2z\varepsilon}2z & ,|z|<R\\
+\frac{\frac{Q}{4\pi R^{2}}R}{2z\varepsilon}\cdot(-2R) & ,\;z<-R\\
+\frac{\frac{Q}{4\pi R^{2}}R}{2z\varepsilon}2R & ,\;z>R
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size scriptsize
+\begin_inset Formula 
+\[
+φ(z)=\begin{cases}
+\frac{Q}{4\piεR} & ,|z|<R\\
+-\frac{Q}{4\piεz} & ,\;z<-R\\
+\frac{Q}{4\piεz} & ,\;z>R
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Υπολογισμός Ηλεκτρικού Πεδίου (Εύκολος Δρόμος):
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{E}=\begin{cases}
+-\nablaφ=-\frac{\partialφ}{\partial z}\hat{z}_{0}=-\frac{\partial}{\partial z}\frac{Q}{4\piεR}=0 & ,\;|z|<R\\
+-\nablaφ=-\frac{\partialφ}{\partial z}\hat{z}_{0}=-\frac{\partial}{\partial z}\frac{Q}{4\piεz}\left(-\hat{z}_{0}\right)=-\frac{Q}{4\piεz^{2}}\hat{z}_{0} & ,\;z<-R\\
+-\nablaφ=-\frac{\partialφ}{\partial z}\hat{z}_{0}=-\frac{\partial}{\partial z}\frac{Q}{4\piεz}\hat{z}_{0}=\frac{Q}{4\piεz^{2}}\hat{z}_{0} & ,\;z>R
+\end{cases}\Rightarrow\vec{E}(z)=\begin{cases}
+0 & ,\;|z|<R\\
+-\frac{Q}{4\pi\varepsilon z^{2}}\hat{z}_{0} & ,\;z<-R\\
+\frac{Q}{4\pi\varepsilon z^{2}}\hat{z}_{0} & ,\;z>R
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Υπολογισμός Ηλεκτρικού Πεδίου (Δύσκολος Δρόμος):
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{dE}=\frac{|dq|}{4\piε\left\Vert \vec{r}\right\Vert ^{3}}\vec{r}=\frac{|P_{s}R^{2}sin(\theta)d\theta d\phi|}{4\piε\left[R^{2}-2zRcos(\theta)+z^{2}\right]^{3/2}}\left(-Rsin(\theta)cos(\phi)\hat{x}_{0}-Rsin(\theta)sin(\phi)\hat{y}_{0}+(z-Rcos(\theta))\hat{z}_{0}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+P_{s}=\frac{Q}{4\pi R^{2}},\;Q>0\Rightarrow P_{s}>0\;,\;sin(\theta)>0,\;\theta\in[0,\pi]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{E}=\int_{0}^{2\pi}\int_{0}^{\pi}\frac{P_{s}R^{2}sin(\theta)}{4\piε\left[R^{2}-2zRcos(\theta)+z^{2}\right]^{3/2}}\left(-Rsin(\theta)cos(\phi)\hat{x}_{0}-Rsin(\theta)sin(\phi)\hat{y}_{0}+(z-Rcos(\theta))\hat{z}_{0}\right)d\theta d\phi
+\]
+
+\end_inset
+
+
+\size tiny
+
+\begin_inset Formula 
+\[
+\vec{E}=\frac{P_{s}R^{2}}{4\piε}\left\{ -R\int_{0}^{2\pi}\int_{0}^{\pi}\frac{sin^{2}(\theta)cos(\phi)d\theta d\phi}{\left[R^{2}-2zRcos(\theta)+z^{2}\right]^{3/2}}\hat{x}_{0}-R\int_{0}^{2\pi}\int_{0}^{\pi}\frac{sin^{2}(\theta)sin(\phi)d\theta d\phi}{\left[R^{2}-2zRcos(\theta)+z^{2}\right]^{3/2}}\hat{y}_{0}+\int_{0}^{2\pi}\int_{0}^{\pi}\frac{sin(\theta)(z-Rcos(\theta))\cdot d\theta d\phi}{\left[R^{2}-2zRcos(\theta)+z^{2}\right]^{3/2}}\hat{z}_{0}\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{E}=\frac{P_{s}R^{2}}{4\piε}\left\{ -R\int_{0}^{\pi}\frac{sin^{2}(\theta)d\theta}{\left[R^{2}-2zRcos(\theta)+z^{2}\right]^{3/2}}\cancelto{0}{\int_{0}^{2\pi}\left(cos(\phi)\hat{x}_{0}+sin(\phi)\right)\hat{y}_{0}d\phi}+\int_{0}^{2\pi}\int_{0}^{\pi}\frac{sin(\theta)(z-Rcos(\theta))\cdot d\theta d\phi}{\left[R^{2}-2zRcos(\theta)+z^{2}\right]^{3/2}}\hat{z}_{0}\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{E}=\frac{P_{s}R^{2}}{4\piε}\int_{0}^{2\pi}\int_{0}^{\pi}\frac{sin(\theta)(z-Rcos(\theta))\cdot d\theta d\phi}{\left[R^{2}-2zRcos(\theta)+z^{2}\right]^{3/2}}\hat{z}_{0}=\frac{P_{s}R^{2}}{4\piε}\cancelto{2\pi}{\int_{0}^{2\pi}d\phi}\int_{0}^{\pi}\frac{sin(\theta)(z-Rcos(\theta))\cdot d\theta}{\left[R^{2}-2zRcos(\theta)+z^{2}\right]^{3/2}}\hat{z}_{0}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{E}=\frac{P_{s}R^{2}}{2ε}\int_{0}^{\pi}\frac{zsin(\theta)-Rcos(\theta)sin(\theta)}{\left[R^{2}-2zRcos(\theta)+z^{2}\right]^{3/2}}d\theta\hat{z}_{0}=\frac{P_{s}R^{2}}{2ε}\left\{ z\int_{0}^{\pi}\frac{sin(\theta)d\theta}{\left[R^{2}-2zRcos(\theta)+z^{2}\right]^{3/2}}-R\int_{0}^{\pi}\frac{cos(\theta)sin(\theta)\cdot d\theta}{\left[R^{2}-2zRcos(\theta)+z^{2}\right]^{3/2}}\right\} \hat{z}_{0}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\text{Let\;}u(\theta)=R^{2}-2zRcos(\theta)+z^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+cos(\theta)=\frac{R^{2}+z^{2}-u}{2zR}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\frac{du(\theta)}{d\theta}=2zRsin(\theta)\Rightarrow d\theta=\frac{du}{2zRsin(\theta)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+u(0)=R^{2}-2zR+z^{2}\Rightarrow u(0)=\left(R-z\right)^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+u(\pi)=R^{2}+2zR+z^{2}\Rightarrow u(\pi)=\left(R+z\right)^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{E}=\frac{P_{s}R^{2}}{2ε}\left\{ z\int_{u(0)}^{u(\pi)}\frac{sin(\theta)\frac{du}{2zRsin(\theta)}}{u^{3/2}}-R\int_{u(0)}^{u(\pi)}\frac{\frac{R^{2}+z^{2}-u}{2zR}\cdot sin(\theta)\cdot\frac{du}{2zRsin(\theta)}}{u^{3/2}}\right\} \hat{z}_{0}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{E}=\frac{P_{s}R^{2}}{2ε}\left\{ \frac{1}{2R}\int_{u(0)}^{u(\pi)}\frac{1}{u^{3/2}}du-\frac{1}{4z^{2}R}\int_{u(0)}^{u(\pi)}\frac{R^{2}+z^{2}-u}{u^{3/2}}du\right\} \hat{z}_{0}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{E}=\frac{P_{s}R^{2}}{2ε}\cdot\frac{1}{2R}\left\{ \left[\frac{u^{-3/2+1}}{-3/2+1}\right]_{u(0)}^{u(\pi)}-\frac{1}{2z^{2}}\left[\frac{\left(R^{2}+z^{2}\right)u^{-3/2+1}}{-3/2+1}-\frac{u^{1/2}}{1/2}\right]_{u(0)}^{u(\pi)}\right\} \hat{z}_{0}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{E}=\frac{P_{s}R}{4ε}\left\{ -2\left[\frac{1}{\sqrt{u}}\right]_{u(0)}^{u(\pi)}-\frac{1}{2z^{2}}\left[-2\left(R^{2}+z^{2}\right)\frac{1}{\sqrt{u}}-2\sqrt{u}\right]_{u(0)}^{u(\pi)}\right\} \hat{z}_{0}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{E}=-\frac{P_{s}R}{2ε}\left\{ \left[\frac{1}{\sqrt{u}}\right]_{u(0)}^{u(\pi)}-\frac{1}{2z^{2}}\left[\left(R^{2}+z^{2}\right)\frac{1}{\sqrt{u}}+\sqrt{u}\right]_{u(0)}^{u(\pi)}\right\} \hat{z}_{0}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{E}=-\frac{P_{s}R}{2ε}\left\{ \left[\frac{1}{\sqrt{\left(R+z\right)^{2}}}-\frac{1}{\sqrt{\left(R-z\right)^{2}}}\right]-\frac{1}{2z^{2}}\left[\left(R^{2}+z^{2}\right)\frac{1}{\sqrt{\left(R+z\right)^{2}}}+\sqrt{\left(R+z\right)^{2}}-\left(R^{2}+z^{2}\right)\frac{1}{\sqrt{\left(R-z\right)^{2}}}-\sqrt{\left(R-z\right)^{2}}\right]\right\} \hat{z}_{0}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{E}=-\frac{P_{s}R}{2ε}\left\{ \frac{1}{\left|R+z\right|}-\frac{1}{\left|R-z\right|}-\frac{R^{2}+z^{2}}{2z^{2}\left|R+z\right|}-\frac{\left|R+z\right|}{2z^{2}}+\frac{R^{2}+z^{2}}{2z^{2}\left|R-z\right|}+\frac{\left|R-z\right|}{2z^{2}}\right\} \hat{z}_{0}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{E}=\begin{cases}
+-\frac{P_{s}R}{2ε}\left\{ \frac{1}{R+z}-\frac{1}{R-z}-\frac{R^{2}+z^{2}}{2z^{2}\left(R+z\right)}-\frac{R+z}{2z^{2}}+\frac{R^{2}+z^{2}}{2z^{2}\left(R-z\right)}+\frac{R-z}{2z^{2}}\right\} \hat{z}_{0} & ,\;|z|<R\\
+-\frac{P_{s}R}{2ε}\left\{ \frac{1}{-R-z}-\frac{1}{R-z}-\frac{R^{2}+z^{2}}{2z^{2}\left(-R-z\right)}-\frac{-R-z}{2z^{2}}+\frac{R^{2}+z^{2}}{2z^{2}\left(R-z\right)}+\frac{R-z}{2z^{2}}\right\} \hat{z}_{0} & ,\;z<-R\\
+-\frac{P_{s}R}{2ε}\left\{ \frac{1}{R+z}-\frac{1}{z-R}-\frac{R^{2}+z^{2}}{2z^{2}\left(R+z\right)}-\frac{R+z}{2z^{2}}+\frac{R^{2}+z^{2}}{2z^{2}\left(z-R\right)}+\frac{z-R}{2z^{2}}\right\} \hat{z}_{0} & ,\;z>R
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{E}=\begin{cases}
+-\frac{P_{s}R}{2ε}\left\{ \frac{1}{R+z}-\frac{1}{R-z}-\frac{R^{2}+z^{2}}{2z^{2}\left(R+z\right)}+\frac{R^{2}+z^{2}}{2z^{2}\left(R-z\right)}+\frac{R-z-R-z}{2z^{2}}\right\} \hat{z}_{0} & ,\;|z|<R\\
+-\frac{P_{s}R}{2ε}\left\{ \frac{1}{-R-z}-\frac{1}{R-z}-\frac{R^{2}+z^{2}}{2z^{2}\left(-R-z\right)}+\frac{R^{2}+z^{2}}{2z^{2}\left(R-z\right)}+\frac{R-z+R+z}{2z^{2}}\right\} \hat{z}_{0} & ,\;z<-R\\
+-\frac{P_{s}R}{2ε}\left\{ \frac{1}{R+z}-\frac{1}{z-R}-\frac{R^{2}+z^{2}}{2z^{2}\left(R+z\right)}+\frac{R^{2}+z^{2}}{2z^{2}\left(z-R\right)}+\frac{z-R-R-z}{2z^{2}}\right\} \hat{z}_{0} & ,\;z>R
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{E}=\begin{cases}
+-\frac{P_{s}R}{2ε}\left\{ \frac{2z^{2}}{2z^{2}\left(R+z\right)}-\frac{2z^{2}}{2z^{2}\left(R-z\right)}-\frac{R^{2}+z^{2}}{2z^{2}\left(R+z\right)}+\frac{R^{2}+z^{2}}{2z^{2}\left(R-z\right)}-\frac{1}{z}\right\} \hat{z}_{0} & ,\;|z|<R\\
+-\frac{P_{s}R}{2ε}\left\{ \frac{2z^{2}}{2z^{2}\left(-R-z\right)}-\frac{2z^{2}}{2z^{2}\left(R-z\right)}-\frac{R^{2}+z^{2}}{2z^{2}\left(-R-z\right)}+\frac{R^{2}+z^{2}}{2z^{2}\left(R-z\right)}+\frac{2R}{2z^{2}}\right\} \hat{z}_{0} & ,\;z<-R\\
+-\frac{P_{s}R}{2ε}\left\{ \frac{2z^{2}}{2z^{2}\left(R+z\right)}-\frac{2z^{2}}{2z^{2}\left(z-R\right)}-\frac{R^{2}+z^{2}}{2z^{2}\left(R+z\right)}+\frac{R^{2}+z^{2}}{2z^{2}\left(z-R\right)}-\frac{2R}{2z^{2}}\right\} \hat{z}_{0} & ,\;z>R
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{E}=\begin{cases}
+-\frac{P_{s}R}{2ε}\left\{ \frac{2z^{2}-R^{2}-z^{2}}{2z^{2}\left(R+z\right)}+\frac{-2z^{2}+R^{2}+z^{2}}{2z^{2}\left(R-z\right)}-\frac{1}{z}\right\} \hat{z}_{0} & ,\;|z|<R\\
+-\frac{P_{s}R}{2ε}\left\{ -\frac{2z^{2}-R^{2}-z^{2}}{2z^{2}\left(R+z\right)}+\frac{-2z^{2}+R^{2}+z^{2}}{2z^{2}\left(R-z\right)}+\frac{R}{z^{2}}\right\} \hat{z}_{0} & ,\;z<-R\\
+-\frac{P_{s}R}{2ε}\left\{ \frac{2z^{2}-R^{2}-z^{2}}{2z^{2}\left(R+z\right)}+\frac{-2z^{2}+R^{2}+z^{2}}{2z^{2}\left(z-R\right)}-\frac{R}{z^{2}}\right\} \hat{z}_{0} & ,\;z>R
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{E}=\begin{cases}
+-\frac{P_{s}R}{2ε}\left\{ \frac{z^{2}-R^{2}}{2z^{2}\left(R+z\right)}+\frac{-z^{2}+R^{2}}{2z^{2}\left(R-z\right)}-\frac{1}{z}\right\} \hat{z}_{0} & ,\;|z|<R\\
+-\frac{P_{s}R}{2ε}\left\{ -\frac{z^{2}-R^{2}}{2z^{2}\left(R+z\right)}+\frac{-z^{2}+R^{2}}{2z^{2}\left(R-z\right)}+\frac{R}{z^{2}}\right\} \hat{z}_{0} & ,\;z<-R\\
+-\frac{P_{s}R}{2ε}\left\{ \frac{z^{2}-R^{2}}{2z^{2}\left(R+z\right)}+\frac{-z^{2}+R^{2}}{2z^{2}\left(z-R\right)}-\frac{R}{z^{2}}\right\} \hat{z}_{0} & ,\;z>R
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{E}=\begin{cases}
+-\frac{P_{s}R}{2ε}\left\{ \frac{\left(z-R\right)\left(z+R\right)}{2z^{2}\left(R+z\right)}+\frac{\left(R-z\right)\left(R+z\right)}{2z^{2}\left(R-z\right)}-\frac{1}{z}\right\} \hat{z}_{0} & ,\;|z|<R\\
+-\frac{P_{s}R}{2ε}\left\{ -\frac{\left(z-R\right)\left(z+R\right)}{2z^{2}\left(R+z\right)}+\frac{\left(R-z\right)\left(R+z\right)}{2z^{2}\left(R-z\right)}+\frac{R}{z^{2}}\right\} \hat{z}_{0} & ,\;z<-R\\
+-\frac{P_{s}R}{2ε}\left\{ \frac{\left(z-R\right)\left(z+R\right)}{2z^{2}\left(R+z\right)}-\frac{\left(R-z\right)\left(R+z\right)}{2z^{2}\left(z-R\right)}-\frac{R}{z^{2}}\right\} \hat{z}_{0} & ,\;z>R
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{E}=\begin{cases}
+-\frac{\frac{Q}{4\pi R^{2}}R}{2ε}\left\{ \frac{z-R}{2z^{2}}+\frac{R+z}{2z^{2}}-\frac{1}{z}\right\} \hat{z}_{0} & ,\;|z|<R\\
+-\frac{\frac{Q}{4\pi R^{2}}R}{2ε}\left\{ \frac{R-z}{2z^{2}}+\frac{R+z}{2z^{2}}+\frac{R}{z^{2}}\right\} \hat{z}_{0} & ,\;z<-R\\
+-\frac{\frac{Q}{4\pi R^{2}}R}{2ε}\left\{ \frac{z-R}{2z^{2}}-\frac{R+z}{2z^{2}}-\frac{R}{z^{2}}\right\} \hat{z}_{0} & ,\;z>R
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{E}=\begin{cases}
+-\frac{Q}{8\piεR}\left\{ \frac{1}{z}-\frac{1}{z}\right\} \hat{z}_{0} & ,\;|z|<R\\
+-\frac{Q}{8\piεR}\left\{ \frac{2R}{2z^{2}}+\frac{2R}{2z^{2}}\right\} \hat{z}_{0} & ,\;z<-R\\
+-\frac{Q}{8\piεR}\left\{ \frac{-2R}{2z^{2}}-\frac{2R}{2z^{2}}\right\} \hat{z}_{0} & ,\;z>R
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{E}=\begin{cases}
+0 & ,\;|z|<R\\
+-\frac{Q}{8\piεR}\frac{4R}{2z^{2}}\hat{z}_{0} & ,\;z<-R\\
+-\frac{Q}{8\piεR}\frac{-4R}{2z^{2}}\hat{z}_{0} & ,\;z>R
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{E}(z)=\begin{cases}
+0 & ,\;|z|<R\\
+-\frac{Q}{4\piεz^{2}}\hat{z}_{0} & ,\;z<-R\\
+\frac{Q}{4\piεz^{2}}\hat{z}_{0} & ,\;z>R
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Συμπέρασμα:
+\end_layout
+
+\begin_layout Standard
+Βλέπουμε ότι ακόμη και όταν εκμεταλλευόμαστε την συμμετρία της γεωμετρίας,
+ τα μαθηματικά είναι και πάλι αρκετά δύσκολα με αυτήν την μέθοδο.
+ Για αυτόν τον λόγο,
+ στην επόμενη ενότητα θα δούμε τον 
+\series bold
+Νόμο του Gauss
+\series default
+ ο οποίος μας βοηθάει να υπολογίζουμε το Ηλεκτρικό Πεδίο 
+\series bold
+στην κυριολεξία
+\series default
+ σε 
+\series bold
+\bar under
+μια γραμμή
+\series default
+\bar default
+,
+ και μάλλιστα για οποιοδήποτε σημείο 
+\series bold
+P(x,y,z)
+\series default
+ όχι μόνο πάνω σε έναν άξονα (πχ εδω πάνω στον άξονα 
+\series bold
+Ζ
+\series default
+ για σημείο 
+\series bold
+P(0,0,z)
+\series default
+).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Gauss Law
+\end_layout
+
+\begin_layout Subsection
+Νόμος του Gauss για το Ηλεκτρικό Πεδίο
+\end_layout
+
+\begin_layout Standard
+Ο Νόμος του Gauss είναι μία από τις τέσσερις εξισώσεις του Maxwell και περιγράφει πώς η ηλεκτρική ροή σχετίζεται με το ηλεκτρικό φορτίο που περικλείεται μέσα σε μια επιφάνεια.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\vec{D}\triangleqε\cdot\vec{E}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\varoiint_{S}\vec{D}\cdot\vec{dS}=Q_{enclosed}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\nabla\cdot\vec{D}=\rho_{f}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\series bold
+όπου:
+\end_layout
+
+\begin_layout Itemize
+
+\size small
+\begin_inset Formula $\vec{E}[\frac{V}{m}]$
+\end_inset
+
+:
+ Το ηλεκτρικό Πεδίο
+\end_layout
+
+\begin_layout Itemize
+
+\size small
+\begin_inset Formula $\vec{D}[\frac{C}{m^{2}}]$
+\end_inset
+
+:
+ Το ηλεκτρικό μετατοπισματικό πεδίο (ή πυκνότητα ροής).
+ Περιγράφει τη ροή του ηλεκτρικού πεδίου μέσα από το διηλεκτρικό.
+\end_layout
+
+\begin_layout Itemize
+
+\size small
+\begin_inset Formula $ε[\frac{F}{m}]$
+\end_inset
+
+:
+ Η ηλεκτρική επιτρεπτότητα του μέσου.
+ Ορίζει πόσο 
+\begin_inset Quotes eld
+\end_inset
+
+εύκολα
+\begin_inset Quotes erd
+\end_inset
+
+ δημιουργείται ηλεκτρικό πεδίο μέσα σε ένα μέσο.
+\end_layout
+
+\begin_layout Itemize
+
+\size small
+\begin_inset Formula $\vec{dS}[m^{2}]$
+\end_inset
+
+:
+ Διαφορικό στοιχείο επιφάνειας.
+ Διάνυσμα κάθετο στην επιφάνεια S,
+ με φορά προς τα έξω (σε κλειστή επιφάνεια).
+\end_layout
+
+\begin_layout Itemize
+
+\size small
+\begin_inset Formula $Q_{enclosed}[C]$
+\end_inset
+
+:
+ Το ολικό ελεύθερο ηλεκτρικό φορτίο που περικλείεται μέσα στην επιφάνεια S.
+\end_layout
+
+\begin_layout Itemize
+
+\size small
+\begin_inset Formula $\rho_{f}[\frac{C}{m^{3}}]$
+\end_inset
+
+:
+ H πυκνότητα ελεύθερου φορτίου
+\end_layout
+
+\begin_layout Subsubsection*
+Σημειώσεις:
+\end_layout
+
+\begin_layout Itemize
+
+\size small
+Ο νόμος του Gauss δεν εξαρτάται από το σχήμα ή τη γεωμετρία της επιφάνειας που επιλέγουμε.
+ Σημασία έχει μόνο το ποια φορτία είναι εγκλωβισμένα (enclosed) μέσα στην επιφάνεια:
+ 
+\begin_inset Formula $Q_{enclosed}=\sum_{i}Q_{i,inside}$
+\end_inset
+
+.
+ Δηλαδή,
+ το συνολικό εγκλωβισμένο φορτίο είναι το άθροισμα όλων των ελεύθερων φορτίων που βρίσκονται μέσα στην επιφάνεια,
+ έτσι όπως θα τα 
+\begin_inset Quotes eld
+\end_inset
+
+μετρούσε
+\begin_inset Quotes erd
+\end_inset
+
+ ένας θεωρητικός παρατηρητής από έξω που κοιτάει τι περιλαμβάνει μέσα της η επιφάνεια.
+ Δεν μας ενδιαφέρει πού ακριβώς βρίσκονται τα φορτία στο εσωτερικό,
+ ούτε η ακριβής κατανομή τους —
+ μόνο αν είναι μέσα ή έξω από την κλειστή επιφάνεια.
+ Φορτία εκτός της επιφάνειας δεν συμβάλλουν στη ροή 
+\begin_inset Formula $\vec{D}$
+\end_inset
+
+ και άρα δεν επηρεάζουν το ολοκλήρωμα του Gauss.
+\end_layout
+
+\begin_layout Itemize
+
+\size small
+Είναι εξαιρετικά χρήσιμος για τον υπολογισμό του ηλεκτρικού πεδίου σε περιπτώσεις με συμμετρία (σφαιρική,
+ κυλινδρική,
+ επίπεδη).
+\end_layout
+
+\begin_layout Itemize
+
+\size small
+Στην ηλεκτροστατική,
+ το 
+\begin_inset Formula $\vec{D}$
+\end_inset
+
+ εξυπηρετεί στην αφαίρεση της εξάρτησης από το διηλεκτρικό υλικό.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Παράδειγμα Σφαιρικής Επιφανειακής Κατανομής Με Gauss
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename Assets/8.pherical_surface_dist_gauss_method.jpg
+	scale 24
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+Φορτίο 
+\series bold
++Q
+\series default
+ σε υλικό 
+\series bold
+ε
+\series default
+ είναι ομοιόμορφα διανεμημένο στην 
+\series bold
+\bar under
+επιφάνεια
+\series default
+\bar default
+ της σφαίρας 
+\begin_inset Formula $x^{2}+y^{2}+z^{2}=R^{2}$
+\end_inset
+
+ (Μωβ σφαίρα) με 
+\begin_inset Formula $R\in\mathbb{R}$
+\end_inset
+
+ πεπερασμένο.
+ Υπολόγισε το Ηλεκτρικό Πεδίο και Δυναμικό παντού στον χώρο.
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Επεξήγηση Μεθόδου Gauss:
+\end_layout
+
+\begin_layout Standard
+
+\size tiny
+Ζωγραφίζουμε δύο Γκαουσιανές σφαίρες με μεταβλητές ακτίνες,
+ μία εξωτερική (Πορτοκαλί στο σχήμα) με ακτίνα 
+\begin_inset Formula $\vec{r}_{out}$
+\end_inset
+
+ και μία εσωτερική (Γαλάζια) με ακτίνα 
+\begin_inset Formula $\vec{r}_{in}$
+\end_inset
+
+.
+ Στην συνέχεια εφαρμόζουμε τον νόμο του Gauss για κάθε μια από αυτές τις δύο Γκαουσιανές σφαίρες και το αποτέλεσμα του συνολικού Ηλεκτρικού πεδίου είναι η διακλαδωτή συνάρτηση του κύκλου 
+\begin_inset Quotes eld
+\end_inset
+
+μέσα-έξω
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ 
+\begin_inset Formula $r\geq R$
+\end_inset
+
+ και 
+\begin_inset Formula $r<R$
+\end_inset
+
+ στην ακτινική διεύθηνση.
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Εξωτερική
+\size default
+ 
+\size scriptsize
+Γκαουσιανή Σφαίρα (
+\begin_inset Formula $r=r_{out}\geq R$
+\end_inset
+
+):
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing onehalf
+
+\size tiny
+Η μέθοδος του Gauss προϋποθέτει να 
+\series bold
+\bar under
+γνωρίζουμε εκ των προτέρων
+\series default
+\bar default
+ την 
+\series bold
+διεύθηνση
+\series default
+ του Πεδίου και επίσης το μέτρο του να είναι σταθερό,
+ δηλαδή 
+\begin_inset Formula $\left\Vert \vec{D}\right\Vert ,\left\Vert \vec{E}\right\Vert \in\mathbb{R}\rightarrow\text{σταθερά}$
+\end_inset
+
+.
+ Στις απλές γεωμετρίες (επίπεδο,
+ κύλινδροι,
+ σφαίρες) η διεύθυνση του πεδίου 
+\series bold
+είναι πάντα
+\series default
+ προς την 
+\series bold
+\bar under
+ακτινική διεύθηνση
+\series default
+\bar default
+,
+ έτσι όπως δίνεται μαθηματικά από τις κυλινδρικές ή σφαιρικές συντεταγμένες.
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\varoiint_{s}\vec{D}\cdot\vec{ds}=Q_{enclosed}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size tiny
+\begin_inset Formula 
+\[
+\vec{D}=\left\Vert \vec{D}\right\Vert \hat{r}_{0}=ε\left\Vert \vec{E}\right\Vert \hat{r}_{0}\Rightarrow\vec{E}=\frac{\left\Vert \vec{D}\right\Vert }{ε}\hat{r}_{0}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{ds}=r^{2}sin(\theta)d\theta d\phi\hat{r}_{0}\rightarrow\text{Σφαιρικές Συντεταγμένες, επιφανειακό διάνυσμα}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size tiny
+Το 
+\begin_inset Formula $Q_{enclosed}$
+\end_inset
+
+ είναι το 
+\begin_inset Quotes eld
+\end_inset
+
+συνολικό αθροιστικό φορτίο που περικλείει η Γκαουσιανή επιφάνεια στην οποία δουλεύουμε
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Εφόσον εδώ δουλεύουμε στην 
+\series bold
+εξωτερική Γκαουσιανή σφαίρα
+\series default
+ η οποία περικλείει όλο το φορτίο 
+\series bold
++Q
+\series default
+ της επιφάνειας της σφαίρας ακτίνας 
+\series bold
+R
+\series default
+,
+ τότε 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ 
+\begin_inset Formula $Q_{enclosed}=+Q$
+\end_inset
+
+.
+ Επομένως:
+\end_layout
+
+\begin_layout Standard
+
+\size tiny
+\begin_inset Formula 
+\[
+\varoiint_{s}\vec{D}\cdot\vec{ds}=Q_{enclosed}\Rightarrow\int_{0}^{2\pi}\int_{0}^{\pi}\left\Vert \vec{D}_{out}\right\Vert \hat{r}_{0}\cdot r^{2}sin(\theta)d\theta d\phi\hat{r}_{0}=Q\xRightarrow[\left\Vert \vec{D}\right\Vert ,r^{2}\in\mathbb{R}]{\hat{r}_{0}\cdot\hat{r}_{0}=1}\left\Vert \vec{D}_{out}\right\Vert r^{2}\int_{0}^{2\pi}d\phi\int_{0}^{\pi}sin(\theta)d\theta=2\pi\left\Vert \vec{D}_{out}\right\Vert r^{2}\cancelto{2}{\left[-cos(\pi)+cos(0)\right]}=Q
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\left\Vert \vec{D}_{out}\right\Vert =\frac{Q}{4\pi r^{2}}\;,\;\begin{cases}
+\vec{D}_{out}=\frac{Q}{4\pi r^{2}}\hat{r}_{0} & \left[\frac{C}{m^{2}}\right]\;\;,r\geq R\\
+\vec{E}_{out}=\frac{Q}{4\piεr^{2}}\hat{r}_{0} & \left[\frac{V}{m}\right]\;\;\;,r\geq R
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size tiny
+Όπως είδαμε αφού 
+\begin_inset Formula $\hat{r}_{0}\cdot\hat{r}_{0}=\cancelto{1}{\left\Vert \hat{r}_{0}\right\Vert \left\Vert \hat{r}_{0}\right\Vert }\cancelto{1}{cos(0)}=1$
+\end_inset
+
+,
+ η πληροφορία της διεύθηνσης χάνετε,
+ και ο Gauss υπολογίζει μόνο το μέτρο!
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Δυναμικό Για
+\size default
+ 
+\size scriptsize
+
+\begin_inset Formula $r=r_{out}\geq R$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+φ\triangleq\int_{p}^{p_{\infty}}\vec{E}\cdot\vec{dl},\;\vec{dl}=dr\hat{r}_{0}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+φ_{out}=\int_{r}^{\infty}\left\Vert \vec{E}_{out}\right\Vert \hat{r}_{0}\cdot dr\hat{r}_{0}=\frac{Q}{4\piε}\int_{r}^{\infty}\frac{1}{r^{2}}dr=\frac{Q}{4\piε}\left[-\frac{1}{r}\right]_{r}^{\infty}\Rightarrowφ_{out}=\frac{Q}{4\piεr}\quad\left[V\right],\;r\geq R
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Εσωτερική
+\size default
+ 
+\size scriptsize
+Γκαουσιανή Σφαίρα (
+\begin_inset Formula $r=r_{in}<R$
+\end_inset
+
+):
+\end_layout
+
+\begin_layout Standard
+
+\size tiny
+Εφόσον το φορτίο είναι διανεμημένο 
+\series bold
+\bar under
+στην επιφάνεια της σφαίρας
+\series default
+\bar default
+ ακτίνας 
+\series bold
+R
+\series default
+,
+ η 
+\bar under
+εσωτερική Γκαουσιανή
+\bar default
+ σφαίρα 
+\begin_inset Formula $r_{in}<R$
+\end_inset
+
+ δεν περικλείει καθόλου φορτίο 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ 
+\begin_inset Formula $Q_{enclosed}=0$
+\end_inset
+
+,
+ επομένως:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\varoiint_{s}\vec{D}\cdot\vec{ds}=Q_{enclosed}\Rightarrow\int_{0}^{2\pi}\int_{0}^{\pi}\left\Vert \vec{D}_{in}\right\Vert \hat{r}_{0}\cdot r^{2}sin(\theta)d\theta d\phi\hat{r}_{0}=0\Rightarrow4\pi\left\Vert \vec{D}_{in}\right\Vert r^{2}=0\Rightarrow\left\Vert \vec{D}_{in}\right\Vert =0\rightarrow\left\Vert \vec{E_{in}}\right\Vert =0,\;0\leq r<R
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Δυναμικό Για
+\size default
+ 
+\size scriptsize
+
+\begin_inset Formula $r=r_{in}<R$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+
+\size tiny
+Φανταζόμαστε ότι η εσωτερική Γκαουσιανή σφαίρα ξεκινάει από από μια μεταβλητή ακτίνα 
+\series bold
+r
+\series default
+ και επεκτείνετε μέχρι το άπειρο.
+ Επειδή όμως ο τύπος του 
+\begin_inset Formula $\vec{E}$
+\end_inset
+
+ αλλάζει αναλόγος αν είμαστε 
+\begin_inset Quotes eld
+\end_inset
+
+μέσα
+\begin_inset Quotes erd
+\end_inset
+
+ ή 
+\begin_inset Quotes eld
+\end_inset
+
+έξω
+\begin_inset Quotes erd
+\end_inset
+
+ από την σφαιρική κατανομή ακτίνας 
+\series bold
+R
+\series default
+,
+ πρέπει να σπάσουμε το ολοκλήρωμα σε δύο ολοκληρώματα,
+ ένα για το εσωτερικό και ένα για το εξωτερικό της σφαίρας ακτίνας 
+\series bold
+R
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+φ_{in}=\int_{r}^{\infty}\left\Vert \vec{E}\right\Vert \hat{r}_{0}\cdot dr\hat{r}_{0}=\int_{r}^{R}\left\Vert \vec{E_{in}}\right\Vert \cdot dr+\int_{R}^{\infty}\left\Vert \vec{E}_{out}\right\Vert \cdot dr=\int_{r}^{R}0\cdot dr+\int_{R}^{\infty}\left\Vert \vec{E}_{out}\right\Vert \cdot dr
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\varphi_{in}=\int_{R}^{\infty}\frac{Q}{4\piεr^{2}}\cdot dr=\frac{Q}{4\piε}\int_{R}^{\infty}\frac{1}{r^{2}}\cdot dr=\frac{Q}{4\piε}\left[-\frac{1}{r}\right]_{R}^{\infty}\Rightarrowφ_{in}=\frac{Q}{4\piεR}\quad\left[V\right]\;0\leq r<R
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Όλα Μαζί Ως Διακλαδωτές Συναρτήσεις:
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{D}(r)=\begin{cases}
+0 & ,\;0\leq r<R\\
+\frac{Q}{4\pi r^{2}}\hat{r}_{0} & ,\;r>R
+\end{cases}\;\;,\;\;\vec{E}(r)=\begin{cases}
+0 & ,\;0\leq r<R\\
+\frac{Q}{4\piεr^{2}}\hat{r}_{0} & ,\;r>R
+\end{cases}\;\;,\;\;φ(r)=\begin{cases}
+\frac{Q}{4\piεR} & ,\;0\leq r<R\\
+\frac{Q}{4\piεr} & ,\;r>R
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Συμπέρασμα:
+\end_layout
+
+\begin_layout Standard
+Όταν έχουμε επιφανειακή κατανομή,
+ το Ηλεκτροστατικό Δυναμικό
+\series bold
+ μέσα
+\series default
+ στην σφαίρα κατανομής είναι 
+\bar under
+σταθερό
+\bar default
+!
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Παράδειγμα Σφαιρικής Χωρικής Κατανομής Με Gauss
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename Assets/8.pherical_surface_dist_gauss_method.jpg
+	scale 20
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+Φορτίο 
+\series bold
++Q
+\series default
+ σε υλικό 
+\series bold
+ε
+\series default
+ είναι ομοιόμορφα διανεμημένο
+\series bold
+\bar under
+ στον χώρο της σφαίρας
+\series default
+\bar default
+ 
+\begin_inset Formula $x^{2}+y^{2}+z^{2}=R^{2}$
+\end_inset
+
+ (Μωβ σφαίρα) με 
+\begin_inset Formula $R\in\mathbb{R}$
+\end_inset
+
+ πεπερασμένο.
+ Υπολόγισε το Ηλεκτρικό Πεδίο και Δυναμικό παντού στον χώρο.
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Για 
+\begin_inset Formula $r=r_{out}\geq R$
+\end_inset
+
+ (Πορτοκαλί Γκαουσιανή Σφαίρα ακτίνας r)
+\end_layout
+
+\begin_layout Standard
+
+\size tiny
+Σε αυτήν την περίπτωση,
+ η Γκαουσιανή (πορτοκαλί) σφαίρα εσωκλείει όλο το φορτίο 
+\series bold
++Q
+\series default
+,
+ επομένως:
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size tiny
+Ηλεκτροστατικό Πεδίο:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\varoiint_{s}\vec{D}_{out}\cdot\vec{ds}=Q_{enclosed}\Rightarrow\int_{0}^{2\pi}\int_{0}^{\pi}|\vec{D}_{out}|\hat{r}_{0}\cdot r^{2}sin(\theta)d\theta d\phi\hat{r}_{0}=Q\Rightarrow|\vec{D}_{out}|\cdot r^{2}\int_{0}^{2\pi}d\phi\int_{0}^{\pi}sin(\theta)d\theta=|\vec{D}_{out}|\cdot r^{2}\cdot2\pi\cdot2\Rightarrow|\vec{D}_{out}|=\frac{Q}{4\pi r^{2}}\quad\left[\frac{C}{m^{2}}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\begin{cases}
+\vec{D}_{out}=\frac{Q}{4\pi r^{2}}\hat{r}_{0}\;\left[\frac{C}{m^{2}}\right] & ,\;r\geq R\\
+\vec{E}_{out}=\frac{Q}{4\piεr^{2}}\hat{r}_{0}\;\left[\frac{V}{m}\right] & ,\;r\geq R
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size tiny
+Ηλεκτροστατικό Δυναμικό:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+φ_{out}=\int_{p}^{p_{\infty}}\vec{E}_{out}\cdot\vec{dl}=\int_{r}^{\infty}\frac{Q}{4\piεr^{2}}\hat{r}_{0}\cdot dr\hat{r}_{0}=\frac{Q}{4\piε}\int_{r}^{\infty}\frac{1}{r^{2}}dr=\frac{Q}{4\piε}\left[-\frac{1}{r}\right]_{r}^{\infty}=\frac{Q}{4\piεr}\quad\left[V\right],\;r\geq R
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Για 
+\begin_inset Formula $r=r_{in}<R$
+\end_inset
+
+ (Μπλε-Γαλάζια Γκαουσιανή Σφαίρα ακτίνας r)
+\end_layout
+
+\begin_layout Standard
+
+\size tiny
+Σε αυτήν την περίπτωση,
+ η Γκαουσιανή (Μπλε-Γαλάζια) σφαίρα εσωκλείει συγκεκριμένο φορτίο ανάλογα με την ακτίνα 
+\begin_inset Formula $r=r_{in}$
+\end_inset
+
+.
+ Δηλαδή το φορτίο που εσωκλείει εξαρτάτε από την ακτίνα r της γκαουσιανής σφαίρας.
+ Υπολογίζουμε το φορτίο ως εξής:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\frac{dq}{dv}=P_{v}\Rightarrow dq=P_{v}dv\Rightarrow dq=P_{v}r^{2}sin(\theta)drd\theta d\phi\Rightarrow\int_{0}^{Q(r)}dq=\int_{0}^{2\pi}\int_{0}^{\pi}\int_{0}^{r}P_{v}r^{2}sin(\theta)drd\theta d\phi
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+Q(r)=P_{v}\int_{0}^{2\pi}d\phi\int_{0}^{\pi}sin(\theta)d\theta\int_{0}^{r}r^{2}dr=P_{v}\cdot2\pi\cdot2\cdot\frac{r^{3}}{3}\Rightarrow Q(r)=\frac{4}{3}\pi P_{v}r^{3}\quad\left[C\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size tiny
+Το συνολικό φορτίο +Q υπολογίζεται για 
+\begin_inset Formula $r=R$
+\end_inset
+
+ και λύνουμε ως προς 
+\begin_inset Formula $P_{v}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+Q=Q(R)=\frac{4}{3}\pi P_{v}R^{3}\Rightarrow P_{v}=\frac{3Q}{4\pi R^{3}}\quad\left[\frac{C}{m^{3}}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size tiny
+Εφόσον το 
+\begin_inset Formula $P_{v}\text{σταθερό}\;\forall r$
+\end_inset
+
+,
+ μπορούμε να το αντικαταστήσουμε στην σχέση 
+\begin_inset Formula $Q(r)$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+Q(r)=\frac{4}{3}\pi P_{v}r^{3}=\frac{4}{3}\pi\frac{3Q}{4\pi R^{3}}r^{3}\Rightarrow Q(r)=\frac{Q}{R^{3}}r^{3}\quad\left[C\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size tiny
+Ηλεκτροστατικό Πεδίο:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\varoiint_{s}\vec{D}_{in}\cdot\vec{ds}=Q_{enclosed}\Rightarrow|\vec{D}_{in}|=\frac{Q_{enclosed}}{4\pi r^{2}}=\frac{\frac{Q}{R^{3}}r^{3}}{4\pi r^{2}}\Rightarrow|\vec{D}_{in}|=\frac{Q}{4\pi R^{3}}r\quad\left[\frac{C}{m^{2}}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\begin{cases}
+\vec{D}_{in}=\frac{Q}{4\pi R^{3}}r\hat{r}_{0}\;\left[\frac{C}{m^{2}}\right] & ,\;r<R\\
+\vec{E}_{in}=\frac{Q}{4\piεR^{3}}r\hat{r}_{0}\;\left[\frac{V}{m}\right] & ,\;r<R
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size tiny
+Ηλεκτροστατικό Δυναμικό:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+φ_{in}=\int_{p}^{p_{\infty}}\vec{E}\cdot\vec{dl}=\int_{r}^{R}\vec{E}_{in}\cdot dr\hat{r}_{0}+\int_{R}^{\infty}\vec{E}_{out}\cdot dr\hat{r}_{0}=\int_{r}^{R}\frac{Q}{4\piεR^{3}}r\hat{r}_{0}\cdot dr\hat{r}_{0}+\int_{R}^{\infty}\frac{Q}{4\piεr^{2}}\hat{r}_{0}\cdot dr\hat{r}_{0}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+φ_{in}=\frac{Q}{4\piεR^{3}}\int_{r}^{R}rdr+\frac{Q}{4\piε}\int_{R}^{\infty}\frac{1}{r^{2}}dr=\frac{Q}{4\piεR^{3}}\left[\frac{r^{2}}{2}\right]_{r}^{R}+\frac{Q}{4\piε}\left[-\frac{1}{r}\right]_{R}^{\infty}\Rightarrowφ_{in}=\frac{Q}{4\piεR^{3}}\left[\frac{R^{2}}{2}-\frac{r^{2}}{2}\right]+\frac{Q}{4\piεR}\quad\left[V\right]\;r<R
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Όλα Μαζί Ως Διακλαδωτές Συναρτήσεις:
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+\begin_inset Formula 
+\[
+\vec{D}(r)=\begin{cases}
+\frac{Q}{4\pi R^{3}}r\hat{r}_{0} & ,\;0\leq r<R\\
+\frac{Q}{4\pi r^{2}}\hat{r}_{0} & ,\;r\geq R
+\end{cases}\quad\left[\frac{C}{m^{2}}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+\begin_inset Formula 
+\[
+\vec{E}(r)=\begin{cases}
+\frac{Q}{4\piεR^{3}}r\hat{r}_{0} & ,\;0\leq r<R\\
+\frac{Q}{4\piεr^{2}}\hat{r}_{0} & ,\;r\geq R
+\end{cases}\quad\left[\frac{V}{m}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+\begin_inset Formula 
+\[
+φ(r)=\begin{cases}
+\frac{Q}{4\piεR^{3}}\left[\frac{R^{2}}{2}-\frac{r^{2}}{2}\right]+\frac{Q}{4\piεR} & ,\;0\leq r<R\\
+\frac{Q}{4\piεr} & ,\;r\geq R
+\end{cases}\quad\left[V\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Συμπέρασμα:
+\end_layout
+
+\begin_layout Standard
+Όταν έχουμε χωρική κατανομή,
+ το Ηλεκτροστατικό Δυναμικό 
+\series bold
+εξώ αλλά και μέσα
+\series default
+ στην σφαίρα κατανομής είναι 
+\bar under
+συνάρτηση του χώρου
+\bar default
+!
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Οριακές Συνθήκες Στις Διαχωριστικές Επιφάνειες Των Υλικών
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename Assets/11.normal_condition.jpg
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size footnotesize
+Έστω η διαχωριστική επιφάνεια (Δ.Ε) που στο συγκεκριμένο παράδειγμα περιγράφεται από το επίπεδο 
+\begin_inset Formula $z=0$
+\end_inset
+
+ (Γαλάζιο επίπεδο x-y),
+ η οποία χωρίζει τον χώρο στους υποχώρους 
+\series bold
+1
+\series default
+:
+ 
+\begin_inset Formula $z>0$
+\end_inset
+
+ το οποίο αποτελείτε από υλικό διηλεκτρικής σταθεράς 
+\begin_inset Formula $ε_{1}$
+\end_inset
+
+ και τον 
+\series bold
+2
+\series default
+:
+ 
+\begin_inset Formula $z<0$
+\end_inset
+
+ διηλεκτρικής σταθεράς 
+\begin_inset Formula $ε_{2}$
+\end_inset
+
+.
+ Έστω δύο διηλεκτρικές μετατοπίσεις 
+\begin_inset Formula $\vec{D}_{1}(x,y,z),z>0$
+\end_inset
+
+ και 
+\begin_inset Formula $\vec{D}_{2}(x,y,z),z<0$
+\end_inset
+
+ για τον κάθε υποχώρο 
+\series bold
+1
+\series default
+ & 
+\series bold
+2
+\series default
+ αντοίστοιχα.
+ Σκοπός μας είναι να βρούμε την σχέση που συνδέει τα 
+\begin_inset Formula $\vec{D}_{1}$
+\end_inset
+
+ και 
+\begin_inset Formula $\vec{D}_{2}$
+\end_inset
+
+ στην 
+\series bold
+\bar under
+συνιστώσα που είναι κάθετη στην διαχωριστική επιφάνεια
+\series default
+\bar default
+.
+ Στο συγκεκριμένο παράδειγμα,
+ ο άξονας 
+\series bold
+z
+\series default
+ είναι κάθετος στην Δ.Ε 
+\begin_inset Formula $z=0$
+\end_inset
+
+.
+ Θα δείξουμε ότι για την συνιστώσα στην διεύθηνση 
+\begin_inset Formula $\hat{n}_{0}$
+\end_inset
+
+,
+ ισχύει:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\left(\vec{D}_{2}-\vec{D}_{1}\right)\hat{n}_{0}=P_{s}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+όπου:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\vec{D}_{1}\;\left[\frac{C}{m^{2}}\right]$
+\end_inset
+
+:
+ Η διηλεκτρική μετατόπιση στον υποχώρο 
+\series bold
+1
+\series default
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\vec{D}_{2}\;\left[\frac{C}{m^{2}}\right]$
+\end_inset
+
+:
+ Η διηλεκτρική μετατόπιση στον υποχώρο 
+\series bold
+2
+\series default
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\hat{n}_{0}$
+\end_inset
+
+:
+ Κάθετο μοναδιαίο διάνυσμα στην Δ.Ε,
+ με διεύθηνση από τον υποχώρο 
+\series bold
+1
+\series default
+ 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ 
+\series bold
+2
+\series default
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $P_{s}\;\left[\frac{C}{m^{2}}\right]$
+\end_inset
+
+:
+ Η επιφανειακή πυκνότητα φορτίου της διαχωριστικής επιφάνειας.
+\end_layout
+
+\begin_layout Standard
+Ο παραπάνω τύπος ισχύει για οποιαδήποτε διαχωριστική επιφάνεια που χωρίζει τον χώρο στους υποχώρους 
+\series bold
+1
+\series default
+ και 
+\series bold
+2
+\series default
+ (με οποιονδήποτε τρόπο),
+ αρκεί να ορίσουμε σωστά το 
+\begin_inset Formula $\hat{n}_{0}$
+\end_inset
+
+,
+ το οποίο πρέπει 
+\series bold
+\bar under
+να είναι κάθετο στην διαχωριστική επιφάνεια
+\series default
+\bar default
+ και 
+\series bold
+\bar under
+να έχει διεύθηνση
+\series default
+\bar default
+ από τον υποχώρο 
+\series bold
+1
+\series default
+
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+
+\series bold
+2.
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Απόδειξη:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+Ορίζουμε έναν κύλινδρο με ύψος 
+\begin_inset Formula $h\rightarrow0$
+\end_inset
+
+ και ακτίνας 
+\begin_inset Formula $\rho\in\mathbb{R}$
+\end_inset
+
+,
+ έτσι ώστε να είναι κάθετος στην Δ.Ε,
+ ενώ οι βάσεις του (δίσκοι) να είναι παράλληλοι με την Δ.Ε.
+ Επίσης ορίζουμε 
+\begin_inset Formula $\hat{n}_{0}=-\hat{z}_{0}$
+\end_inset
+
+ ως την κάθετη συνιστώσα στην Δ.Ε,
+ που 
+\begin_inset Quotes eld
+\end_inset
+
+δείχνει
+\begin_inset Quotes erd
+\end_inset
+
+ από τον υποχώρο 
+\series bold
+1
+\series default
+ 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ 
+\series bold
+2,
+
+\series default
+ ενώ τα 
+\begin_inset Formula $\hat{x}_{0}$
+\end_inset
+
+ και 
+\begin_inset Formula $\hat{y}_{0}$
+\end_inset
+
+ θα τα λέμε 
+\series bold
+παράπλευρες συνιστώσες.
+ Ορίζουμε:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $s=\pi\rho^{2},\;\text{επιφάνεια βάσης κυλίνδρου}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $A=lim_{h\rightarrow0}\left(2\pi\rho h\right)=0,\;\text{παράπλευρη επιφάνεια κυλίνδρου}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+Παίρνοντας τον 
+\series bold
+νόμο του Gauss
+\series default
+ για κάθε συνιστώσα των 
+\begin_inset Formula $\vec{D}_{1},\vec{D}_{2}$
+\end_inset
+
+,
+ έχουμε
+\end_layout
+
+\begin_layout Standard
+
+\size footnotesize
+\begin_inset Formula 
+\[
+\varoiint_{s}\vec{D}\cdot\vec{ds}=Q_{enclosed}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\varoiint_{s}\vec{D}_{1}\cdot\hat{n}_{0}\cdot\vec{ds}\cdot\left(-\hat{n}_{0}\right)+\varoiint_{s}\vec{D}_{2}\cdot\hat{n}_{0}\cdot\vec{ds}\cdot\hat{n}_{0}+\varoiint_{s}\vec{D}_{side}\cdot\vec{dA}=sP_{s}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Για την παράπλευρη επιφάνεια ισχύει:
+\end_layout
+
+\begin_layout Standard
+
+\size tiny
+\begin_inset Formula 
+\[
+\varoiint_{s}\vec{D}_{side}\cdot\vec{dA}=\varoiint_{A}\vec{D}_{1}\cdot\hat{x}_{0}\cdot\vec{dA}\cdot\hat{x}_{0}+\varoiint_{A}\vec{D}_{1}\cdot\hat{y}_{0}\cdot\vec{dA}\cdot\hat{y}_{0}+\varoiint_{A}\vec{D}_{2}\cdot\hat{x}_{0}\cdot\vec{dA}\cdot\hat{x}_{0}+\varoiint_{A}\vec{D}_{2}\cdot\hat{y}_{0}\cdot\vec{dA}\cdot\hat{y}_{0}=0\;\;\text{αφού}\;A\rightarrow0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Επομένως:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\varoiint_{s}\vec{D}_{1}\cdot\hat{n}_{0}\cdot\vec{ds}\cdot\left(-\hat{n}_{0}\right)+\varoiint_{s}\vec{D}_{2}\cdot\hat{n}_{0}\cdot\vec{ds}\cdot\hat{n}_{0}+\varoiint_{s}\vec{D}_{side}\cdot\vec{dA}=sP_{s}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+-\varoiint_{s}\vec{D}_{1}\cdot\hat{n}_{0}\left\Vert \vec{ds}\right\Vert +\varoiint_{s}\vec{D}_{2}\cdot\hat{n}_{0}\cdot\left\Vert \vec{ds}\right\Vert +\cancelto{0}{\varoiint_{s}\vec{D}_{side}\cdot\vec{dA}}=sP_{s}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+και επειδή 
+\begin_inset Formula $\hat{n}_{0}$
+\end_inset
+
+ σταθερό:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+-\vec{D}_{1}\cdot\hat{n}_{0}\varoiint_{s}\left\Vert \vec{ds}\right\Vert +\vec{D}_{2}\cdot\hat{n}_{0}\varoiint_{s}\left\Vert \vec{ds}\right\Vert =sP_{s}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+-\vec{D}_{1}\cdot\hat{n}_{0}\cdot s+\vec{D}_{2}\cdot\hat{n}_{0}\cdot s=P_{s}\cdot s
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\left(\vec{D_{2}}-\vec{D_{1}}\right)\hat{n}_{0}=P_{s}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Gauss Κυλινδρική Επιφανειακή Κατανομή + Διερεύνηση Συνέχειας
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename Assets/9.cilinder_surface_gauss.jpg
+	scale 18
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+Φορτίο 
+\series bold
++Q
+\series default
+ είναι ομοιόμορφα διανεμημένο στην επιφάνεια κυλίνδρου άπειρου μήκους (μαύρος κύλινδρος):
+ 
+\begin_inset Formula $x^{2}+y^{2}=a^{2},-\infty<z<\infty,a\in\mathbb{R}$
+\end_inset
+
+.
+ Υπολογίστε το Ηλεκτροστατικό Πεδίο και Δυναμικό σε όλον τον χώρο και διερευνήστε την συνέχεια των συναρτήσεων στον χώρο.
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Επεξήγηση λύσης:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+Ζωγραφίζουμε δύο Γκαουσιανές επιφάνειες (κυλινδρικές) με τυχαίες ακτίνες 
+\begin_inset Formula $\rho$
+\end_inset
+
+ και μήκοι L.
+ Με πορτοκαλί είναι η εξωτερική για 
+\begin_inset Formula $\rho\geq a$
+\end_inset
+
+ και με ροζ η εσωτερική 
+\begin_inset Formula $\rho<a$
+\end_inset
+
+.
+ Πρωτού εφαρμόσουμε νόμο Gauss 
+\series bold
+μέσα-έξω
+\series default
+,
+ υπολογίζουμε το φορτίο που εσωκλείουν οι Γκαουσιανές επιφάνειες ως συνάρτηση 
+\begin_inset Formula $Q(\rho)$
+\end_inset
+
+.
+ Στην συνέχεια εφαρμόζουμε νόμο του Gauss και για 
+\begin_inset Formula $Q_{enclosed}$
+\end_inset
+
+ αντικαθιστούμε το κατάλληλο 
+\begin_inset Formula $\rho$
+\end_inset
+
+.
+ Η προϋπόθεση ότι η κυλινδρική κατανομή έχει άπειρο μήκος ως προς τον άξονα z είναι σημαντική για να υπάρχει συμμετρία,
+ έτσι έστε το πεδίο να δείχνει παντού στην ακτινική διεύθηνση 
+\begin_inset Formula $\hat{\rho}_{0}$
+\end_inset
+
+,
+ διαφορετικά αν o κύλινδρος ήταν πεπερασμένος,
+ θα είχαμε 
+\series bold
+\bar under
+φαινόμενα άκρων
+\series default
+\bar default
+,
+ όπου το πεδίο κοντά στις βάσεις του κυλίνδρου καμπυλώνει και πλέον δέν δείχνει ως προς την ακτινική διεύθηνση.
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Υπολογισμός Συνολικού Φορτίου Ως Συναρτησή Της Γκαουσιανής Ακτίνας:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\frac{dq}{ds}=P_{s}\Rightarrow dq=P_{s}ds\Rightarrow Q(\rho)=\int_{0}^{2\pi}\int_{0}^{L}P_{s}\cdot\rho dzd\phi=\rho P_{s}\int_{0}^{2\pi}d\phi\int_{0}^{L}dz=\rho P_{s}2\pi L\Rightarrow Q(\rho)=\rho P_{s}2\pi L\quad\left[C\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size tiny
+επειδή το φορτίο 
+\series bold
++Q
+\series default
+ είναι ομοιόμορφα διανεμημένο στην επιφάνεια του κυλίνδρου ακτίνας a,
+ τότε έτσι όπως το βλέπει ένας παρατηρητής που βρίσκεται πάνω στις Γκαουσιανές επιφάνειες:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+Q=\begin{cases}
+0 & ,\;0\leq\rho<a\\
+Q(a)=aP_{s}2\pi L\quad\left[C\right] & ,\;\rho\geq a
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+P_{s}=\frac{Q}{2\pi aL}\quad\left[\frac{C}{m^{2}}\right],\;\rho=a
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Gauss για 
+\begin_inset Formula $\rho\geq a$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+
+\size tiny
+Η εξωτερική Γκαουσιανή κυλινδρική επιφάνεια εσωκλείει όλο το φορτίο Q της κατανομής 
+\begin_inset Formula $x^{2}+y^{2}=a^{2},-\infty<z<\infty,a\in\mathbb{R}$
+\end_inset
+
+,
+ δηλαδή 
+\begin_inset Formula $Q_{enclosed}=Q(a)=aP_{s}2\pi L$
+\end_inset
+
+ και επομένως:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\varoiint_{s}\vec{D}_{out}\cdot\vec{ds}=Q_{enclosed}\Rightarrow\int_{0}^{2\pi}\int_{0}^{L}|\vec{D}_{out}|\hat{\rho}_{0}\cdot\rho dzd\phi\hat{r}_{0}=aP_{s}2\pi L=|\vec{D}_{out}|\cdot\rho\cdot\int_{0}^{2\pi}d\phi\int_{0}^{L}dz=|\vec{D}_{out}|\rho2\pi L\Rightarrow{\scriptsize |\vec{D}_{out}|=\frac{aP_{s}}{\rho}\quad\left[\frac{C}{m^{2}}\right]}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\begin{cases}
+\vec{D}_{out}=\frac{aP_{s}}{\rho}\hat{\rho}_{0}\;\left[\frac{C}{m^{2}}\right] & ,\;\rho\geq a\\
+\vec{E}_{out}=\frac{aP_{s}}{ε\rho}\hat{\rho}_{0}\;\left[\frac{V}{m}\right] & ,\;\rho\geq a
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size footnotesize
+βλέπουμε ότι η επιλογή Γκαουσιανού μήκους L δεν έχει σημασία,
+ διότι τα πεδιακά μεγέθοι είναι ανεξάρτητα από το μήκος L.
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Δυναμικό:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+φ_{out}=\int_{P}^{P_{\infty}}\vec{E}_{out}\cdot\vec{dl}=\int_{\rho}^{P_{\infty}}\frac{aP_{s}}{ε_{out}\rho}\hat{\rho}_{0}\cdot d\rho\hat{\rho}_{0}=\frac{aP_{s}}{ε}\int_{\rho}^{P_{\infty}}\frac{1}{\rho}\cdot d\rho\Rightarrowφ_{out}=\frac{aP_{s}}{ε_{out}}ln\left|\frac{P_{\infty}}{\rho}\right|\quad\left[V\right],\;\rho\geq a
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+επειδή η κυλινδρική κατανομή ακτίνας a έχει άπειρο μήκος,
+ δεν μπορούμε να θεωρήσουμε 
+\begin_inset Formula $P_{\infty}=\infty$
+\end_inset
+
+,
+ επομένως το αφήνουμε ως παράμετρο στον τύπο του Δυναμικού και το επιλέγουμε κατάλληλα ανάλογα την εφαρμογή.
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Gauss για 
+\begin_inset Formula $\rho<a$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+
+\size tiny
+Η εσωτερική Γκαουσιανή κυλινδρική επιφάνεια εσωκλείει φορτίο 0,
+ εφόσον το φορτίο είναι κατανεμημένο μόνο στην επιφάνεια της κατανομής,
+ επομένως:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\varoiint_{s}\vec{D}_{in}\cdot\vec{ds}=Q_{enclosed}\Rightarrow\int_{0}^{2\pi}\int_{0}^{L}|\vec{D}_{in}|\hat{\rho}_{0}\cdot\rho dzd\phi\hat{r}_{0}=0=|\vec{D}_{in}|\cdot\rho\cdot\int_{0}^{2\pi}d\phi\int_{0}^{L}dz=|\vec{D}_{in}|\rho2\pi L\Rightarrow{\scriptsize |\vec{D}_{in}|=0}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\begin{cases}
+\vec{D}_{in}=0 & ,\;\rho<a\\
+\vec{E}_{in}=0 & ,\;\rho<a
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Δυναμικό:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+φ_{in}=\int_{P}^{P_{\infty}}\vec{E}\cdot\vec{dl}=\int_{\rho}^{a}\vec{E}_{in}\cdot d\rho\hat{\rho}_{0}+\int_{a}^{P_{\infty}}\vec{E}_{out}\cdot d\rho\hat{\rho}_{0}=\int_{\rho}^{a}0\cdot d\rho\hat{\rho}_{0}+\int_{a}^{P_{\infty}}\frac{aP_{s}}{ε_{out}\rho}\hat{\rho}_{0}\cdot d\rho\hat{\rho}_{0}=\frac{aP_{s}}{ε_{out}}\int_{a}^{P_{\infty}}\frac{1}{\rho}\cdot d\rho
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+φ_{in}=\frac{aP_{s}}{ε}ln\left|\frac{P_{\infty}}{a}\right|\quad\left[V\right]\;\rho<a
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Όλα Μαζί Ως Διακλαδωτές Συναρτήσεις:
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{D}(\rho)=\begin{cases}
+0 & \;,0\leq\rho<a\\
+\frac{aP_{s}}{\rho}\hat{\rho}_{0} & \;,\rho\geq a
+\end{cases},\;\left[\frac{C}{m^{2}}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size scriptsize
+\begin_inset Formula 
+\[
+\vec{E}(\rho)=\begin{cases}
+0 & \;,0\leq\rho<a\\
+\frac{aP_{s}}{ε\rho}\hat{\rho}_{0} & \;,\rho\geq a
+\end{cases},\;\left[\frac{V}{m}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+
+\size scriptsize
+\begin_inset Formula 
+\[
+φ(\rho)=\begin{cases}
+\frac{aP_{s}}{ε}ln\left|\frac{P_{\infty}}{a}\right| & \;,0\leq\rho<a\\
+\frac{aP_{s}}{ε}ln\left|\frac{P_{\infty}}{\rho}\right| & \;,\rho\geq a
+\end{cases},\;\left[V\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size footnotesize
+όπως ήταν αναμενόμενο,
+ το Δυναμικό μέσα στο εσωτερικό της κυλινδρικής κατανομής ακτίνας a είναι σταθερό και άρα τα πεδία μηδέν.
+\end_layout
+
+\begin_layout Subsubsection*
+Διερεύνηση Συνέχειας Των Συναρτήσεων:
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Ηλεκτρική Μετατόπιση:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+lim_{\rho\rightarrow a^{-}}\left\Vert \vec{D}(\rho)\right\Vert =lim_{\rho\rightarrow a^{-}}0=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+lim_{\rho\rightarrow a^{+}}\left\Vert \vec{D}(\rho)\right\Vert =lim_{\rho\rightarrow a^{+}}\frac{aP_{s}}{\rho}=\frac{aP_{s}}{a}=P_{s}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula $lim_{\rho\rightarrow a^{-}}\left\Vert \vec{D}(\rho)\right\Vert \neq lim_{\rho\rightarrow a^{+}}\left\Vert \vec{D}(\rho)\right\Vert =P_{s}$
+\end_inset
+
+,
+ άρα η συνάρτηση της Ηλεκτρικής Μετατόπισης εμφανίζει ασυνέχεια ίση με την τιμή της επιφανειακής πυκνότητας φορτίου.
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Ηλεκτροστατικό Πεδίο:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+lim_{\rho\rightarrow a^{-}}\left\Vert \vec{E}(\rho)\right\Vert =lim_{\rho\rightarrow a^{-}}0=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+lim_{\rho\rightarrow a^{+}}\left\Vert \vec{E}(\rho)\right\Vert =lim_{\rho\rightarrow a^{+}}\frac{aP_{s}}{ε\rho}=\frac{aP_{s}}{εa}=\frac{P_{s}}{ε}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula $lim_{\rho\rightarrow a^{-}}\left\Vert \vec{E}(\rho)\right\Vert \neq lim_{\rho\rightarrow a^{+}}\left\Vert \vec{E}(\rho)\right\Vert =\frac{P_{s}}{ε}$
+\end_inset
+
+,
+ άρα το Ηλεκτροστατικό Πεδίο εμφανίζει ασυνέχεια ίση με την τιμή της επιφανειακής πυκνότητας φορτίου διά την διηλεκτρική σταθερά του υλικού της επιφάνειας.
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Ηλεκτροστατικό Δυναμικό:
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+lim_{\rho\rightarrow a^{-}}\left\Vert φ(\rho\right\Vert =lim_{\rho\rightarrow a^{-}}\frac{aP_{s}}{ε}ln\left|\frac{P_{\infty}}{a}\right|=\frac{aP_{s}}{ε}ln\left|\frac{P_{\infty}}{a}\right|
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula 
+\[
+lim_{\rho\rightarrow a^{+}}\left\Vert φ(\rho)\right\Vert =lim_{\rho\rightarrow a^{+}}\frac{aP_{s}}{ε}ln\left|\frac{P_{\infty}}{\rho}\right|=\frac{aP_{s}}{ε}ln\left|\frac{P_{\infty}}{a}\right|
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Formula $lim_{\rho\rightarrow a^{-}}\left\Vert φ(\rho)\right\Vert =lim_{\rho\rightarrow a^{+}}\left\Vert φ(\rho)\right\Vert =\frac{aP_{s}}{ε}ln\left|\frac{P_{\infty}}{a}\right|$
+\end_inset
+
+,
+ άρα το Ηλεκτροστατικό Δυναμικό είναι 
+\series bold
+\bar under
+συνεχείς συνάρτηση
+\series default
+\bar default
+ στον χώρο!
+ Αυτό ισχύει πάντα!
+\end_layout
+
+\begin_layout Subsubsection*
+
+\size scriptsize
+Καμπύλες:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename Assets/10.cilindrical_continuity_results.jpg
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
