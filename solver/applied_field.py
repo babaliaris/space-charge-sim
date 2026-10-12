@@ -25,14 +25,13 @@ Unknowns = charges. Equations = "potential at a contour point on the rod
 surface equals V". This is a linear system  P q = V  which we solve in the
 least-squares sense (more contour points than unknowns -> more stable).
 
-Units of the public function: R, D, z in cm; V in kV; field in kV/cm.
-Internally everything is SI (metres, volts, V/m).
+Units: everything is SI (metres, volts, V/m), including the public function.
 """
 
 from dataclasses import dataclass
 import numpy as np
+from solver.constants import EPSILON_0
 
-EPSILON_0 = 8.8541878128e-12                 # F/m
 COULOMB_K = 1.0 / (4.0 * np.pi * EPSILON_0)  # 1 / (4 pi eps0)
 
 
@@ -198,21 +197,21 @@ def _axial_field(z, charges, layout, D):
 # -----------------------------------------------------------------------------
 # 5. PUBLIC FUNCTION
 # -----------------------------------------------------------------------------
-def calculate_applied_field(R_cm, D_cm, V_kV, z_cm,
-                            rod_length_cm=None, n_tip=30, segment_growth=1.2,
+def calculate_applied_field(R, D, V, z,
+                            rod_length=None, n_tip=30, segment_growth=1.2,
                             return_boundary_error=False):
     """
     Applied (Laplacian) field E_ex(z) on the axis of a rod-plane gap.
 
     Parameters
     ----------
-    R_cm : float          tip (and rod) radius [cm]
-    D_cm : float          gap length, tip-to-plane [cm]
-    V_kV : float          applied voltage [kV]
-    z_cm : array-like     observation points, measured FROM THE TIP APEX [cm]
+    R : float             tip (and rod) radius [m]
+    D : float             gap length, tip-to-plane [m]
+    V : float             applied voltage [V]
+    z : float or array    observation points, measured FROM THE TIP APEX [m]
                           (0 <= z < D). z = 0 is the apex itself.
-    rod_length_cm : float, optional
-                          modelled rod length above the tip. Default: 5 * D.
+    rod_length : float, optional
+                          modelled rod length above the tip [m]. Default: 5 * D.
     n_tip, segment_growth : discretisation controls (defaults are converged).
     return_boundary_error : bool
                           if True also return the worst relative deviation of the
@@ -221,26 +220,24 @@ def calculate_applied_field(R_cm, D_cm, V_kV, z_cm,
 
     Returns
     -------
-    E_kV_per_cm : np.ndarray, same shape as z_cm, field along +z (kV/cm).
-                  Positive = pointing from the rod towards the plane.
+    E : np.ndarray, same shape as z, field along +z [V/m].
+        Positive = pointing from the rod towards the plane.
     (boundary_error, if requested)
     """
-    z_cm = np.asarray(z_cm, dtype=float)
-    if np.any(z_cm < 0) or np.any(z_cm >= D_cm):
+    z = np.asarray(z, dtype=float)
+    if np.any(z < 0) or np.any(z >= D):
         raise ValueError("z must satisfy 0 <= z < D (measured from the tip apex).")
 
-    # convert to SI
-    R, D, V = R_cm / 100.0, D_cm / 100.0, V_kV * 1e3
-    rod_length = (5.0 * D) if rod_length_cm is None else rod_length_cm / 100.0
+    if rod_length is None:
+        rod_length = 5.0 * D
 
     layout = build_layout(R, rod_length, n_tip, segment_growth)
     charges = _solve_charges(layout, D, V)
 
-    E_V_per_m = _axial_field(z_cm.ravel() / 100.0, charges, layout, D)
-    E_kV_per_cm = (E_V_per_m / 1e5).reshape(z_cm.shape)    # 1 kV/cm = 1e5 V/m
+    E = _axial_field(z.ravel(), charges, layout, D).reshape(z.shape)
 
     if not return_boundary_error:
-        return E_kV_per_cm
+        return E
 
     # accuracy check: potential on the surface at fresh points (first 80% of rod)
     theta = np.linspace(0.001, np.pi / 2, 300)
@@ -248,7 +245,7 @@ def calculate_applied_field(R_cm, D_cm, V_kV, z_cm,
     r_chk = np.concatenate([R * np.sin(theta), np.full_like(s, R)])
     z_chk = np.concatenate([-R + R * np.cos(theta), -R - s])
     potential = _potential_per_unit_charge(r_chk, z_chk, layout, D) @ charges
-    return E_kV_per_cm, float(np.max(np.abs(potential - V)) / V)
+    return E, float(np.max(np.abs(potential - V)) / V)
 
 
 # -----------------------------------------------------------------------------
@@ -264,12 +261,15 @@ if __name__ == "__main__":
 
     # --- Applied field along the axis ----------------------------------------
     z = np.linspace(0.0, 6.0, 400)                       # cm from the tip apex
-    E, err = calculate_applied_field(R_cm, D_cm, V_kV, z, return_boundary_error=True)
+    E, err = calculate_applied_field(R_cm / 100.0, D_cm / 100.0, V_kV * 1e3, z / 100.0,
+                                     return_boundary_error=True)
+    E = E / 1e5                                          # V/m -> kV/cm
     print(f"Apex field: {E[0]:.1f} kV/cm   |   surface-potential error: {100 * err:.2f} %")
 
     # --- NEW: find the z where E(z) = 5 kV/cm --------------------------------
     def field_minus_target(z_value):
-        return calculate_applied_field(R_cm, D_cm, V_kV, np.array([z_value]))[0] - E_TARGET
+        E_value = calculate_applied_field(R_cm / 100.0, D_cm / 100.0, V_kV * 1e3, z_value / 100.0)
+        return float(E_value) / 1e5 - E_TARGET
 
     z_target = brentq(field_minus_target, 0.0, 6.0, xtol=1e-6)    # cm
     print(f"E(z) = {E_TARGET} kV/cm at z = {z_target:.3f} cm from the tip apex")

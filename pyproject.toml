@@ -10,5 +10,6 @@ dependencies = [
     "scipy",
     "matplotlib",
     "pyqt5",
-    "mplcursors"
+    "mplcursors",
+    "openpyxl"
 ]

@@ -12,14 +12,14 @@ def impulse_voltage(t, V_peak, alpha, beta, k=1.0):
 
 
 
-def calculate_qcs_from_field(E_c_kv_cm: float, L_cs_m: float, theta_B_rad: float) -> float:
+def calculate_qcs_from_field(E_c_v_m: float, L_cs_m: float, theta_B_rad: float) -> float:
     """
     Calculates the total streamer space charge Q_cs (in Coulombs) based on
     Gauss's Law and the average streamer field E_c.
 
     Parameters:
     ----------
-    E_c_kv_cm   : Average electric field in the streamer region [kV/cm] (typically ~5.0)
+    E_c_v_m     : Average electric field in the streamer region [V/m] (typically ~5e5 = 5 kV/cm)
     L_cs_m      : Streamer development length [meters]
     theta_B_rad : Total cone boundary angle [radians] (half-angle is theta_B / 2)
 
@@ -27,9 +27,6 @@ def calculate_qcs_from_field(E_c_kv_cm: float, L_cs_m: float, theta_B_rad: float
     -------
     Q_cs : Total space charge [Coulombs]
     """
-    # Convert kV/cm to V/m (1 kV/cm = 100,000 V/m)
-    E_c_v_m = E_c_kv_cm * 1e5
-
     # Radius of the conical streamer head at distance L_cs
     half_angle = theta_B_rad / 2.0
     r_head = L_cs_m * np.tan(half_angle)
@@ -83,66 +80,4 @@ def calculate_A_from_charge(
     # Invert Q_cs = A * solid_angle * integral_val
     A = Q_cs / (solid_angle * integral_val)
     return A
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

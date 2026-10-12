@@ -36,16 +36,14 @@ def reproduce_figure_3(
         C_m: float):
 
     # --- Observation Points along Z axis ---
-    # z measured from Sphere Center O (so tip surface is at z = R = 0.001 m)
-    # Fig 3 plots Z up to ~3.5 cm from tip
-    z_WH        = np.linspace(0.0, 0.035, 100)   # Distance from tip surface in meters
-    z_points    = z_WH + R_m                        # Distance from sphere center O
+    # z measured from the tip apex, as in the paper. Fig 3 plots Z up to ~3.5 cm from tip
+    z_WH        = np.linspace(0.0, 0.035, 100)   # Distance from tip apex in meters
 
     print("Computing E_sp (Direct Space Charge Field)...")
-    E_sp = calculate_e_sp(z_points, R=R_m, L_cs=Lcs_m, theta_B=theta_B_rad, A=A_m, B=B, C=C_m)
+    E_sp = calculate_e_sp(z_WH, R=R_m, L_cs=Lcs_m, theta_B=theta_B_rad, A=A_m, B=B, C=C_m)
 
     print("Computing E_I (Rod Image Field)...")
-    E_I = calculate_e_rod_image(z_points, R=R_m, L_cs=Lcs_m, theta_B=theta_B_rad, A=A_m, B=B, C=C_m)
+    E_I = calculate_e_rod_image(z_WH, R=R_m, L_cs=Lcs_m, theta_B=theta_B_rad, A=A_m, B=B, C=C_m)
 
     E_total_space = E_sp + E_I
 
@@ -89,7 +87,7 @@ if __name__ == "__main__":
     E_c_kv_cm   = 5                 # Average field in streamer region = 5 kV/cm
 
     # Calculate Q_cs from E_c
-    Q_cs = calculate_qcs_from_field(E_c_kv_cm, L_cs_m=Lcs_m, theta_B_rad=theta_B_rad)
+    Q_cs = calculate_qcs_from_field(E_c_kv_cm * 1e5, L_cs_m=Lcs_m, theta_B_rad=theta_B_rad)
     print(f"Calculated Q_cs: {Q_cs * 1e9:.3f} nC ({Q_cs:.4e} C)")
 
     # Calculate A from Q_cs and geometry

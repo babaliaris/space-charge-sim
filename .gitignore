@@ -1,3 +1,8 @@
 .venv/
 __pycache__/
 *.pyc
+
+mikropoulos_zoom.txt
+
+# Generated data (xlsx/csv produced by the scripts)
+output/

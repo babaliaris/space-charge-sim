@@ -43,14 +43,14 @@ def objective_theta(theta_deg, B_val, C_cm):
     D_m = FIXED_D_cm / 100.0
     Lcs_m = FIXED_Lcs_cm / 100.0
     C_m = C_cm / 100.0
-    z_tip_m = Lcs_m + R_m  # Streamer tip (z_WH = L_cs), measured from sphere centre as fields.py expects
+    z_tip_m = Lcs_m  # Observation at streamer tip (measured from the tip apex)
 
     # Charge distribution calculations
-    Q_cs = calculate_qcs_from_field(FIXED_EC, L_cs_m=Lcs_m, theta_B_rad=theta_rad)
+    Q_cs = calculate_qcs_from_field(FIXED_EC * 1e5, L_cs_m=Lcs_m, theta_B_rad=theta_rad)
     A = calculate_A_from_charge(Q_cs, B_val, C_m, L_cs_m=Lcs_m, theta_B_rad=theta_rad)
 
     # Field components at z = L_cs
-    e_ex = calculate_applied_field(FIXED_R_cm, FIXED_D_cm, FIXED_V_kV, np.array([FIXED_Lcs_cm]))[0]
+    e_ex = float(calculate_applied_field(R_m, D_m, FIXED_V_kV * 1e3, z_tip_m)) / 1e5
     e_sp = calculate_e_sp(z_tip_m, R_m, Lcs_m, theta_rad, A, B_val, C_m) / 1e5
     e_rod = calculate_e_rod_image(z_tip_m, R_m, Lcs_m, theta_rad, A, B_val, C_m) / 1e5
     e_plane = calculate_e_plane_image(z_tip_m, D_m, R_m, Lcs_m, theta_rad, A, B_val, C_m) / 1e5
@@ -64,15 +64,14 @@ def compute_fields_for_theta(theta_deg, B_val, C_cm):
     D_m = FIXED_D_cm / 100.0
     Lcs_m = FIXED_Lcs_cm / 100.0
     C_m = C_cm / 100.0
-    z_points = z_WH + R_m
 
-    Q_cs = calculate_qcs_from_field(FIXED_EC, L_cs_m=Lcs_m, theta_B_rad=theta_rad)
+    Q_cs = calculate_qcs_from_field(FIXED_EC * 1e5, L_cs_m=Lcs_m, theta_B_rad=theta_rad)
     A = calculate_A_from_charge(Q_cs, B_val, C_m, L_cs_m=Lcs_m, theta_B_rad=theta_rad)
     
-    E_sp = calculate_e_sp(z=z_points, R=R_m, L_cs=Lcs_m, theta_B=theta_rad, A=A, B=B_val, C=C_m)
-    E_I_rod = calculate_e_rod_image(z_points, R=R_m, L_cs=Lcs_m, theta_B=theta_rad, A=A, B=B_val, C=C_m)
-    E_I_plane = calculate_e_plane_image(z_points, d=D_m, R=R_m, L_cs=Lcs_m, theta_B=theta_rad, A=A, B=B_val, C=C_m)
-    E_ex_kv_cm = calculate_applied_field(FIXED_R_cm, FIXED_D_cm, FIXED_V_kV, z_cm=z_WH * 100.0)
+    E_sp = calculate_e_sp(z=z_WH, R=R_m, L_cs=Lcs_m, theta_B=theta_rad, A=A, B=B_val, C=C_m)
+    E_I_rod = calculate_e_rod_image(z_WH, R=R_m, L_cs=Lcs_m, theta_B=theta_rad, A=A, B=B_val, C=C_m)
+    E_I_plane = calculate_e_plane_image(z_WH, d=D_m, R=R_m, L_cs=Lcs_m, theta_B=theta_rad, A=A, B=B_val, C=C_m)
+    E_ex_kv_cm = calculate_applied_field(R_m, D_m, FIXED_V_kV * 1e3, z_WH) * 1e-5
 
     E_sp_kv_cm = E_sp * 1e-5
     E_I_rod_kv_cm = E_I_rod * 1e-5

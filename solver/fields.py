@@ -1,6 +1,23 @@
+"""
+Axial electric fields of the streamer space charge in a rod-plane gap.
+
+Coordinate system (same as the Wang & Haiting paper)
+-----------------------------------------------------
+    z = 0        rod tip apex (every z passed to the public functions is measured from here)
+    z = -R       centre of the hemispherical rod tip
+    z = d        grounded plane (d = tip-to-plane gap)
+
+The space charge fills a cone with its vertex at the apex: r in [0, L_cs] is the
+distance from the apex and theta in [0, theta_B/2] the angle from the z axis, so a
+charge element sits at height r*cos(theta) on the axis direction.
+
+Units: everything is SI (metres, radians, C/m^3, V/m).
+"""
+
 import numpy as np
 from scipy.integrate import dblquad
 from solver.constants import EPSILON_0
+from solver.applied_field import calculate_applied_field
 
 def charge_density(r, A, B, C):
     """
@@ -15,10 +32,10 @@ def _esp_integrand(r, theta, z, R, A, B, C):
     """
     Evaluates the scalar integrand of E_sp at a single point (r, theta).
     f(r,θ)  =  [ ρ(r) * r^2 sin(θ) * dz ] / r1^3
-    dz      = z - R - rcos(θ)
-    r1      = sqrt( dz^2 * [ rsin(θ) ]^2 )
+    dz      = z - rcos(θ)                       (z measured from the apex)
+    r1      = sqrt( dz^2 + [ rsin(θ) ]^2 )
     """
-    dz = z - R - r * np.cos(theta)
+    dz = z - r * np.cos(theta)
     r1 = np.sqrt( dz**2 + (r * np.sin(theta))**2 )
 
     # Safeguard against division by zero if an evaluation point hits a singular charge point
@@ -32,7 +49,10 @@ def _esp_integrand(r, theta, z, R, A, B, C):
 def _e_rod_image_integrand(r, theta, z, R, A, B, C):
     """
     Evaluates the scalar integrand of E_{I_rod} at a single point (r, theta).
+    The Kelvin image lives in coordinates centred on the tip sphere centre O,
+    so the apex-based z is shifted by R first.
     """
+    z = z + R   # distance of the field point from the sphere centre O
     cos_t = np.cos(theta)
     sin_t = np.sin(theta)
 
@@ -72,7 +92,7 @@ def calculate_e_sp(z, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsabs=1e-8, eps
     Parameters:
     -----------
     z : float or np.ndarray
-        Observation point(s) along the symmetry axis [m].
+        Observation point(s) along the symmetry axis, measured from the tip apex [m].
     R : float
         Rod tip radius [m].
     L_cs : float
@@ -80,7 +100,7 @@ def calculate_e_sp(z, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsabs=1e-8, eps
     theta_B : float
         Total cone boundary angle [rad].
     A, B, C : float
-        Parameters for charge density rho(r) = A * (r + C)^B.
+        Parameters for charge density rho(r) = A / (r + C)^B.
     epsilon_r : float
         Relative permittivity of ambient medium (default = 1.0 for air).
     epsabs, epsrel : float
@@ -117,6 +137,7 @@ def calculate_e_sp(z, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsabs=1e-8, eps
 def calculate_e_rod_image(z, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsabs=1e-8, epsrel=1e-8):
     """
     Calculates the axial rod image electric field E_{I_rod}(z).
+    Same parameters as calculate_e_sp (z measured from the tip apex [m]).
 
     Returns:
     --------
@@ -153,9 +174,10 @@ def _e_plane_image_integrand(r, theta, z, d, R, A, B, C):
     cos_t = np.cos(theta)
     sin_t = np.sin(theta)
 
-    # Axial displacement from the grounded plane image charge to field point z
-    # dz_plane = 2d - r*cos(theta) - R - z
-    dz_plane = (2.0 * d) - (r * cos_t) - R - z
+    # The charge element sits at r*cos(theta) and the plane at d (both from the apex),
+    # so its mirror image sits at 2d - r*cos(theta). Displacement to field point z:
+    # dz_plane = 2d - r*cos(theta) - z
+    dz_plane = (2.0 * d) - (r * cos_t) - z
 
     # Distance r5 from the plane image charge element to the field point
     r5 = np.sqrt((r * sin_t)**2 + dz_plane**2)
@@ -181,9 +203,9 @@ def calculate_e_plane_image(z, d, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsa
     Parameters:
     -----------
     z : float or np.ndarray
-        Observation point(s) along the symmetry axis [m].
+        Observation point(s) along the symmetry axis, measured from the tip apex [m].
     d : float
-        Total gap distance from rod tip to grounded plane [m].
+        Gap distance from the rod tip apex to the grounded plane [m].
     R : float
         Rod tip radius [m].
     L_cs : float
@@ -191,7 +213,7 @@ def calculate_e_plane_image(z, d, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsa
     theta_B : float
         Total cone boundary angle [rad].
     A, B, C : float
-        Parameters for charge density rho(r) = A * (r + C)^B.
+        Parameters for charge density rho(r) = A / (r + C)^B.
     epsilon_r : float
         Relative permittivity of ambient medium (default = 1.0 for air).
     epsabs, epsrel : float
@@ -228,12 +250,12 @@ def calculate_total_field(z, d, R, L_cs, theta_B, A, B, C, V_applied, epsilon_r=
     """
     Calculates total electric field along the gap axis including 
     external geometric field, space charge, rod image, and plane image.
+    z is measured from the tip apex [m], d is the tip-to-plane gap [m],
+    V_applied is the rod voltage [V]. Returns V/m.
     """
 
-    # TODO: Use the Charge Simulation Method
-    # 1. External field approximation (e.g., standard hyperbolic or parallel plate baseline)
-    # Depending on your specific formulation, substitute your external field term here:
-    E_ext = V_applied / d # Placeholder or your specific rod-plane geometric field function
+    # 1. External (Laplacian) field from the Charge Simulation Method
+    E_ext = calculate_applied_field(R, d, V_applied, z)
 
     # 2. Compute individual space-charge components
     E_sp = calculate_e_sp(z, R, L_cs, theta_B, A, B, C, epsilon_r)
