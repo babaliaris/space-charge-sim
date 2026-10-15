@@ -11,6 +11,12 @@ The space charge fills a cone with its vertex at the apex: r in [0, L_cs] is the
 distance from the apex and theta in [0, theta_B/2] the angle from the z axis, so a
 charge element sits at height r*cos(theta) on the axis direction.
 
+Drift: every field function takes `z_drift` (default 0), the distance the whole
+cone has moved towards the plane as a rigid body. A charge element then sits at
+height r*cos(theta) + z_drift. Only the CHARGE moves; the rod and the plane stay
+where they are, so the image fields change shape (they are not simply shifted).
+Only E_sp, which involves no electrode, is an exact shift: E_sp(z; z_drift) = E_sp(z - z_drift; 0).
+
 Units: everything is SI (metres, radians, C/m^3, V/m).
 """
 
@@ -28,14 +34,14 @@ def charge_density(r, A, B, C):
 
 
 
-def _esp_integrand(r, theta, z, R, A, B, C):
+def _esp_integrand(r, theta, z, R, A, B, C, z_drift=0.0):
     """
     Evaluates the scalar integrand of E_sp at a single point (r, theta).
     f(r,θ)  =  [ ρ(r) * r^2 sin(θ) * dz ] / r1^3
-    dz      = z - rcos(θ)                       (z measured from the apex)
+    dz      = z - [rcos(θ) + z_drift]           (z measured from the apex)
     r1      = sqrt( dz^2 + [ rsin(θ) ]^2 )
     """
-    dz = z - r * np.cos(theta)
+    dz = z - (r * np.cos(theta) + z_drift)
     r1 = np.sqrt( dz**2 + (r * np.sin(theta))**2 )
 
     # Safeguard against division by zero if an evaluation point hits a singular charge point
@@ -46,18 +52,20 @@ def _esp_integrand(r, theta, z, R, A, B, C):
 
     return (rho * (r**2) * np.sin(theta) * dz) / (r1**3)
 
-def _e_rod_image_integrand(r, theta, z, R, A, B, C):
+def _e_rod_image_integrand(r, theta, z, R, A, B, C, z_drift=0.0):
     """
     Evaluates the scalar integrand of E_{I_rod} at a single point (r, theta).
     The Kelvin image lives in coordinates centred on the tip sphere centre O,
-    so the apex-based z is shifted by R first.
+    so the apex-based z is shifted by R first. The sphere does not move with the
+    drift: only the source element's height above O grows by z_drift.
     """
     z = z + R   # distance of the field point from the sphere centre O
     cos_t = np.cos(theta)
     sin_t = np.sin(theta)
 
     # 1. Distance from spherical center O to source charge element
-    r2 = np.sqrt((R + r * cos_t)**2 + (r * sin_t)**2)
+    h = R + r * cos_t + z_drift   # height of the source element above O
+    r2 = np.sqrt(h**2 + (r * sin_t)**2)
     if r2 == 0:
         return 0.0
 
@@ -68,7 +76,7 @@ def _e_rod_image_integrand(r, theta, z, R, A, B, C):
     scale = r3 / r2
 
     # 3. Axial displacement between field point z and image charge point
-    dz_image = z - scale * (R + r * cos_t)
+    dz_image = z - scale * h
 
     # 4. Scalar distance r4 from image charge element to field point
     r4 = np.sqrt(dz_image**2 + (scale * r * sin_t)**2)
@@ -85,7 +93,7 @@ def _e_rod_image_integrand(r, theta, z, R, A, B, C):
     return numerator / denominator
 
 
-def calculate_e_sp(z, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsabs=1e-8, epsrel=1e-8):
+def calculate_e_sp(z, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsabs=1e-8, epsrel=1e-8, z_drift=0.0):
     """
     Calculates the axial direct space charge field E_sp(z).
     
@@ -105,6 +113,8 @@ def calculate_e_sp(z, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsabs=1e-8, eps
         Relative permittivity of ambient medium (default = 1.0 for air).
     epsabs, epsrel : float
         Absolute and relative error tolerances for adaptive quadrature.
+    z_drift : float
+        Rigid-body drift of the whole charge cone towards the plane [m] (default 0).
         
     Returns:
     --------
@@ -125,7 +135,7 @@ def calculate_e_sp(z, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsabs=1e-8, eps
             _esp_integrand,
             0.0, theta_max,                 # Outer integral limits (theta)
             lambda _: 0.0,  lambda _: L_cs, # Inner limits r(theta)
-            args=(z_val, R, A, B, C),       # Extra arguments passed to _esp_integrand
+            args=(z_val, R, A, B, C, z_drift),  # Extra arguments passed to _esp_integrand
             epsabs=epsabs,                  # Error condition.
             epsrel=epsrel                   # Relative error condition.
         )
@@ -134,10 +144,11 @@ def calculate_e_sp(z, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsabs=1e-8, eps
     return e_sp_results if isinstance(z, np.ndarray) else e_sp_results[0]
 
 
-def calculate_e_rod_image(z, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsabs=1e-8, epsrel=1e-8):
+def calculate_e_rod_image(z, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsabs=1e-8, epsrel=1e-8, z_drift=0.0):
     """
     Calculates the axial rod image electric field E_{I_rod}(z).
-    Same parameters as calculate_e_sp (z measured from the tip apex [m]).
+    Same parameters as calculate_e_sp (z measured from the tip apex [m]), including
+    z_drift: the cone moves, the rod does not.
 
     Returns:
     --------
@@ -157,7 +168,7 @@ def calculate_e_rod_image(z, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsabs=1e
             0.0, theta_max,
             lambda _: 0.0,
             lambda _: L_cs,
-            args=(z_val, R, A, B, C),
+            args=(z_val, R, A, B, C, z_drift),
             epsabs=epsabs,
             epsrel=epsrel
         )
@@ -167,17 +178,18 @@ def calculate_e_rod_image(z, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsabs=1e
 
 
 
-def _e_plane_image_integrand(r, theta, z, d, R, A, B, C):
+def _e_plane_image_integrand(r, theta, z, d, R, A, B, C, z_drift=0.0):
     """
     Evaluates the scalar integrand of E_{I_plane} at a single point (r, theta).
     """
     cos_t = np.cos(theta)
     sin_t = np.sin(theta)
 
-    # The charge element sits at r*cos(theta) and the plane at d (both from the apex),
-    # so its mirror image sits at 2d - r*cos(theta). Displacement to field point z:
-    # dz_plane = 2d - r*cos(theta) - z
-    dz_plane = (2.0 * d) - (r * cos_t) - z
+    # The charge element sits at r*cos(theta) + z_drift and the plane at d (both from
+    # the apex), so its mirror image sits at 2d - r*cos(theta) - z_drift (it moves
+    # TOWARDS the cloud as the cloud drifts). Displacement to field point z:
+    # dz_plane = 2d - r*cos(theta) - z_drift - z
+    dz_plane = (2.0 * d) - (r * cos_t + z_drift) - z
 
     # Distance r5 from the plane image charge element to the field point
     r5 = np.sqrt((r * sin_t)**2 + dz_plane**2)
@@ -196,7 +208,7 @@ def _e_plane_image_integrand(r, theta, z, d, R, A, B, C):
     return numerator / denominator
 
 
-def calculate_e_plane_image(z, d, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsabs=1e-8, epsrel=1e-8):
+def calculate_e_plane_image(z, d, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsabs=1e-8, epsrel=1e-8, z_drift=0.0):
     """
     Calculates the axial grounded plane image electric field E_{I_plane}(z).
 
@@ -218,6 +230,8 @@ def calculate_e_plane_image(z, d, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsa
         Relative permittivity of ambient medium (default = 1.0 for air).
     epsabs, epsrel : float
         Absolute and relative error tolerances for adaptive quadrature.
+    z_drift : float
+        Rigid-body drift of the whole charge cone towards the plane [m] (default 0).
         
     Returns:
     --------
@@ -237,7 +251,7 @@ def calculate_e_plane_image(z, d, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsa
             0.0, theta_max,
             lambda _: 0.0,
             lambda _: L_cs,
-            args=(z_val, d, R, A, B, C),
+            args=(z_val, d, R, A, B, C, z_drift),
             epsabs=epsabs,
             epsrel=epsrel
         )
@@ -246,21 +260,22 @@ def calculate_e_plane_image(z, d, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsa
     return e_plane_results if isinstance(z, np.ndarray) else e_plane_results[0]
 
 
-def calculate_total_field(z, d, R, L_cs, theta_B, A, B, C, V_applied, epsilon_r=1.0):
+def calculate_total_field(z, d, R, L_cs, theta_B, A, B, C, V_applied, epsilon_r=1.0, z_drift=0.0):
     """
     Calculates total electric field along the gap axis including 
     external geometric field, space charge, rod image, and plane image.
     z is measured from the tip apex [m], d is the tip-to-plane gap [m],
-    V_applied is the rod voltage [V]. Returns V/m.
+    V_applied is the rod voltage [V], z_drift the drift of the charge cone [m]
+    (the applied field does not depend on it). Returns V/m.
     """
 
     # 1. External (Laplacian) field from the Charge Simulation Method
     E_ext = calculate_applied_field(R, d, V_applied, z)
 
     # 2. Compute individual space-charge components
-    E_sp = calculate_e_sp(z, R, L_cs, theta_B, A, B, C, epsilon_r)
-    E_rod_img = calculate_e_rod_image(z, R, L_cs, theta_B, A, B, C, epsilon_r)
-    E_plane_img = calculate_e_plane_image(z, d, R, L_cs, theta_B, A, B, C, epsilon_r)
+    E_sp = calculate_e_sp(z, R, L_cs, theta_B, A, B, C, epsilon_r, z_drift=z_drift)
+    E_rod_img = calculate_e_rod_image(z, R, L_cs, theta_B, A, B, C, epsilon_r, z_drift=z_drift)
+    E_plane_img = calculate_e_plane_image(z, d, R, L_cs, theta_B, A, B, C, epsilon_r, z_drift=z_drift)
 
     return E_ext + E_sp + E_rod_img + E_plane_img
 

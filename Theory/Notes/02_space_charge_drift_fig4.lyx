@@ -1,0 +1,1195 @@
+#LyX 2.5 created this file. For more info see https://www.lyx.org/
+\lyxformat 643
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass scrartcl
+\use_default_options true
+\maintain_unincluded_children no
+\language american
+\language_package default
+\inputencoding utf8
+\fontencoding auto
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement class
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification default
+\crossref_package refstyle
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\backgroundcolor none
+\fontcolor none
+\notefontcolor lightgray
+\boxbgcolor red
+\table_border_color default
+\table_odd_row_color default
+\table_even_row_color default
+\table_alt_row_colors_start 1
+\index Index
+\shortcut idx
+\color #008080
+\end_index
+\leftmargin 2cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content true
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\docbook_mathml_version 0
+\end_header
+
+
+\begin_body
+
+\begin_layout Title
+Drift of the Space Charge During the Dark Period (Figure 4)
+\end_layout
+
+\begin_layout Author
+Bampaliaris Nikolaos
+\end_layout
+
+\begin_layout Date
+12-10-2026
+\end_layout
+
+\begin_layout Section
+Summary
+\end_layout
+
+\begin_layout Standard
+Figure 4 of the Wang & Haiting paper shows 
+\begin_inset Formula $E_{sp}$
+\end_inset
+ near the rod tip before and after the space charge of the first corona streamer has drifted towards the plane. The figure is consistent with the cloud moving as a 
+\series bold
+rigid body
+\series default
+: curve 2 is curve 1 shifted by about 
+\begin_inset Formula $0.07\,\text{cm}$
+\end_inset
+. Reproducing this with the paper's drift law (Eq. 6) shows that the drift takes 
+\begin_inset Formula $12.5\,\mu\text{s}$
+\end_inset
+ and that the 
+\series bold
+total
+\series default
+ field at the rod tip rises from 
+\begin_inset Formula $-3.6$
+\end_inset
+ to 
+\begin_inset Formula $+42.7\,\text{kV/cm}$
+\end_inset
+, which is the mechanism the paper proposes for the inception of the next streamer. A key point for the formulation is that only 
+\begin_inset Formula $E_{sp}$
+\end_inset
+ is a pure shift: the image fields must be computed by moving the 
+\series bold
+charge
+\series default
+ while the rod and the plane stay fixed.
+\end_layout
+
+\begin_layout Section
+What the Paper States
+\end_layout
+
+\begin_layout Itemize
+The drift distance from 
+\begin_inset Formula $t_{1}$
+\end_inset
+ to 
+\begin_inset Formula $t_{2}$
+\end_inset
+ is 
+\begin_inset Formula $Z_{m}=\int_{t_{1}}^{t_{2}}b\left[E_{ex}(Z_{c})+E_{I}(Z_{c})\right]dt$
+\end_inset
+ (Eq. 6), with 
+\begin_inset Formula $b=1.36\times10^{-3}\,\text{cm}^{2}/(\text{kV}\cdot\mu\text{s})$
+\end_inset
+ the mobility of positive ions, and 
+\begin_inset Formula $Z_{c}$
+\end_inset
+ the point where 
+\begin_inset Formula $E_{sp}(Z_{c})=0$
+\end_inset
+.
+\end_layout
+
+\begin_layout Itemize
+Figure 4 shows 
+\begin_inset Formula $E_{sp}$
+\end_inset
+ before and after the drift; the drift time is not given.
+\end_layout
+
+\begin_layout Itemize
+“A small drift toward the low voltage plane electrode can make a rapid increasing of the electric field in the surface of the rod tip, so as to that a new corona streamer can incept.”
+\end_layout
+
+\begin_layout Itemize
+“The drift of space charge also is one of the most important factors resulting in the occurring of dark period.”
+\end_layout
+
+\begin_layout Section
+Reading Figure 4
+\end_layout
+
+\begin_layout Standard
+Two observations show that the cloud is translated without deformation:
+\end_layout
+
+\begin_layout Enumerate
+Eq. (6) defines a 
+\series bold
+single
+\series default
+ drift distance 
+\begin_inset Formula $Z_{m}$
+\end_inset
+ for the whole cloud, driven by the field at one point 
+\begin_inset Formula $Z_{c}$
+\end_inset
+. Every charge element is therefore moved by the same amount.
+\end_layout
+
+\begin_layout Enumerate
+Curve 2 reaches a minimum of about 
+\begin_inset Formula $-33\,\text{kV/cm}$
+\end_inset
+ at 
+\begin_inset Formula $z\approx0.07\,\text{cm}$
+\end_inset
+, the same value curve 1 has at the tip. This is where the apex of the drifted cone now sits. Between the rod and the drifted apex, curve 2 is the field seen behind the cloud: about 
+\begin_inset Formula $-14\,\text{kV/cm}$
+\end_inset
+ at the tip, i.e. 
+\begin_inset Formula $14/33=0.42$
+\end_inset
+ of the minimum. Our rigidly shifted cloud gives 
+\begin_inset Formula $-11.65/-29.10=0.40$
+\end_inset
+.
+\end_layout
+
+\begin_layout Standard
+Any change of 
+\begin_inset Formula $L_{cs}$
+\end_inset
+, 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+, 
+\begin_inset Formula $A$
+\end_inset
+, 
+\begin_inset Formula $B$
+\end_inset
+ or 
+\begin_inset Formula $C$
+\end_inset
+ would change the shape or the size of the curve, not only its position.
+\end_layout
+
+\begin_layout Section
+Modelling Assumptions
+\end_layout
+
+\begin_layout Standard
+The rigid drift rests on two 
+\series bold
+separate
+\series default
+ assumptions, which should be stated separately:
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Constant charge.
+\series default
+ No ionization takes place during the dark period and recombination is negligible over microseconds, so 
+\begin_inset Formula $Q_{cs}$
+\end_inset
+, and with it 
+\begin_inset Formula $A$
+\end_inset
+, stays constant.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Constant shape.
+\series default
+ Every ion moves with the same velocity 
+\begin_inset Formula $b\left[E_{ex}+E_{I}\right]$
+\end_inset
+ evaluated at 
+\begin_inset Formula $z_{c}$
+\end_inset
+. Constant charge alone does not imply this.
+\end_layout
+
+\begin_layout Standard
+The second assumption neglects three effects that would deform a real cloud: ions closer to the tip feel a stronger applied field and move faster than those further out, the cloud's own repulsion spreads it, and ions diffuse. The paper makes the same simplification.
+\end_layout
+
+\begin_layout Standard
+The driving field contains no 
+\begin_inset Formula $E_{sp}$
+\end_inset
+: a charge distribution exerts no net force on itself, and 
+\begin_inset Formula $z_{c}$
+\end_inset
+ is by definition the point where 
+\begin_inset Formula $E_{sp}=0$
+\end_inset
+. Because 
+\begin_inset Formula $E_{sp}$
+\end_inset
+ moves rigidly with the cloud, its zero stays at 
+\begin_inset Formula $z_{c}(t)=z_{c,0}+z_{\text{drift}}(t)$
+\end_inset
+. The paper's Eq. (6) includes only the rod image; we also include the plane image, which is negligible in an 
+\begin_inset Formula $80\,\text{cm}$
+\end_inset
+ gap.
+\end_layout
+
+\begin_layout Section
+How Each Field Changes During the Drift
+\end_layout
+
+\begin_layout Standard
+The mapping 
+\begin_inset Formula $z\rightarrow z_{\text{eff}}=z-z_{\text{drift}}$
+\end_inset
+ is exact only for 
+\begin_inset Formula $E_{sp}$
+\end_inset
+, because it depends only on the distance between charge and observer. The other fields involve the electrodes, which do not move (
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "tab:fields"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Field
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Depends on
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+During the drift
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{sp}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+space charge only
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+exact shift by 
+\begin_inset Formula $z_{\text{drift}}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{I,rod}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+space charge and rod
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+changes shape: image moves towards the tip centre and weakens
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{I,plane}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+space charge and plane
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+changes shape: image moves towards the cloud
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{ex}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+electrodes and voltage
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+unchanged
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Update of each field when the space charge drifts by 
+\begin_inset Formula $z_{\text{drift}}$
+\end_inset
+.
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:fields"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Applying 
+\begin_inset Formula $z_{\text{eff}}$
+\end_inset
+ to the rod image would make the rod travel with the cloud. For a 
+\begin_inset Formula $0.07\,\text{cm}$
+\end_inset
+ drift it gives 
+\begin_inset Formula $E_{I,rod}=-1471.6\,\text{kV/cm}$
+\end_inset
+ at the tip (the observer ends up inside the conductor) instead of the correct 
+\begin_inset Formula $-95.0\,\text{kV/cm}$
+\end_inset
+, and 
+\begin_inset Formula $-17.1$
+\end_inset
+ instead of 
+\begin_inset Formula $-8.8\,\text{kV/cm}$
+\end_inset
+ at 
+\begin_inset Formula $0.2\,\text{cm}$
+\end_inset
+. The derivation is given in Section 4.2 of the main document.
+\end_layout
+
+\begin_layout Section
+Results
+\end_layout
+
+\begin_layout Standard
+The cloud of Figure 3 (
+\begin_inset Formula $\theta_{B}=93.39^{\circ}$
+\end_inset
+, 
+\begin_inset Formula $Q_{cs}=11.41\,\text{nC}$
+\end_inset
+, 
+\begin_inset Formula $B=1.5$
+\end_inset
+, 
+\begin_inset Formula $C=0.035\,\text{cm}$
+\end_inset
+) was drifted by 
+\begin_inset Formula $0.07\,\text{cm}$
+\end_inset
+, the shift read from Figure 4, with the paper's mobility 
+\begin_inset Formula $b=1.36\times10^{-4}\,\text{m}^{2}/(\text{V}\cdot\text{s})$
+\end_inset
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Quantity
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Before drift
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+After drift
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Zero of 
+\begin_inset Formula $E_{sp}$
+\end_inset
+, 
+\begin_inset Formula $z_{c}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $0.572$
+\end_inset
+ cm
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $0.642$
+\end_inset
+ cm
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Driving field at 
+\begin_inset Formula $z_{c}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $4.29$
+\end_inset
+ kV/cm
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $3.97$
+\end_inset
+ kV/cm
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Drift speed
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $58.4$
+\end_inset
+ m/s
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $54.0$
+\end_inset
+ m/s
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Elapsed time
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $0$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $12.5\,\mu$
+\end_inset
+s
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Drift of the Figure 3 space charge by 
+\begin_inset Formula $0.07\,\text{cm}$
+\end_inset
+.
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:drift"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Field
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Before drift
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+After drift
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{ex}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $149.37$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $149.37$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{sp}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-29.10$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-11.65$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{I,rod}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-123.83$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-94.98$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{ex}+E_{sp}+E_{I,rod}+E_{I,plane}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-3.57$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $+42.73$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Fields at the rod tip apex (
+\begin_inset Formula $z=0$
+\end_inset
+) before and after the drift [kV/cm].
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:tip"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Before the drift the space charge cancels the applied field at the tip almost completely, which suppresses new ionization. After only 
+\begin_inset Formula $12.5\,\mu\text{s}$
+\end_inset
+ both the direct field and the rod image weaken at the tip, and the total field there recovers to 
+\begin_inset Formula $42.7\,\text{kV/cm}$
+\end_inset
+. This reproduces the paper's statement that a small drift rapidly increases the field at the rod tip until a new corona streamer can incept, and it explains why the drift controls the length of the dark period.
+\end_layout
+
+\begin_layout Standard
+Compared with Figure 4, the shape of the drifted 
+\begin_inset Formula $E_{sp}$
+\end_inset
+ agrees, including the field behind the drifted cloud (
+\begin_inset Formula $0.40$
+\end_inset
+ versus 
+\begin_inset Formula $0.42$
+\end_inset
+ of the minimum). The absolute values are about 
+\begin_inset Formula $10\%$
+\end_inset
+ smaller than the paper's, the same offset already found for 
+\begin_inset Formula $E_{sp}$
+\end_inset
+ at the tip in Figure 3 (
+\begin_inset Formula $-29.1$
+\end_inset
+ versus about 
+\begin_inset Formula $-33\,\text{kV/cm}$
+\end_inset
+).
+\end_layout
+
+\begin_layout Section
+Corrections Made in the Main Document
+\end_layout
+
+\begin_layout Standard
+Following this analysis, Chapter 4 of the main document was corrected:
+\end_layout
+
+\begin_layout Itemize
+The mobility now uses the paper's value 
+\begin_inset Formula $b=1.36\times10^{-3}\,\text{cm}^{2}/(\text{kV}\cdot\mu\text{s})=1.36\times10^{-4}\,\text{m}^{2}/(\text{V}\cdot\text{s})$
+\end_inset
+ instead of 
+\begin_inset Formula $1.4\times10^{-4}$
+\end_inset
+.
+\end_layout
+
+\begin_layout Itemize
+
+\begin_inset Formula $z_{c}$
+\end_inset
+ is defined as the zero of 
+\begin_inset Formula $E_{sp}$
+\end_inset
+, as in the paper, instead of the centre of mass of the cloud, and the drift is described as a rigid-body translation of the whole cloud.
+\end_layout
+
+\begin_layout Itemize
+The mapping 
+\begin_inset Formula $z\rightarrow z_{\text{eff}}$
+\end_inset
+ is restricted to 
+\begin_inset Formula $E_{sp}$
+\end_inset
+; Section 4.2 was added to derive the drifted image fields.
+\end_layout
+
+\begin_layout Section
+Reproducibility
+\end_layout
+
+\begin_layout Itemize
+Script: wh_fig4_reproduction.py, output in output/wh_fig4_reproduction.xlsx (sheets Fields, Drift, Parameters). Set either the drift distance or the drift time at the top of the script.
+\end_layout
+
+\begin_layout Itemize
+Drift kinematics: solver/drift.py (Eq. 6 integrated in time); drifted fields: the z_drift argument of the field functions in solver/fields.py.
+\end_layout
+
+\end_body
+\end_document

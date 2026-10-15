@@ -1,0 +1,2432 @@
+#LyX 2.5 created this file. For more info see https://www.lyx.org/
+\lyxformat 643
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass scrartcl
+\use_default_options true
+\maintain_unincluded_children no
+\language american
+\language_package default
+\inputencoding utf8
+\fontencoding auto
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement class
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification default
+\crossref_package refstyle
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\backgroundcolor none
+\fontcolor none
+\notefontcolor lightgray
+\boxbgcolor red
+\table_border_color default
+\table_odd_row_color default
+\table_even_row_color default
+\table_alt_row_colors_start 1
+\index Index
+\shortcut idx
+\color #008080
+\end_index
+\leftmargin 2cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content true
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\docbook_mathml_version 0
+\end_header
+
+
+\begin_body
+
+\begin_layout Title
+Why Figure 3 of Wang & Haiting Cannot Be Reproduced to a Small Error
+\end_layout
+
+\begin_layout Author
+Bampaliaris Nikolaos
+\end_layout
+
+\begin_layout Date
+12-10-2026
+\end_layout
+
+\begin_layout Section
+Summary
+\end_layout
+
+\begin_layout Standard
+Figure 3 of the Wang & Haiting paper (the axial fields 
+\begin_inset Formula $E_{sp}$
+\end_inset
+, 
+\begin_inset Formula $E_{I}$
+\end_inset
+ and 
+\begin_inset Formula $E_{sp}+E_{I}$
+\end_inset
+ near the rod tip) was reproduced with our implementation of the paper's Eqs. (4) and (5), and compared point by point with the curves digitized from the published figure. The model reproduces the 
+\series bold
+qualitative
+\series default
+ behaviour of all three curves, but a 
+\series bold
+quantitative
+\series default
+ gap remains, mainly in the rod image field 
+\begin_inset Formula $E_{I}$
+\end_inset
+ close to the tip. This note shows that the gap is not caused by the digitization of the figure, cannot be explained by a different applied (Laplacian) field, and cannot be removed by any physically consistent choice of the unreported parameters 
+\begin_inset Formula $A$
+\end_inset
+, 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+ and 
+\begin_inset Formula $C$
+\end_inset
+. It must therefore originate from information that the paper does not report.
+\end_layout
+
+\begin_layout Section
+What the Paper Reports and What It Does Not
+\end_layout
+
+\begin_layout Standard
+For Figure 3 the paper states: a rod-plane air gap of length 
+\begin_inset Formula $D=80\,\text{cm}$
+\end_inset
+, rod tip radius 
+\begin_inset Formula $R=0.1\,\text{cm}$
+\end_inset
+, first-corona inception voltage 
+\begin_inset Formula $V=27.5\,\text{kV}$
+\end_inset
+, and streamer length 
+\begin_inset Formula $L_{cs}=2.7\,\text{cm}$
+\end_inset
+. For the charge density 
+\begin_inset Formula $\rho(r)=A/(r+C)^{B}$
+\end_inset
+ it states only that “A is chosen to satisfy (a)” (the field in the streamer region is about 
+\begin_inset Formula $E_{c}=5\,\text{kV/cm}$
+\end_inset
+), that “B and C are chosen to meet (b)” (the field in the streamer region is nearly uniform), and that “usually, B is 1.5 and C is about 0.035”.
+\end_layout
+
+\begin_layout Standard
+The following quantities, all of which change the curves of Figure 3, are 
+\series bold
+not
+\series default
+ reported:
+\end_layout
+
+\begin_layout Itemize
+the cone boundary angle 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+ of the space-charge region;
+\end_layout
+
+\begin_layout Itemize
+the value of 
+\begin_inset Formula $A$
+\end_inset
+, or the exact procedure used to obtain it from condition (a);
+\end_layout
+
+\begin_layout Itemize
+the exact values of 
+\begin_inset Formula $B$
+\end_inset
+ and 
+\begin_inset Formula $C$
+\end_inset
+ used for Figure 3 (only typical values are given);
+\end_layout
+
+\begin_layout Itemize
+the charge layout of the Charge Simulation Method (CSM) used for the applied field 
+\begin_inset Formula $E_{ex}$
+\end_inset
+.
+\end_layout
+
+\begin_layout Section
+Our Reproduction
+\end_layout
+
+\begin_layout Standard
+Since the procedure for 
+\begin_inset Formula $A$
+\end_inset
+ is not given, we close the model as follows. The total streamer charge is obtained from Gauss's law over the cross-section of the cone head,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula \begin{equation}
+Q_{cs}=\varepsilon_{0}E_{c}\,\pi\left[L_{cs}\tan\left(\theta_{B}/2\right)\right]^{2},\label{eq:qcs}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and 
+\begin_inset Formula $A$
+\end_inset
+ follows from the volume integral of the density over the cone,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula \begin{equation}
+A=\frac{Q_{cs}}{2\pi\left[1-\cos\left(\theta_{B}/2\right)\right]\int_{0}^{L_{cs}}\frac{r^{2}}{(r+C)^{B}}\,dr}.\label{eq:A}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The angle 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+ is then solved self-consistently so that the total field at the streamer tip equals the streamer field:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula \begin{equation}
+E_{ex}(L_{cs})+E_{sp}(L_{cs})+E_{I,rod}(L_{cs})+E_{I,plane}(L_{cs})=E_{c},\label{eq:theta_condition}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+with 
+\begin_inset Formula $E_{ex}$
+\end_inset
+ computed by our own CSM implementation. With 
+\begin_inset Formula $B=1.5$
+\end_inset
+, 
+\begin_inset Formula $C=0.035\,\text{cm}$
+\end_inset
+ and 
+\begin_inset Formula $E_{c}=5\,\text{kV/cm}$
+\end_inset
+ this gives 
+\begin_inset Formula $\theta_{B}=93.39^{\circ}$
+\end_inset
+, 
+\begin_inset Formula $Q_{cs}=11.41\,\text{nC}$
+\end_inset
+ and 
+\begin_inset Formula $E_{ex}(L_{cs})=1.00\,\text{kV/cm}$
+\end_inset
+. Our integrands were checked against the paper's Eqs. (4) and (5): 
+\begin_inset Formula $z$
+\end_inset
+ is measured from the tip apex, 
+\begin_inset Formula $r_{2}=\sqrt{(R+r\cos\theta)^{2}+(r\sin\theta)^{2}}$
+\end_inset
+, the Kelvin image lies at 
+\begin_inset Formula $r_{3}=R^{2}/r_{2}$
+\end_inset
+ with charge factor 
+\begin_inset Formula $R/r_{2}$
+\end_inset
+, and the axial projection uses 
+\begin_inset Formula $\cos\theta_{4}$
+\end_inset
+. The implementation therefore follows the published equations.
+\end_layout
+
+\begin_layout Section
+Digitizing Figure 3 and Its Error
+\end_layout
+
+\begin_layout Standard
+The three curves were extracted with WebPlotDigitizer (69 to 88 points per curve). The axes were calibrated with the origin 
+\begin_inset Formula $(0,0)$
+\end_inset
+, 
+\begin_inset Formula $z=3\,\text{cm}$
+\end_inset
+ on the horizontal axis, and 
+\begin_inset Formula $E=5$
+\end_inset
+ and 
+\begin_inset Formula $E=-50\,\text{kV/cm}$
+\end_inset
+ on the vertical axis. Two error sources were quantified:
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Random click error.
+\series default
+ The deviation of each digitized point from the line through its two neighbours gives a scatter of only 
+\begin_inset Formula $\pm0.14$
+\end_inset
+ to 
+\begin_inset Formula $\pm0.32\,\text{kV/cm}$
+\end_inset
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Calibration error.
+\series default
+ The vertical axis of the hand-drawn figure is not uniformly spaced. Measured from a 400 dpi scan, the spacing is 
+\begin_inset Formula $11.6\,\text{px}$
+\end_inset
+ per kV/cm between 
+\begin_inset Formula $5$
+\end_inset
+ and 
+\begin_inset Formula $0$
+\end_inset
+, 
+\begin_inset Formula $12.4\,\text{px}$
+\end_inset
+ per kV/cm between 
+\begin_inset Formula $0$
+\end_inset
+ and 
+\begin_inset Formula $-20$
+\end_inset
+, but only 
+\begin_inset Formula $9.8\,\text{px}$
+\end_inset
+ per kV/cm between 
+\begin_inset Formula $-40$
+\end_inset
+ and 
+\begin_inset Formula $-50$
+\end_inset
+. A two-point calibration assumes uniform spacing, so values in the middle of the axis are read up to about 
+\begin_inset Formula $1.6\,\text{kV/cm}$
+\end_inset
+ too negative (
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "tab:calibration"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+). The digitized data were corrected using the measured tick positions.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+True tick [kV/cm]
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Read value [kV/cm]
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Error [kV/cm]
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $0$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-0.14$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-0.14$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-10$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-10.59$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-0.59$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-20$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-21.21$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-1.21$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-40$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-41.65$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-1.65$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Value read by the two-point calibration at the true tick marks of Figure 3.
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:calibration"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Together, these errors are at most about 
+\begin_inset Formula $2\,\text{kV/cm}$
+\end_inset
+, an order of magnitude smaller than the differences reported below.
+\end_layout
+
+\begin_layout Section
+Point-by-Point Comparison
+\end_layout
+
+\begin_layout Standard
+Because the digitized points and the model points lie at different 
+\begin_inset Formula $z$
+\end_inset
+, the model curves (301 points, dense near the tip) were linearly interpolated at the digitized 
+\begin_inset Formula $z$
+\end_inset
+ values, without extrapolation. The resulting errors are listed in 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "tab:comparison"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Curve
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Mean abs. error [kV/cm]
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Max. error [kV/cm]
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Points
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{sp}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $5.4$
+\end_inset
+ / 
+\begin_inset Formula $5.0$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $17.3$
+\end_inset
+ / 
+\begin_inset Formula $15.9$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $70$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{I}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $14.3$
+\end_inset
+ / 
+\begin_inset Formula $13.5$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $34.2$
+\end_inset
+ / 
+\begin_inset Formula $33.7$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $69$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{sp}+E_{I}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $13.0$
+\end_inset
+ / 
+\begin_inset Formula $12.4$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $40.3$
+\end_inset
+ / 
+\begin_inset Formula $40.1$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $88$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Model minus paper for 
+\begin_inset Formula $\theta_{B}=93.39^{\circ}$
+\end_inset
+, 
+\begin_inset Formula $B=1.5$
+\end_inset
+, 
+\begin_inset Formula $C=0.035\,\text{cm}$
+\end_inset
+ (digitized data before / after the calibration correction).
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:comparison"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The differences are 
+\series bold
+systematic
+\series default
+, not random: for 
+\begin_inset Formula $E_{I}$
+\end_inset
+ the model lies above the paper's curve at all 69 points. The qualitative features, however, agree well (
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "tab:features"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Feature
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Paper
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Model
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{sp}$
+\end_inset
+ at the tip
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $\approx-33$
+\end_inset
+ kV/cm
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-29.1$
+\end_inset
+ kV/cm
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{sp}$
+\end_inset
+ zero crossing
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $z\approx0.67$
+\end_inset
+ cm
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $z=0.57$
+\end_inset
+ cm
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{sp}$
+\end_inset
+ positive peak
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $5.0$
+\end_inset
+ kV/cm at 
+\begin_inset Formula $2.2$
+\end_inset
+ cm
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $4.1$
+\end_inset
+ kV/cm at 
+\begin_inset Formula $2.7$
+\end_inset
+ cm
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{sp}+E_{I}$
+\end_inset
+ zero crossing
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $z\approx0.91$
+\end_inset
+ cm
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $z=0.81$
+\end_inset
+ cm
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{I}$
+\end_inset
+ at 
+\begin_inset Formula $z=0.15$
+\end_inset
+ cm
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $\approx-48$
+\end_inset
+ kV/cm
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-14.3$
+\end_inset
+ kV/cm
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{I}$
+\end_inset
+ at 
+\begin_inset Formula $z=1.0$
+\end_inset
+ cm
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $\approx-1.3$
+\end_inset
+ kV/cm
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-0.7$
+\end_inset
+ kV/cm
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Characteristic features of Figure 3: paper (digitized, corrected) versus our model.
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:features"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The main discrepancy is that the paper's image field 
+\begin_inset Formula $E_{I}$
+\end_inset
+ extends much further from the tip: at 
+\begin_inset Formula $z=0.15\,\text{cm}$
+\end_inset
+ it is about three times stronger than ours.
+\end_layout
+
+\begin_layout Section
+Could a Different Applied Field Explain the Gap?
+\end_layout
+
+\begin_layout Standard
+The applied field 
+\begin_inset Formula $E_{ex}$
+\end_inset
+ is not plotted in Figure 3. In our model it influences the curves only 
+\series bold
+through
+\series default
+ 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+, via 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "eq:theta_condition"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+. If the authors' CSM gave a different 
+\begin_inset Formula $E_{ex}(L_{cs})$
+\end_inset
+, they would have obtained a different 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+. To test this, 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+ was swept directly, independent of 
+\begin_inset Formula $E_{ex}$
+\end_inset
+ (
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "tab:theta_sweep"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+). The last column gives the 
+\begin_inset Formula $E_{ex}(L_{cs})$
+\end_inset
+ that each angle would require.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $\theta_{B}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{sp}$
+\end_inset
+ [kV/cm]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{I}$
+\end_inset
+ [kV/cm]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{sp}+E_{I}$
+\end_inset
+ [kV/cm]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Required 
+\begin_inset Formula $E_{ex}(L_{cs})$
+\end_inset
+ [kV/cm]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $60^{\circ}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $7.8$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $17.0$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $14.4$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $3.06$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $75^{\circ}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $6.9$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $16.1$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $13.9$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $2.33$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $93.39^{\circ}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $5.5$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $14.3$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $13.0$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $1.00$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $110^{\circ}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $5.1$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $11.1$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $12.3$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-1.05$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $130^{\circ}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $8.9$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $4.3$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $12.4$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-6.38$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Mean absolute error against the paper's curves as a function of 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+ (
+\begin_inset Formula $B=1.5$
+\end_inset
+, 
+\begin_inset Formula $C=0.035\,\text{cm}$
+\end_inset
+, 
+\begin_inset Formula $A$
+\end_inset
+ from 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "eq:qcs"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+ and 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "eq:A"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+; uncorrected digitized data).
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:theta_sweep"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Three observations rule out the applied field as the cause:
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+No single angle fits all curves.
+\series default
+ 
+\begin_inset Formula $E_{sp}$
+\end_inset
+ fits best near 
+\begin_inset Formula $110^{\circ}$
+\end_inset
+, 
+\begin_inset Formula $E_{I}$
+\end_inset
+ near 
+\begin_inset Formula $130^{\circ}$
+\end_inset
+, and the error of 
+\begin_inset Formula $E_{sp}+E_{I}$
+\end_inset
+ never falls below about 
+\begin_inset Formula $12\,\text{kV/cm}$
+\end_inset
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Better-fitting angles are unphysical.
+\series default
+ Above about 
+\begin_inset Formula $101^{\circ}$
+\end_inset
+ the space charge alone exceeds 
+\begin_inset Formula $E_{c}$
+\end_inset
+ at the streamer tip, so 
+\begin_inset Formula $E_{ex}(L_{cs})$
+\end_inset
+ would have to be negative, i.e. pointing towards the rod, which is impossible.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Realistic variations of the applied field are small.
+\series default
+ The analytical hyperboloid approximation 
+\begin_inset Formula $E(z)\approx2V/\left[(R+2z)\ln(4D/R)\right]$
+\end_inset
+ gives 
+\begin_inset Formula $1.24\,\text{kV/cm}$
+\end_inset
+ at 
+\begin_inset Formula $z=L_{cs}$
+\end_inset
+, close to our CSM value of 
+\begin_inset Formula $1.00\,\text{kV/cm}$
+\end_inset
+. A difference of this size shifts 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+ by only a few degrees and leaves the error practically unchanged.
+\end_layout
+
+\begin_layout Section
+Free Fit of the Unreported Parameters
+\end_layout
+
+\begin_layout Standard
+As a final test, 
+\begin_inset Formula $A$
+\end_inset
+, 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+ and 
+\begin_inset Formula $C$
+\end_inset
+ were all left free (
+\begin_inset Formula $B=1.5$
+\end_inset
+) and fitted to the corrected 
+\begin_inset Formula $E_{sp}$
+\end_inset
+ and 
+\begin_inset Formula $E_{I}$
+\end_inset
+ curves by least squares. Since every field is proportional to 
+\begin_inset Formula $A$
+\end_inset
+, the optimal 
+\begin_inset Formula $A$
+\end_inset
+ for given 
+\begin_inset Formula $(\theta_{B},C)$
+\end_inset
+ has the closed form 
+\begin_inset Formula $A=\mathbf{g}\cdot\mathbf{y}/\mathbf{g}\cdot\mathbf{g}$
+\end_inset
+, where 
+\begin_inset Formula $\mathbf{g}$
+\end_inset
+ are the model fields for 
+\begin_inset Formula $A=1$
+\end_inset
+ and 
+\begin_inset Formula $\mathbf{y}$
+\end_inset
+ the digitized values. A coarse grid over 
+\begin_inset Formula $(\theta_{B},C)$
+\end_inset
+ followed by a Nelder-Mead refinement gives the best fit in 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "tab:fit"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="8" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Quantity
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Best fit
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Paper / our model
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $\theta_{B}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $150.6^{\circ}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+not reported / 
+\begin_inset Formula $93.4^{\circ}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $C$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $0.34$
+\end_inset
+ cm
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+about 
+\begin_inset Formula $0.035$
+\end_inset
+ cm
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $Q_{cs}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $54.6$
+\end_inset
+ nC
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+- / 
+\begin_inset Formula $11.4$
+\end_inset
+ nC
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RMS error 
+\begin_inset Formula $E_{sp}$
+\end_inset
+, 
+\begin_inset Formula $E_{I}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $4.5$
+\end_inset
+, 
+\begin_inset Formula $5.0$
+\end_inset
+ kV/cm
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+- / 
+\begin_inset Formula $7.5$
+\end_inset
+, 
+\begin_inset Formula $18.0$
+\end_inset
+ kV/cm
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RMS error 
+\begin_inset Formula $E_{sp}+E_{I}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $9.1$
+\end_inset
+ kV/cm
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+- / 
+\begin_inset Formula $18.1$
+\end_inset
+ kV/cm
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Peak of 
+\begin_inset Formula $E_{sp}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $12.2$
+\end_inset
+ kV/cm
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $5.0$
+\end_inset
+ kV/cm (Figure 3)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{total}(L_{cs})$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $12.8$
+\end_inset
+ kV/cm
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $\approx5$
+\end_inset
+ kV/cm (condition (a))
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Best unconstrained fit compared with the values implied by the paper.
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:fit"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Even with three free parameters the residual remains about 
+\begin_inset Formula $15$
+\end_inset
+ times larger than the digitization scatter, and the parameters needed to approach the paper's 
+\begin_inset Formula $E_{I}$
+\end_inset
+ contradict the paper itself: 
+\begin_inset Formula $C$
+\end_inset
+ is ten times larger than stated, the cone is almost flat (
+\begin_inset Formula $\theta_{B}/2\approx75^{\circ}$
+\end_inset
+), and the field at the streamer tip becomes 
+\begin_inset Formula $12.8\,\text{kV/cm}$
+\end_inset
+ instead of the required 
+\begin_inset Formula $5\,\text{kV/cm}$
+\end_inset
+. The fit can only widen 
+\begin_inset Formula $E_{I}$
+\end_inset
+ at the cost of breaking 
+\begin_inset Formula $E_{sp}$
+\end_inset
+ and condition (a).
+\end_layout
+
+\begin_layout Section
+Conclusion
+\end_layout
+
+\begin_layout Standard
+Figure 3 cannot be reproduced to a small error because the paper does not report all the information needed to do so. The remaining difference is:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+not
+\series default
+ a digitization artefact: click scatter and calibration error are below 
+\begin_inset Formula $2\,\text{kV/cm}$
+\end_inset
+;
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+not
+\series default
+ caused by the applied field: no 
+\begin_inset Formula $E_{ex}$
+\end_inset
+, realistic or not, leads to a 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+ that fits all curves;
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+not
+\series default
+ removable by any physically consistent choice of 
+\begin_inset Formula $A$
+\end_inset
+, 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+ and 
+\begin_inset Formula $C$
+\end_inset
+.
+\end_layout
+
+\begin_layout Standard
+It must originate from an unreported detail of the authors' calculation, such as how 
+\begin_inset Formula $A$
+\end_inset
+ was set, the exact 
+\begin_inset Formula $B$
+\end_inset
+, how the image field was evaluated, or how the figure was drawn. Since our implementation follows the published Eqs. (4) and (5), the reproduction is considered 
+\series bold
+qualitatively validated
+\series default
+: the shape, sign, order of magnitude and position of the characteristic features of all three curves agree with the paper, while the quantitative difference in 
+\begin_inset Formula $E_{I}$
+\end_inset
+ near the tip is documented and explained above.
+\end_layout
+
+\begin_layout Section
+Reproducibility
+\end_layout
+
+\begin_layout Itemize
+Model curves: wh_fig3_reproduction.py, output output/wh_fig3_reproduction.xlsx.
+\end_layout
+
+\begin_layout Itemize
+Digitized curves: input/wh_fig3_datasets.csv (WebPlotDigitizer).
+\end_layout
+
+\begin_layout Itemize
+Point-by-point comparison: compare_datasets.py, output in the output/ folder (file comparison_wh_fig3_datasets_vs_ wh_fig3_reproduction.xlsx).
+\end_layout
+
+\begin_layout Itemize
+The calibration correction, the 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+ sweep and the free fit were run as one-off checks and are not yet part of the repository scripts.
+\end_layout
+
+\end_body
+\end_document

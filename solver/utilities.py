@@ -10,6 +10,36 @@ def impulse_voltage(t, V_peak, alpha, beta, k=1.0):
     return V_peak * k * ( np.exp(-alpha * t) - np.exp(-beta * t) )
 
 
+def double_exponential_parameters(t_crest, t_half):
+    """
+    Finds alpha, beta [1/s] and k of impulse_voltage() from the usual HV description
+    of the waveform, so that V(t) reaches exactly V_peak at t_crest:
+
+    t_crest : time to crest [s]                (e.g. 100e-6 for a 100 us wavefront)
+    t_half  : time to half value on the tail [s] (e.g. 2500e-6)
+
+    Returns (alpha, beta, k).
+    """
+    from scipy.optimize import brentq, fsolve
+
+    def crest_time(alpha, beta):          # dV/dt = 0
+        return np.log(beta / alpha) / (beta - alpha)
+
+    def k_factor(alpha, beta):            # makes the crest equal to V_peak
+        t = crest_time(alpha, beta)
+        return 1.0 / (np.exp(-alpha * t) - np.exp(-beta * t))
+
+    def mismatch(log_params):
+        alpha, beta = np.exp(log_params)  # logs keep both rates positive
+        k = k_factor(alpha, beta)
+        t_c = crest_time(alpha, beta)
+        half = brentq(lambda t: k * (np.exp(-alpha * t) - np.exp(-beta * t)) - 0.5, t_c, 100.0 * t_half)
+        return [t_c / t_crest - 1.0, half / t_half - 1.0]
+
+    alpha, beta = np.exp(fsolve(mismatch, [np.log(0.7 / t_half), np.log(5.0 / t_crest)], xtol=1e-12))
+    return alpha, beta, k_factor(alpha, beta)
+
+
 
 
 def calculate_qcs_from_field(E_c_v_m: float, L_cs_m: float, theta_B_rad: float) -> float:

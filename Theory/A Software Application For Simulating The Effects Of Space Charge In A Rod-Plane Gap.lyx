@@ -3953,12 +3953,30 @@ continuous relative coordinate mapping
 \end_inset
 
  represent the time-dependent,
- absolute physical translation of the space charge cloud’s center of mass along the positive 
+ absolute physical translation of the whole space charge cloud,
+ which moves as a rigid body,
+ along the positive 
 \begin_inset Formula $\hat{z}$
 \end_inset
 
  direction away from its initial coordinate.
- The actual position of any discrete charge element shifts dynamically over time according to:
+ Every charge element is translated by the same distance,
+ and so is the reference point 
+\begin_inset Formula $z_{c}$
+\end_inset
+
+ where the cloud's own field vanishes.
+ Following [1],
+ 
+\begin_inset Formula $z_{c}$
+\end_inset
+
+ is defined as the zero of 
+\begin_inset Formula $E_{sp}$
+\end_inset
+
+,
+ not as the centre of mass of the charge:
  
 \begin_inset Formula 
 \begin{equation}
@@ -4017,7 +4035,11 @@ Consequently,
 \end_inset
 
 ,
- the framework simply passes a time-dependent effective observer coordinate into the static field integral algorithms:
+ the framework simply passes a time-dependent effective observer coordinate into the static integral of the space charge field 
+\begin_inset Formula $\vec{E}_{sp}$
+\end_inset
+
+:
  
 \begin_inset Formula 
 \begin{equation}
@@ -4034,8 +4056,35 @@ This spatial substitution variable replaces the literal observer coordinate
 \begin_inset Formula $z$
 \end_inset
 
- across all localized field equations,
+ in the space charge field 
+\begin_inset Formula $\vec{E}_{sp}$
+\end_inset
+
+,
  eliminating the computational overhead of dynamically rebuilding or translating multi-dimensional arrays during runtime.
+ It does not apply to the image fields 
+\begin_inset Formula $\vec{E}_{I_{rod}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\vec{E}_{I_{plane}}$
+\end_inset
+
+,
+ which also depend on the fixed electrodes;
+ their treatment under drift is derived in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:drift_image_fields"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Subsection
@@ -4047,7 +4096,7 @@ The dynamic translation
 \begin_inset Formula $z_{\text{drift}}(t)$
 \end_inset
 
- of the space charge cloud is governed by the time-varying total driving electric field evaluated at the moving center of mass 
+ of the space charge cloud is governed by the time-varying total driving electric field evaluated at the moving reference point 
 \begin_inset Formula $z_{c}(t)$
 \end_inset
 
@@ -4061,7 +4110,7 @@ The dynamic translation
  
 \begin_inset Formula 
 \begin{equation}
-z_{\text{drift}}(t)=\int^{t}_{0}\underbrace{\mu^{+}\left[E_{\text{ex}}\left(\;z_{c}(\tau)\;\right)+E_{\text{I,rod}}\left(\;z_{c}(\tau)\;\right)+E_{\text{I,plane}}\left(\;z_{c}(\tau)\;\right)\right]}_{\left\Vert \vec{v}\right\Vert \;\left[m/s\right]:\;\text{The speed of the cloud's center of mass}}d\tau\;\;\left[m\right]
+z_{\text{drift}}(t)=\int^{t}_{0}\underbrace{\mu^{+}\left[E_{\text{ex}}\left(\;z_{c}(\tau)\;\right)+E_{\text{I,rod}}\left(\;z_{c}(\tau)\;\right)+E_{\text{I,plane}}\left(\;z_{c}(\tau)\;\right)\right]}_{\left\Vert \vec{v}\right\Vert \;\left[m/s\right]:\;\text{The drift speed of the cloud}}d\tau\;\;\left[m\right]
 \end{equation}
 
 \end_inset
@@ -4070,11 +4119,15 @@ z_{\text{drift}}(t)=\int^{t}_{0}\underbrace{\mu^{+}\left[E_{\text{ex}}\left(\;z_
 \end_layout
 
 \begin_layout Standard
-where the baseline mobility coefficient for positive ions in atmospheric air is defined as:
+where the mobility coefficient for positive ions in atmospheric air is taken from [1] (
+\begin_inset Formula $b=1.36\times10^{-3}\,\text{cm}^{2}/(\text{kV}\cdot\mu\text{s})$
+\end_inset
+
+):
  
 \begin_inset Formula 
 \begin{equation}
-\mu^{+}=1.4\times10^{-4}\quad\left[\frac{\text{m}^{2}}{\text{V}\cdot\text{s}}\right]
+\mu^{+}=1.36\times10^{-4}\quad\left[\frac{\text{m}^{2}}{\text{V}\cdot\text{s}}\right]
 \end{equation}
 
 \end_inset
@@ -4169,6 +4222,860 @@ This mathematical formulation bridges continuous classical kinematics with discr
 \end_inset
 
  without relying on software-specific accumulator variables.
+\end_layout
+
+\begin_layout Subsection
+Applying the Drift to the Image Fields
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:drift_image_fields"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The relative coordinate mapping 
+\begin_inset Formula $z_{\text{eff}}(t)=z-z_{\text{drift}}(t)$
+\end_inset
+ of the previous subsections is exact for the space charge field 
+\begin_inset Formula $\vec{E}_{sp}$
+\end_inset
+ only. Eq. 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:final_Esp"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+ depends solely on the displacement between a source element and the observer, and no other body takes part, so translating the cloud is the same as translating the observer backwards. The image fields 
+\begin_inset Formula $\vec{E}_{I_{rod}}$
+\end_inset
+ and 
+\begin_inset Formula $\vec{E}_{I_{plane}}$
+\end_inset
+ are different: they also depend on where the charge sits relative to the rod and the grounded plane, and 
+\series bold
+the electrodes do not move
+\series default
+ during the drift. Shifting the observer would implicitly drag the rod and the plane along with the cloud. For the image fields the drift must therefore be applied to the 
+\series bold
+source position
+\series default
+, while the electrodes stay fixed.
+\end_layout
+
+\begin_layout Subsubsection*
+Translated Source Position
+\end_layout
+
+\begin_layout Standard
+During the dark period the cloud moves as a rigid body, so every charge element is translated by the same distance. Measured from the centre 
+\begin_inset Formula $O$
+\end_inset
+ of the hemispherical tip, the axial position of a source element becomes
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+z_{dq}(t)=R+r\cos(\theta)+z_{\text{drift}}(t),\label{eq:drift_source_position}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+while its radial position 
+\begin_inset Formula $r\sin(\theta)$
+\end_inset
+, the density 
+\begin_inset Formula $\rho(r)$
+\end_inset
+ and the integration domains are unchanged. Every field of the space charge follows by replacing 
+\begin_inset Formula $R+r\cos(\theta)$
+\end_inset
+ with 
+\begin_inset Formula $R+r\cos(\theta)+z_{\text{drift}}(t)$
+\end_inset
+ wherever the source position appears.
+\end_layout
+
+\begin_layout Subsubsection*
+Space Charge Field
+\end_layout
+
+\begin_layout Standard
+For 
+\begin_inset Formula $\vec{E}_{sp}$
+\end_inset
+ the substitution gives
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+r_{1}(t)=\sqrt{\left[z-R-r\cos(\theta)-z_{\text{drift}}(t)\right]^{2}+\left[r\sin(\theta)\right]^{2}},
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+which is 
+\begin_inset Formula $r_{1}$
+\end_inset
+ evaluated at 
+\begin_inset Formula $z_{\text{eff}}(t)$
+\end_inset
+. The source-translation view therefore reproduces the result of the relative coordinate mapping exactly: 
+\begin_inset Formula $\vec{E}_{sp}(z,t)=\vec{E}_{sp}\left(z_{\text{eff}}(t)\right)$
+\end_inset
+, i.e. the curve is shifted by 
+\begin_inset Formula $z_{\text{drift}}(t)$
+\end_inset
+ without changing shape.
+\end_layout
+
+\begin_layout Subsubsection*
+Rod Image Field
+\end_layout
+
+\begin_layout Standard
+The centre 
+\begin_inset Formula $O$
+\end_inset
+ of the rod tip does not move, so the distance between a source element and 
+\begin_inset Formula $O$
+\end_inset
+ grows with the drift:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+r_{2}(t)=\sqrt{\left[R+r\cos(\theta)+z_{\text{drift}}(t)\right]^{2}+\left[r\sin(\theta)\right]^{2}},\qquad r_{3}(t)=\frac{R^{2}}{r_{2}(t)},\label{eq:drift_r2_r3}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+r_{4}(t)=\sqrt{\left(z-\frac{r_{3}(t)}{r_{2}(t)}\left[R+r\cos(\theta)+z_{\text{drift}}(t)\right]\right)^{2}+\left(\frac{r_{3}(t)}{r_{2}(t)}r\sin(\theta)\right)^{2}},
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\vec{E}_{I_{rod}}(z,t)=-\frac{1}{2\epsilon_{r}\epsilon_{0}}\int_{0}^{\frac{\theta_{B}}{2}}\int_{0}^{L_{cs}}\frac{\rho(r)r^{2}R\sin(\theta)}{r_{4}^{3}(t)\,r_{2}(t)}\left[z-\frac{r_{3}(t)}{r_{2}(t)}\left(R+r\cos(\theta)+z_{\text{drift}}(t)\right)\right]dr\,d\theta\,\hat{z}\label{eq:drift_E_rod}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Two effects make this field change shape rather than shift. First, the Kelvin image of a source element lies at 
+\begin_inset Formula $\left(R/r_{2}\right)^{2}\left[R+r\cos(\theta)+z_{\text{drift}}\right]$
+\end_inset
+ from 
+\begin_inset Formula $O$
+\end_inset
+; as the cloud moves away, 
+\begin_inset Formula $r_{2}$
+\end_inset
+ grows and the image moves 
+\series bold
+towards
+\series default
+ 
+\begin_inset Formula $O$
+\end_inset
+, not along with the cloud. Second, the image charge is 
+\begin_inset Formula $-dq\,R/r_{2}$
+\end_inset
+, so it becomes 
+\series bold
+weaker
+\series default
+ as the cloud recedes. Applying 
+\begin_inset Formula $z_{\text{eff}}$
+\end_inset
+ to 
+\begin_inset Formula $\vec{E}_{I_{rod}}$
+\end_inset
+ instead would keep the image rigidly attached to the cloud, which describes a rod that moves with the space charge.
+\end_layout
+
+\begin_layout Subsubsection*
+Plane Image Field
+\end_layout
+
+\begin_layout Standard
+The grounded plane at 
+\begin_inset Formula $z=d$
+\end_inset
+ (measured from 
+\begin_inset Formula $O$
+\end_inset
+) does not move either. The mirror image of a source element lies at 
+\begin_inset Formula $2d-\left[R+r\cos(\theta)+z_{\text{drift}}(t)\right]$
+\end_inset
+, so it moves by 
+\begin_inset Formula $-z_{\text{drift}}$
+\end_inset
+, i.e. 
+\series bold
+towards
+\series default
+ the cloud:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+r_{5}(t)=\sqrt{\left[r\sin(\theta)\right]^{2}+\left(2d-r\cos(\theta)-R-z_{\text{drift}}(t)-z\right)^{2}},
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\vec{E}_{I_{plane}}(z,t)=\frac{1}{2\epsilon_{r}\epsilon_{0}}\int_{0}^{\frac{\theta_{B}}{2}}\int_{0}^{L_{cs}}\frac{\rho(r)r^{2}\sin(\theta)}{r_{5}^{3}(t)}\left(2d-r\cos(\theta)-R-z_{\text{drift}}(t)-z\right)dr\,d\theta\,\hat{z}\label{eq:drift_E_plane}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Substituting 
+\begin_inset Formula $z_{\text{eff}}$
+\end_inset
+ here would give 
+\begin_inset Formula $+z_{\text{drift}}$
+\end_inset
+ inside the bracket, moving the image in the wrong direction. In long gaps this field is very small, but the formulation must still be consistent.
+\end_layout
+
+\begin_layout Subsubsection*
+Applied Field
+\end_layout
+
+\begin_layout Standard
+The applied field 
+\begin_inset Formula $\vec{E}_{ext}$
+\end_inset
+ depends only on the electrode geometry and the applied voltage. It is independent of the space charge and therefore 
+\series bold
+does not change
+\series default
+ during the drift.
+\end_layout
+
+\begin_layout Subsubsection*
+Consequence for the Driving Field
+\end_layout
+
+\begin_layout Standard
+In the drift integral for 
+\begin_inset Formula $z_{\text{drift}}(t)$
+\end_inset
+, the image fields 
+\begin_inset Formula $E_{\text{I,rod}}\left(z_{c}(\tau)\right)$
+\end_inset
+ and 
+\begin_inset Formula $E_{\text{I,plane}}\left(z_{c}(\tau)\right)$
+\end_inset
+ are the images of the cloud 
+\series bold
+at its drifted position
+\series default
+ 
+\begin_inset Formula $z_{\text{drift}}(\tau)$
+\end_inset
+, i.e. they are evaluated with Eqs. 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:drift_E_rod"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+ and 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:drift_E_plane"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+. The space charge field is absent from the driving field on purpose: a charge distribution exerts no net force on itself, and 
+\begin_inset Formula $z_{c}$
+\end_inset
+ is by definition the point where 
+\begin_inset Formula $E_{sp}\left(z_{c}\right)=0$
+\end_inset
+. Since 
+\begin_inset Formula $\vec{E}_{sp}$
+\end_inset
+ moves rigidly with the cloud, its zero stays at 
+\begin_inset Formula $z_{c}(t)=z_{c,0}+z_{\text{drift}}(t)$
+\end_inset
+ throughout the drift.
+\end_layout
+
+\begin_layout Subsubsection*
+Summary
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Field
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Depends on
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Update during the drift
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $\vec{E}_{sp}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+space charge only
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+exact shift: 
+\begin_inset Formula $z\rightarrow z-z_{\text{drift}}(t)$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $\vec{E}_{I_{rod}}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+space charge and rod
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+source shift, rod fixed, Eq. 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:drift_E_rod"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $\vec{E}_{I_{plane}}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+space charge and plane
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+source shift, plane fixed, Eq. 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:drift_E_plane"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $\vec{E}_{ext}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+electrodes and voltage
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+unchanged
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+How each field is updated when the space charge drifts by 
+\begin_inset Formula $z_{\text{drift}}(t)$
+\end_inset
+.
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:drift_field_summary"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The size of the difference for the Figure 3 benchmark is shown in 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "tab:drift_rod_example"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+ (
+\begin_inset Formula $\theta_{B}=93.39^{\circ}$
+\end_inset
+, 
+\begin_inset Formula $z_{\text{drift}}=0.07\,\text{cm}$
+\end_inset
+). Near the tip the mapping 
+\begin_inset Formula $z\rightarrow z_{\text{eff}}$
+\end_inset
+ places the observer inside the conductor and gives a meaningless value.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Distance from tip apex
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Before drift
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+After drift (source shift)
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+With 
+\begin_inset Formula $z\rightarrow z_{\text{eff}}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $0$
+\end_inset
+ cm
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-123.83$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-94.98$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-1471.56$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $0.2$
+\end_inset
+ cm
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-9.74$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-8.84$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-17.11$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $1.0$
+\end_inset
+ cm
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-0.68$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-0.62$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-0.77$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Rod image field 
+\begin_inset Formula $E_{I_{rod}}$
+\end_inset
+ [kV/cm] after a drift of 
+\begin_inset Formula $0.07\,\text{cm}$
+\end_inset
+: source translation (correct) versus the mapping 
+\begin_inset Formula $z\rightarrow z_{\text{eff}}$
+\end_inset
+.
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:drift_rod_example"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
