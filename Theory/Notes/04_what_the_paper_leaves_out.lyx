@@ -1,0 +1,1545 @@
+#LyX 2.5 created this file. For more info see https://www.lyx.org/
+\lyxformat 643
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass scrartcl
+\use_default_options true
+\maintain_unincluded_children no
+\language american
+\language_package default
+\inputencoding utf8
+\fontencoding auto
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement class
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification default
+\crossref_package refstyle
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\backgroundcolor none
+\fontcolor none
+\notefontcolor lightgray
+\boxbgcolor red
+\table_border_color default
+\table_odd_row_color default
+\table_even_row_color default
+\table_alt_row_colors_start 1
+\index Index
+\shortcut idx
+\color #008080
+\end_index
+\leftmargin 2cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content true
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\docbook_mathml_version 0
+\end_header
+
+
+\begin_body
+
+\begin_layout Title
+What the Paper Leaves Out: Reconstructing the Full Wang & Haiting Simulation
+\end_layout
+
+\begin_layout Author
+Bampaliaris Nikolaos
+\end_layout
+
+\begin_layout Date
+15-10-2026
+\end_layout
+
+\begin_layout Section
+Summary
+\end_layout
+
+\begin_layout Standard
+The Wang & Haiting paper describes the 
+\series bold
+framework
+\series default
+ of its space-charge model: the charge density, the cone-shaped charge region, the field components and the drift equation. It does 
+\series bold
+not
+\series default
+ give everything needed to run the simulation again. Some of the missing pieces only affect the detail of Figures 3 to 5; others are the core of Figures 6 to 8 (inception voltage, streamer length and charge against the front time of the impulse). There, the paper says that the models were “established” in an earlier paper written in Chinese (reference [9] of the paper) and gives no equations.
+\end_layout
+
+\begin_layout Standard
+A complete simulation therefore has to be 
+\series bold
+reconstructed
+\series default
+: each missing piece is filled with a standard model from the literature of long air-gap discharges, every choice is documented, and the result is judged by how well it reproduces the 
+\series bold
+trends and magnitudes
+\series default
+ of the paper's figures rather than by an exact match. This note lists what the paper provides, what we have reconstructed so far for Figures 3 to 5, and what is still missing for Figures 6 to 8, with the candidate model for each gap.
+\end_layout
+
+\begin_layout Section
+What the Paper Provides
+\end_layout
+
+\begin_layout Standard
+Everything the paper states explicitly, and that we use as given, is listed in 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "tab:provided"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="10" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Item
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+What the paper gives
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Charge density
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $\rho(r)=A/(r+C)^{B}$
+\end_inset
+ (Eq. 2), after Arima and Watanabe
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Charge region
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+a cone from the rod tip, length 
+\begin_inset Formula $L_{cs}$
+\end_inset
+, opening angle 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+ (Figure 2)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Field components
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E=E_{ex}+E_{sp}+E_{I}$
+\end_inset
+, with 
+\begin_inset Formula $E_{sp}$
+\end_inset
+ and 
+\begin_inset Formula $E_{I}$
+\end_inset
+ as integrals (Eqs. 4, 5)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Shape constants
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+“usually” 
+\begin_inset Formula $B=1.5$
+\end_inset
+ and 
+\begin_inset Formula $C\approx0.035\,\text{cm}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Streamer-region field
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{c}\approx5\,\text{kV/cm}$
+\end_inset
+, nearly uniform (from experiments)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Drift
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Eq. 6, rigid drift driven at 
+\begin_inset Formula $z_{c}$
+\end_inset
+; 
+\begin_inset Formula $b=1.36\times10^{-3}\,\text{cm}^{2}/(\text{kV}\,\mu\text{s})$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Figures 3 to 5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $D=80\,\text{cm}$
+\end_inset
+, 
+\begin_inset Formula $R=0.1\,\text{cm}$
+\end_inset
+, 
+\begin_inset Formula $320\,\text{kV}$
+\end_inset
+, 
+\begin_inset Formula $100\,\mu\text{s}$
+\end_inset
+ front, 
+\begin_inset Formula $V_{inc}=27.5\,\text{kV}$
+\end_inset
+, 
+\begin_inset Formula $L_{cs}=2.7\,\text{cm}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Figures 6 to 8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $D=40$
+\end_inset
+ and 
+\begin_inset Formula $80\,\text{cm}$
+\end_inset
+, front time 
+\begin_inset Formula $T_{f}$
+\end_inset
+ from 
+\begin_inset Formula $15$
+\end_inset
+ to 
+\begin_inset Formula $600\,\mu\text{s}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Assumption (a)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+the first streamer develops in the applied field alone, without space charge
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Information stated explicitly in the paper.
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:provided"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+What We Reconstructed for Figures 3 to 5
+\end_layout
+
+\begin_layout Standard
+Even the first three result figures need information the paper does not give. What we chose is summarized in 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "tab:reconstructed_35"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+. The details are in notes 01 to 03.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="11" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Missing piece
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Our choice
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Note
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Applied field 
+\begin_inset Formula $E_{ex}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+our own Charge Simulation Method (the paper only cites [8])
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+01
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Cone angle 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+solved so that 
+\begin_inset Formula $E_{total}(L_{cs})=E_{c}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+01
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Constant 
+\begin_inset Formula $A$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+from 
+\begin_inset Formula $Q_{cs}$
+\end_inset
+ by Gauss's law over the cone head
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+01
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Exact 
+\begin_inset Formula $B$
+\end_inset
+, 
+\begin_inset Formula $C$
+\end_inset
+ for Figure 3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+the “usual” values 
+\begin_inset Formula $1.5$
+\end_inset
+ and 
+\begin_inset Formula $0.035\,\text{cm}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+01
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Drift time of Figure 4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+a drift distance read from the curves
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+02
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Shape during the drift
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+rigid body, constant charge
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+02
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Image fields after the drift
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+the charge moves, the electrodes stay fixed
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+02
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Impulse tail
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+half value at 
+\begin_inset Formula $2500\,\mu\text{s}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+03
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Time axis of Figure 5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+time from the start of the impulse
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+03
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Second-streamer criterion
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+tip field back to its first-inception value
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+03
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Pieces missing for Figures 3 to 5 and how we filled them.
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:reconstructed_35"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The checks against the paper so far:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Figure 3.
+\series default
+ Same shape and order of magnitude, but not an exact match. The gap is not explained by digitization error, by the unknown applied field, or by the free parameters: a free fit of 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+, 
+\begin_inset Formula $C$
+\end_inset
+ and 
+\begin_inset Formula $A$
+\end_inset
+ still leaves 
+\begin_inset Formula $4.5$
+\end_inset
+ to 
+\begin_inset Formula $5\,\text{kV/cm}$
+\end_inset
+ RMS. Some detail of the authors' implementation is simply not in the paper.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Figure 4.
+\series default
+ The rigid drift reproduces the curve: the ratio of the tip field to the minimum is 
+\begin_inset Formula $0.40$
+\end_inset
+, against 
+\begin_inset Formula $0.42$
+\end_inset
+ read from the paper.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Figure 5.
+\series default
+ The field in the streamer region at inception is 
+\begin_inset Formula $4.06$
+\end_inset
+ to 
+\begin_inset Formula $4.97\,\text{kV/cm}$
+\end_inset
+, against the paper's “4 to 5.5 kV/cm”.
+\end_layout
+
+\begin_layout Section
+What Is Missing for Figures 6 to 8
+\end_layout
+
+\begin_layout Standard
+Figures 6, 7 and 8 plot, against the front time 
+\begin_inset Formula $T_{f}$
+\end_inset
+ of the impulse, the inception voltage 
+\begin_inset Formula $V_{cs}$
+\end_inset
+, the streamer length 
+\begin_inset Formula $L_{cs}$
+\end_inset
+ and the charge 
+\begin_inset Formula $Q_{cs}$
+\end_inset
+ of the first and the second corona streamer. Each point is a separate impulse. The trends are clear: all three quantities fall as 
+\begin_inset Formula $T_{f}$
+\end_inset
+ rises, and the second streamer always needs a higher voltage than the first. In Figures 3 to 5, 
+\begin_inset Formula $V_{inc}$
+\end_inset
+ and 
+\begin_inset Formula $L_{cs}$
+\end_inset
+ were 
+\series bold
+inputs
+\series default
+; here they are 
+\series bold
+outputs
+\series default
+, so the model needs rules that produce them. None of these rules is given.
+\end_layout
+
+\begin_layout Subsection
+An Inception Criterion That Depends on the Rate of Rise
+\end_layout
+
+\begin_layout Standard
+A fixed inception voltage (or a fixed tip field) gives the same 
+\begin_inset Formula $V_{cs}$
+\end_inset
+ for every front, so it cannot produce the falling curve 1 of Figure 6. The fall comes from the 
+\series bold
+time lag
+\series default
+ of inception: after the tip field exceeds the static threshold, a free electron must appear in the high-field region (statistical lag) and the avalanche must grow into a streamer (formative lag). Meanwhile the voltage keeps rising at about 
+\begin_inset Formula $V_{p}/T_{f}$
+\end_inset
+, so a fast front overshoots the static value more than a slow one.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Candidate model:
+\series default
+ a static threshold from the ionization integral along the axis,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\int_{0}^{x_{0}}\left[\alpha(E)-\eta(E)\right]dz\;\ge\;K,\qquad K\approx9\text{ to }18,\label{eq:ionization_integral}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $\alpha$
+\end_inset
+ and 
+\begin_inset Formula $\eta$
+\end_inset
+ are the ionization and attachment coefficients of air and 
+\begin_inset Formula $x_{0}$
+\end_inset
+ is where 
+\begin_inset Formula $\alpha=\eta$
+\end_inset
+, plus a time lag after the threshold is first exceeded. The lag can be a fixed mean value, or a statistical waiting time fixed by the rate at which free electrons appear near the tip. The value of the lag is the main fitting parameter and would be calibrated on one point of curve 1.
+\end_layout
+
+\begin_layout Subsection
+A Rule for the Streamer Length
+\end_layout
+
+\begin_layout Standard
+Our 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+ condition, 
+\begin_inset Formula $E_{total}(L_{cs})=E_{c}$
+\end_inset
+, needs 
+\begin_inset Formula $L_{cs}$
+\end_inset
+ as an input. With 
+\begin_inset Formula $L_{cs}$
+\end_inset
+ unknown there are two unknowns and one condition, so a second, independent rule is needed. The paper's own assumption (a), that the first streamer develops in the applied field alone, suggests the standard stability-field estimate: the streamer grows until the 
+\series bold
+average applied field
+\series default
+ along its path falls to 
+\begin_inset Formula $E_{c}$
+\end_inset
+,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{1}{L_{cs}}\int_{0}^{L_{cs}}E_{ex}\left(z,t_{inc}\right)dz=\frac{V(t_{inc})-\varphi_{ex}(L_{cs})}{L_{cs}}=E_{c}.\label{eq:streamer_length}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A higher inception voltage gives a stronger field further from the tip and therefore a longer streamer, which is the trend of Figure 7. For the second streamer the same rule would use the total field, including the first streamer's charge. Before using it for Figures 6 to 8, the rule should be checked on the Figure 3 case: it should give a length close to 
+\begin_inset Formula $2.7\,\text{cm}$
+\end_inset
+ at 
+\begin_inset Formula $27.5\,\text{kV}$
+\end_inset
+.
+\end_layout
+
+\begin_layout Subsection
+The Peak Voltage of Each Impulse
+\end_layout
+
+\begin_layout Standard
+The rate of rise, and with it the time lag effect, depends on the crest voltage 
+\begin_inset Formula $V_{p}$
+\end_inset
+ as well as on 
+\begin_inset Formula $T_{f}$
+\end_inset
+. The paper gives 
+\begin_inset Formula $320\,\text{kV}$
+\end_inset
+ only for the 
+\begin_inset Formula $80\,\text{cm}$
+\end_inset
+ case of Figures 3 to 5. For the 
+\begin_inset Formula $40\,\text{cm}$
+\end_inset
+ gap of Figures 6 and 7 the crest is not stated, nor is the tail. A reasonable assumption is a crest near the breakdown voltage of the gap, the usual practice in such tests; the sensitivity of the results to this choice must then be shown.
+\end_layout
+
+\begin_layout Subsection
+The Second Streamer
+\end_layout
+
+\begin_layout Standard
+Curve 2 of each figure needs the dark period and the second streamer. The ingredients exist from Figure 5: the drift of the first cloud under the rising voltage and the criterion of note 03 for the second inception. What is not given is how the second streamer's length and charge are found, and how the inception time lag applies to it. The natural choice is to reuse the inception and length rules above in the field that includes the first cloud.
+\end_layout
+
+\begin_layout Subsection
+The Experimental Curves
+\end_layout
+
+\begin_layout Standard
+Figures 6 to 8 also show experimental curves, but the paper does not say where they come from (its own tests or reference [6], Arima and Watanabe, which uses a needle-plane gap). This matters when we compare our results with them.
+\end_layout
+
+\begin_layout Standard
+The gaps are collected in 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "tab:missing_68"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Missing piece
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Needed for
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Candidate model
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Inception with time lag
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Figure 6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ionization integral + time lag
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Streamer length
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Figure 7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+average applied field 
+\begin_inset Formula $=E_{c}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Streamer charge
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Figure 8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Gauss's law, as in Figures 3 to 5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Crest voltage, tail
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+all three
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+assumed, with a sensitivity check
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Second streamer
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+curves 2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+same rules in the shielded field
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Source of the measurements
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+comparison
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ask, or treat as indicative
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Pieces missing for Figures 6 to 8 and the candidate model for each.
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:missing_68"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+The Missing Source
+\end_layout
+
+\begin_layout Standard
+The paper states that “the mathematical models of calculating the inception voltage, the length and the charge quantity of positive corona streamer were established” in its reference [9]:
+\end_layout
+
+\begin_layout Quote
+W. D. Wang and H. T. Wang, “Model research on the effects of space charge in gas discharge”, High Voltage Engineering, 1986, pp. 59–64 (in Chinese).
+\end_layout
+
+\begin_layout Standard
+If a copy can be obtained (university library, interlibrary loan, or the journal's archive), even a machine translation of its equations would replace most of the candidate models above with the authors' actual ones. Until then, the reconstruction proceeds with the documented assumptions.
+\end_layout
+
+\begin_layout Section
+How the Reconstruction Will Be Judged
+\end_layout
+
+\begin_layout Standard
+Because the inputs are partly assumed, an exact match with Figures 6 to 8 is neither expected nor a meaningful target. The reconstruction is successful if it reproduces:
+\end_layout
+
+\begin_layout Enumerate
+the 
+\series bold
+trends
+\series default
+: 
+\begin_inset Formula $V_{cs}$
+\end_inset
+, 
+\begin_inset Formula $L_{cs}$
+\end_inset
+ and 
+\begin_inset Formula $Q_{cs}$
+\end_inset
+ fall as 
+\begin_inset Formula $T_{f}$
+\end_inset
+ rises, for both streamers;
+\end_layout
+
+\begin_layout Enumerate
+the 
+\series bold
+ordering
+\series default
+: the second streamer needs a higher voltage than the first, and the two curves converge for slow fronts;
+\end_layout
+
+\begin_layout Enumerate
+the 
+\series bold
+magnitudes
+\series default
+: values within the range of the paper's curves (for example 
+\begin_inset Formula $V_{cs}$
+\end_inset
+ of about 
+\begin_inset Formula $20$
+\end_inset
+ to 
+\begin_inset Formula $60\,\text{kV}$
+\end_inset
+ and 
+\begin_inset Formula $L_{cs}$
+\end_inset
+ of about 
+\begin_inset Formula $2$
+\end_inset
+ to 
+\begin_inset Formula $4\,\text{cm}$
+\end_inset
+ for the 
+\begin_inset Formula $40\,\text{cm}$
+\end_inset
+ gap);
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+consistency
+\series default
+ with Figures 3 to 5 when the same rules are applied to that case.
+\end_layout
+
+\begin_layout Standard
+Each assumption should be accompanied by a sensitivity check, so that the thesis can show which conclusions depend on it and which do not.
+\end_layout
+
+\begin_layout Section
+Conclusion
+\end_layout
+
+\begin_layout Standard
+The paper is a summary of a larger model. It gives enough to understand the physics and to reproduce the field calculations of Figures 3 to 5 approximately, but not enough to reproduce Figures 6 to 8 directly. Reproducing the full simulation requires reconstructing the inception, streamer-length and second-streamer rules from the standard literature on long air gaps.
+\end_layout
+
+\begin_layout Standard
+Suggested wording for the thesis:
+\end_layout
+
+\begin_layout Quote
+The original paper describes the space-charge model and its results but omits several elements needed to reproduce them, notably the applied-field model, the condition that fixes the cone angle, and the inception and streamer-length criteria behind its parametric results, which are published only in an earlier Chinese-language paper. These elements were reconstructed from established models of long air-gap discharges, each assumption is stated explicitly, and the reconstruction is validated against the trends and magnitudes of the published results.
+\end_layout
+
+\begin_layout Section
+Reproducibility
+\end_layout
+
+\begin_layout Standard
+This note summarizes notes 01 (Figure 3), 02 (Figure 4) and 03 (Figure 5) and the scripts behind them: wh_fig3_reproduction.py, wh_fig4_reproduction.py, wh_fig5_reproduction.py and compare_datasets.py. The statements about the paper refer to the copy in Theory/Resources/. No new calculation was made for this note.
+\end_layout
+
+\end_body
+\end_document
