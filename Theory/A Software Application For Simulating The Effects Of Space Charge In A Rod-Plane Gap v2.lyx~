@@ -1,0 +1,5213 @@
+#LyX 2.5 created this file. For more info see https://www.lyx.org/
+\lyxformat 643
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass scrartcl
+\use_default_options true
+\maintain_unincluded_children no
+\language american
+\language_package default
+\inputencoding utf8
+\fontencoding auto
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement class
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification default
+\crossref_package refstyle
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\backgroundcolor none
+\fontcolor none
+\notefontcolor lightgray
+\boxbgcolor red
+\table_border_color default
+\table_odd_row_color default
+\table_even_row_color default
+\table_alt_row_colors_start 1
+\index Index
+\shortcut idx
+\color #008080
+\end_index
+\leftmargin 2cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content true
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\docbook_mathml_version 0
+\end_header
+
+\begin_body
+
+\begin_layout Title
+A Software Application For Simulating The Effects Of Space Charge In A Rod-Plane Gap
+\end_layout
+
+\begin_layout Date
+13-05-2026
+\end_layout
+
+\begin_layout Author
+Bampaliaris Nikolaos
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Governing Problem Statement:
+ Total Field Computation
+\end_layout
+
+\begin_layout Subsection
+Calculating The Total Field (
+\begin_inset Formula $\vec{E}_{total}=\vec{E}_{ext}+\vec{E}_{sp}+\vec{E}_{I_{rod}}+\vec{E}_{I_{plane}}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+The primary objective of this simulation is to compute the total,
+ instantaneous electric field distribution 
+\begin_inset Formula $\vec{E}_{total}$
+\end_inset
+
+ within a highly divergent rod-plane gap during a corona discharge event.
+ The presence of 
+\bar under
+drifting space charge
+\bar default
+ fundamentally alters the geometric field,
+ requiring a coupled 
+\series bold
+electrostatic solution
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+To determine the net electric field at any point in space,
+ we employ the principle of linear superposition,
+ modeling the total field as a vector sum of four distinct components:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\vec{E}_{total}=\vec{E}_{ext}+\vec{E}_{sp}+\vec{E}_{I_{rod}}+\vec{E}_{I_{plane}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+where
+\bar default
+:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\vec{E}_{ext}$
+\end_inset
+
+:
+ Is the external (geometric) electric field caused solely by the applied voltage on the electrodes in a completely uncharged medium.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\vec{E}_{sp}$
+\end_inset
+
+ Is the space charge electric field generated directly by the cloud of drifting ions in the inter-electrode gap.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\vec{E}_{I_{rod}}$
+\end_inset
+
+:
+ Is the image charge field accounting for the boundary conditions on the curved surface of the rod-electrode (ensuring the total potential on the conductor matches the boundary values).
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\vec{E}_{I_{plane}}$
+\end_inset
+
+:
+ Is the image charge field enforcing the zero-potential boundary condition on the grounded plane-electrode.
+\end_layout
+
+\begin_layout Subsection
+Foundational Simplifications and Physical Assumptions
+\end_layout
+
+\begin_layout Standard
+To maintain computational feasibility while preserving physical accuracy,
+ the numerical model operates under three core physical simplifications regarding the dielectric medium (air):
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Electrostatic Linearity
+\end_layout
+
+\begin_layout Quote
+By expressing 
+\begin_inset Formula $\vec{E}_{total}$
+\end_inset
+
+ as a straightforward algebraic sum of its components,
+ we assume the governing medium behaves linearly.
+ This implies that the presence of space charge does not alter the fundamental permittivity of the medium,
+ allowing individual fields to exist independently and sum together without cross-modulation or non-linear coupling effects.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Constant Relative Permittivity
+\series default
+ (
+\begin_inset Formula $\epsilon_{r}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Quote
+We assume that the relative permittivity of the air medium is perfectly constant and uniform throughout the entire gap (
+\begin_inset Formula $\epsilon_{r}\approx1$
+\end_inset
+
+).
+ In a real corona discharge,
+ the intense localized electric field creates a highly thermalized ionization zone (plasma sheath) where localized temperature spikes,
+ gas density drops,
+ and electron-ion densities could technically alter the local dielectric constant.
+ For this kinematics model,
+ these micro-scale fluctuations are assumed to have a negligible impact on the macro-scale field distribution.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Isotropic and Homogeneous Medium
+\end_layout
+
+\begin_layout Quote
+The medium is modeled as isotropic and homogeneous.
+ This means its physical properties,
+ specifically its permittivity and ion mobility are identical in all directions and at all spatial coordinates.
+ The electric displacement vector 
+\begin_inset Formula $\vec{D}$
+\end_inset
+
+ remains perfectly parallel to the electric field vector 
+\begin_inset Formula $\vec{E}$
+\end_inset
+
+ via:
+ 
+\begin_inset Formula $\vec{D}=\epsilon_{r}\epsilon_{0}\vec{E}$
+\end_inset
+
+.
+ This assumption ensures that the field’s direction depends purely on the spatial layout of the charges and electrodes,
+ rather than any directional preferences or crystal-like biases in the gas medium itself.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Theoritical Analysis
+\end_layout
+
+\begin_layout Subsection
+Space Charge Density Function (
+\begin_inset Formula $\rho(r)$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+In order to calculate the 
+\series bold
+Total Electric Field distribution
+\series default
+ due to 
+\bar under
+Space Charge
+\bar default
+ (and its images),
+ we first need a function that describes the 
+\bar under
+space charge density as a function of space
+\bar default
+.
+ Since this Thesis is based on the work of 
+\series bold
+Wang Wenduan,
+ Wang Haiting 
+\series default
+
+\begin_inset Quotes eld
+\end_inset
+
+A New Model For Simulating The Effects Of Space Charge In Gas Discharge
+\begin_inset Quotes erd
+\end_inset
+
+
+\series bold
+ [1]
+\series default
+,
+ we will use their improved model,
+ that is given by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\rho(r)=\frac{A}{\left(r+C\right)^{B}}\;\;\left[\frac{C}{m^{3}}\right]\label{eq:space_charge_density}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+where
+\bar default
+:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $A[C\cdot m^{B-3}]$
+\end_inset
+
+:
+ 
+\series bold
+Peak Charge Density / Scaling Amplitude
+\end_layout
+
+\begin_layout Quote
+This coefficient governs the overall intensity or scale of the space charge distribution.
+ Physically,
+ when evaluating the system at the absolute boundary or origin line (
+\begin_inset Formula $r\to0$
+\end_inset
+
+),
+ 
+\series bold
+A
+\series default
+ acts as the baseline factor that determines the maximum localized charge density in tandem with 
+\series bold
+C
+\series default
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $B[\text{Dimensionless}]$
+\end_inset
+
+:
+ 
+\series bold
+Spatial Decay Exponent / Attenuation Rate
+\end_layout
+
+\begin_layout Quote
+This parameter dictates how aggressively the space charge density drops off as you move radially outward from the discharge source.
+ A higher value of 
+\series bold
+B
+\series default
+ represents a highly localized,
+ rapidly decaying plasma sheath or ionization zone,
+ whereas a lower value indicates a more dispersed,
+ long-range space charge cloud.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $C\;[m]$
+\end_inset
+
+:
+ 
+\series bold
+Spatial Core Radius / Boundary Singularity Regulator
+\end_layout
+
+\begin_layout Quote
+This is a spatial offset parameter that prevents physical and mathematical singularities at the inner boundary.
+ By ensuring that 
+\begin_inset Formula $lim_{r\to0}\rho(r)=\frac{A}{C^{B}}$
+\end_inset
+
+,
+ it models the finite physical limits of the electrode or the core of the discharge zone,
+ keeping the initial charge density stable and finite instead of letting it approach infinity 
+\series bold
+[1]
+\series default
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $r\;[m]$
+\end_inset
+
+:
+ 
+\series bold
+Radial Distance / Kinematic Coordinate
+\end_layout
+
+\begin_layout Quote
+The distance measured radially outward from the apex (tip) of the rod-electrode into the inter-electrode gap.
+ It serves as the primary spatial coordinate for tracking the kinematics and localized attenuation of the drifting ions or space charge.
+\end_layout
+
+\begin_layout Subsection
+A Note On The Geometric Field (
+\begin_inset Formula $\vec{E}_{ext}$
+\end_inset
+
+) & The Plane Image Field (
+\begin_inset Formula $\vec{E}_{I_{plane}}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+In this chapter,
+ we are focused on the calculation of the 
+\bar under
+total electric field distribution
+\bar default
+ due to 
+\series bold
+space charge
+\series default
+,
+ 
+\begin_inset Formula $\vec{E}_{sp,total}=\vec{E}_{sp}+\vec{E}_{I_{rod}}+\vec{E}_{I_{plane}}$
+\end_inset
+
+.
+ The calculation of the external (applied) geometric field 
+\begin_inset Formula $\vec{E}_{ext}$
+\end_inset
+
+,
+ will be described later using the 
+\series bold
+Charge Simulation Method [2]
+\series default
+.
+ Also,
+ its important to mention that this Thesis is based on the work of 
+\series bold
+Wang Wenduan,
+ Wang Haiting 
+\series default
+
+\begin_inset Quotes eld
+\end_inset
+
+A New Model For Simulating The Effects Of Space Charge In Gas Discharge
+\begin_inset Quotes erd
+\end_inset
+
+
+\series bold
+ [1]
+\series default
+,
+ where they assume 
+\begin_inset Formula $\vec{E}_{I_{plane}}\approx0$
+\end_inset
+
+,
+ since they study the space charge effects 
+\series bold
+only on the region close to the rod tip
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Calculating The Space Charge Electric Field (
+\begin_inset Formula $\vec{E}_{sp}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+In 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:vector_schematic_for_the_spherical_rod_tip_and_space_charge_cone"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+,
+ the minimum required geometric configuration for calculating the electric field due to space charge is illustrated.
+ The origin of the global reference frame (
+\begin_inset Formula $\vec{O}=0\hat{x}+0\hat{y}+0\hat{z}$
+\end_inset
+
+) is placed at the apex (tip) of the rod electrode,
+ as in [1].
+ The rod tip is modeled as a hemisphere of radius 
+\begin_inset Formula $R$
+\end_inset
+
+ centered at 
+\begin_inset Formula $\vec{C}=-R\hat{z}$
+\end_inset
+
+,
+ while the space charge envelope is enclosed within a conical geometry whose apex coincides with the origin 
+\begin_inset Formula $\vec{O}$
+\end_inset
+
+.
+ The cone extends along the central axis of symmetry to a maximum length of 
+\begin_inset Formula $\Vert\vec{P}_{cs}\Vert=L_{cs}$
+\end_inset
+
+ (where 
+\begin_inset Formula $cs$
+\end_inset
+
+ denotes the 
+\series bold
+C
+\series default
+orona 
+\series bold
+S
+\series default
+treamer boundary).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "45col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "default"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/v2/space_charge_side_view.pdf
+	scale 45
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Side View
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "45col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "default"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/v2/space_charge_front_view.pdf
+	scale 45
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Front View Of The Cone (Space Charge)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Vector schematic for the spherical rod tip and space charge cone.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:vector_schematic_for_the_spherical_rod_tip_and_space_charge_cone"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Space Charge Electric Field Vector (
+\begin_inset Formula $\vec{r}_{1}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Space Charge Position Vector
+\series default
+ (
+\begin_inset Formula $\vec{P}_{dq_{sp}}$
+\end_inset
+
+):
+\end_layout
+
+\begin_layout Quote
+
+\bar under
+Source Characterization
+\bar default
+:
+ To model the space charge kinematics,
+ an infinitesimally differential charge element 
+\series bold
+dq
+\series default
+ within the conical ionization envelope is considered.
+ Assuming a spherical coordinate framework (r,
+ 
+\begin_inset Formula $\theta$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\phi$
+\end_inset
+
+) anchored at the apex of the discharge cone (
+\begin_inset Formula $\vec{O}$
+\end_inset
+
+),
+ the position vector 
+\begin_inset Formula $\vec{P}_{dq_{sp}}$
+\end_inset
+
+ can be calculated as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\vec{P}_{dq_{sp}}=rsin(\theta)cos(\phi)\hat{x}+rsin(\theta)sin(\phi)\hat{y}+rcos(\theta)\hat{z}\label{eq:space_charge_pos}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Observation Position Vector
+\series default
+ (
+\begin_inset Formula $\vec{P}_{obs}$
+\end_inset
+
+):
+\end_layout
+
+\begin_layout Quote
+
+\bar under
+Field Evaluation Point
+\bar default
+:
+ To evaluate the resulting electric field intensity and space charge kinematics at any arbitrary location in space,
+ a generic observation point is defined.
+ Expressed natively in the global Cartesian coordinate system,
+ the field observation vector is given by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\vec{P}_{obs}=x\hat{x}+y\hat{y}+z\hat{z}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Due to the axial symmetry of the conical envelope,
+ all transverse field components (x and y) cancel out completely upon integration.
+ The analysis can therefore be restricted without loss of generality to an observation point on the central z-axis:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\vec{P}_{obs}=z\hat{z}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The 
+\bar under
+space charge electric field
+\bar default
+ vector (
+\begin_inset Formula $\vec{r}_{1}$
+\end_inset
+
+) is calculated as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{cc}
+\vec{r_{1}}= & \vec{P}_{obs}-\vec{P}_{dq_{sp}}\\
+\vec{r}_{1}= & z\hat{z}-rsin(\theta)cos(\phi)\hat{x}-rsin(\theta)sin(\phi)\hat{y}-rcos(\theta)\hat{z}\\
+\vec{r}_{1}= & -\left[rsin(\theta)cos(\phi)\hat{x}+rsin(\theta)sin(\phi)\hat{y}+\left(rcos(\theta)-z\right)\hat{z}\right]
+\end{array}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and its magnitude (length):
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{cc}
+r_{1}= & \sqrt{r^{2}sin^{2}(\theta)cos^{2}(\phi)+r^{2}sin^{2}(\theta)sin^{2}(\phi)+[rcos(\theta)-z]^{2}}\\
+r_{1}= & \sqrt{r^{2}sin^{2}(\theta)\cancelto{1}{\left[cos^{2}(\phi)+sin^{2}(\phi)\right]}+[rcos(\theta)-z]^{2}}\\
+r_{1}= & \sqrt{\left[rcos(\theta)-z\right]{}^{2}+\left[rsin(\theta)\right]^{2}}
+\end{array}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+finally,
+ the unit direction of the field will be:
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+\begin_inset Formula 
+\begin{equation}
+\hat{r}_{1}=\frac{\vec{r}_{1}}{r_{1}}=-\frac{rsin(\theta)cos(\phi)\hat{x}+rsin(\theta)sin(\phi)\hat{y}+[rcos(\theta)-z]\hat{z}}{\sqrt{\left[rcos(\theta)-z\right]{}^{2}+\left[rsin(\theta)\right]^{2}}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Final Calculation Of The Space Charge Electric Field (
+\begin_inset Formula $\vec{E}_{sp}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+First,
+ we express the infinitesimally differential space charge in terms of the space charge density 
+\series bold
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:space_charge_density"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+
+\series default
+ using the spherical coordinate system:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{cc}
+dq_{sp}= & \rho(r)dv\\
+dq_{sp}= & \rho(r)r^{2}sin(\theta)drd\theta d\phi
+\end{array}\label{eq:dq_sp}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To ensure a physically consistent integration volume,
+ the boundaries of the spatial variables defining the conical ionization envelope must be explicitly established.
+ The domains are restricted as follows:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Radial Distance
+\series default
+ (
+\begin_inset Formula $r\in\left[0,L_{cs}\right]$
+\end_inset
+
+):
+ 
+\end_layout
+
+\begin_layout Quote
+Defines the active length of the corona discharge zone,
+ extending from the cone apex (
+\begin_inset Formula $\vec{O}$
+\end_inset
+
+) to the outer streamer boundary layer (
+\begin_inset Formula $L_{cs}$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Polar Angle
+\series default
+ (
+\begin_inset Formula $\theta\in[0,\frac{\theta_{B}}{2}]$
+\end_inset
+
+):
+\end_layout
+
+\begin_layout Quote
+Restricted strictly to the semi-vertical angle of the cone apex.
+ Because the volumetric geometry is fully axisymmetric,
+ integrating the polar angle over a half-span prevents redundant geometric overlapping and a double-counting of the differential volume elements (dv).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Azimuthal Angle
+\series default
+ (
+\begin_inset Formula $\phi\in[0,2\pi]$
+\end_inset
+
+):
+\end_layout
+
+\begin_layout Quote
+Allows a complete angular rotation about the central z-axis,
+ mapping out the entire circular cross-section of the space charge envelope.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\text{Domains:}\begin{cases}
+r\in\left[0\;,\;L_{cs}\right]\\
+\theta\in\left[0\;,\;\theta_{B}/2\right]\\
+\phi\in[0\;,\;2\pi]
+\end{cases}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+then,
+ we apply Coulombs law:
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{cc}
+d\vec{E}_{sp}= & \frac{1}{4\pi\epsilon_{r}\epsilon_{0}}\frac{dq_{sp}}{r^{2}_{1}}\hat{r}_{1}\\
+\vec{E}_{sp}= & \int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\int^{2\pi}_{0}\frac{1}{4\pi\epsilon_{r}\epsilon_{0}}\frac{\rho(r)r^{2}sin(\theta)d\phi drd\theta}{r^{2}_{1}}\hat{r}_{1}\\
+\vec{E}_{sp}= & \int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\int^{2\pi}_{0}\frac{1}{4\pi\epsilon_{r}\epsilon_{0}}\frac{\rho(r)r^{2}sin(\theta)}{r^{2}_{1}}\left(-\frac{rsin(\theta)cos(\phi)\hat{x}+rsin(\theta)sin(\phi)\hat{y}+[rcos(\theta)-z]\hat{z}}{r_{1}}\right)d\phi drd\theta\\
+\vec{E}_{sp}= & -\frac{1}{4\pi\epsilon_{r}\epsilon_{0}}\int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\int^{2\pi}_{0}\frac{\rho(r)r^{2}sin(\theta)}{r^{3}_{1}}\left[rsin(\theta)cos(\phi)\hat{x}+rsin(\theta)sin(\phi)\hat{y}+[rcos(\theta)-z]\hat{z}\right]d\phi drd\theta\\
+\\\end{array}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Let (
+\size footnotesize
+breaking down the integration into two terms
+\size default
+):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\vec{E}_{sp}=-\frac{1}{4\pi\epsilon_{r}\epsilon_{0}}\left[\vec{I}_{sp,1}+\vec{I}_{sp,2}\right]\label{eq:space_charge_field_i1_i2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\vec{I}_{sp,1}=\int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\int^{2\pi}_{0}\frac{\rho(r)r^{2}sin(\theta)}{r^{3}_{1}}\left[rsin(\theta)cos(\phi)\hat{x}+rsin(\theta)sin(\phi)\hat{y}\right]d\phi drd\theta
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\vec{I}_{sp,2}=\int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\int^{2\pi}_{0}\frac{\rho(r)r^{2}sin(\theta)}{r^{3}_{1}}[rcos(\theta)-z]\hat{z}d\phi drd\theta\label{eq:space_charge_field_i2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Showing that 
+\begin_inset Formula $\vec{I}_{sp,1}=0$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{cc}
+\vec{I}_{sp,1}= & \int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\int^{2\pi}_{0}\frac{\rho(r)r^{2}sin(\theta)}{r^{3}_{1}}\left[rsin(\theta)cos(\phi)\hat{x}+rsin(\theta)sin(\phi)\hat{y}\right]d\phi drd\theta\\
+\vec{I}_{sp,1}= & \int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\int^{2\pi}_{0}\frac{\rho(r)r^{2}sin(\theta)}{r^{3}_{1}}rsin(\theta)cos(\phi)d\phi drd\theta\hat{x}+\int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\int^{2\pi}_{0}\frac{\rho(r)r^{2}sin(\theta)}{r^{3}_{1}}rsin(\theta)sin(\phi)d\phi drd\theta\hat{y}\\
+\vec{I}_{sp,1}= & \int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\frac{\rho(r)r^{2}\;rsin(\theta)}{r^{3}_{1}}sin(\theta)drd\theta\cancelto{0}{\int^{2\pi}_{0}cos(\phi)d\phi\hat{x}}+\int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\frac{\rho(r)r^{2}sin(\theta)}{r^{3}_{1}}sin(\theta)drd\theta\cancelto{0}{\int^{2\pi}_{0}sin(\phi)}d\phi\hat{y}\\
+\vec{I}_{sp,1}= & 0
+\end{array}\label{eq:space_charge_field_i1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Finally,
+ the 
+\series bold
+Space Charge Electric Field
+\series default
+ is given by substituting 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:space_charge_field_i1"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+ & 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:space_charge_field_i2"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+ to 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:space_charge_field_i1_i2"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{cc}
+\vec{E}_{sp}= & -\frac{1}{4\pi\epsilon_{r}\epsilon_{0}}\left[\cancelto{0}{\vec{I}_{sp,1}}+\int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\int^{2\pi}_{0}\frac{\rho(r)r^{2}sin(\theta)}{r^{3}_{1}}[rcos(\theta)-z]\hat{z}d\phi drd\theta\right]\\
+\vec{E}_{sp}= & -\frac{1}{4\pi\epsilon_{r}\epsilon_{0}}\cancelto{2\pi}{\int^{2\pi}_{0}d\phi}\;\;\;\int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\frac{\rho(r)r^{2}sin(\theta)}{r^{3}_{1}}[rcos(\theta)-z]\hat{z}drd\theta\\
+\vec{E}_{sp}= & -\frac{1}{2\epsilon_{r}\epsilon_{0}}\int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\frac{\rho(r)r^{2}sin(\theta)}{r^{3}_{1}}[rcos(\theta)-z]drd\theta\hat{z}
+\end{array}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Summarizing
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset Formula 
+\begin{equation}
+\vec{E}_{sp}=-\frac{1}{2\epsilon_{r}\epsilon_{0}}\int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\frac{\rho(r)r^{2}sin(\theta)}{r^{3}_{1}}[rcos(\theta)-z]drd\theta\hat{z}\;\;,\;\;r_{1}=\sqrt{\left[rcos(\theta)-z\right]{}^{2}+\left[rsin(\theta)\right]^{2}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\text{OR}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\vec{E}_{sp}=\frac{1}{2\epsilon_{r}\epsilon_{0}}\int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\frac{\rho(r)r^{2}sin(\theta)}{r^{3}_{1}}[z-rcos(\theta)]drd\theta\hat{z}\;\;,\;\;r_{1}=\sqrt{\left[z-rcos(\theta)\right]{}^{2}+\left[rsin(\theta)\right]^{2}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Calculation Of The Conductor Image Electric Field (
+\begin_inset Formula $\vec{E}_{I_{rod}}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:vector_schematic_for_rod_image_charge"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+ illustrates the spatial configuration and coordinate tracking of the induced rod image components.
+ Specifically,
+ it details the position vector of the spherical image charge element (
+\begin_inset Formula $\vec{P}_{dq'}$
+\end_inset
+
+) alongside the corresponding field displacement vector (
+\begin_inset Formula $\vec{r}_{4}$
+\end_inset
+
+),
+ which is directed from the source position (
+\begin_inset Formula $\vec{P}_{dq'}$
+\end_inset
+
+) towards the observation point (
+\begin_inset Formula $\vec{P}_{obs}$
+\end_inset
+
+).
+ The field direction will be determined by the product of 
+\begin_inset Formula $\vec{r}_{4}$
+\end_inset
+
+ and the 
+\series bold
+sign
+\series default
+ of the image charge.
+ This section establishes the foundational vector transformation framework required to determine these spatial positions and directional orientations.
+ Using these coordinate mappings,
+ the classical Method of Images for a differential point charge in the presence of a grounded spherical conductor is analytically formulated.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "45col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "default"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/v2/rod_image_space_charge_side_view.pdf
+	scale 45
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Side View (Vectors)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "45col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "default"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/v2/rod_image_space_charge_angles.pdf
+	scale 45
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Side View (Vector Angles)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Vector schematic for the conductor (rod) image charge.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:vector_schematic_for_rod_image_charge"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Space Charge & The Center Of The Rod-Conductor (
+\begin_inset Formula $\vec{r}_{2}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+In order to construct the position vector of the spherical image charge,
+ we need both the distance & the direction along the line that connects the position of the infinitesimally differential space charge 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:space_charge_pos"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+ and the center of the rod tip (
+\begin_inset Formula $\vec{C}=-R\hat{z}$
+\end_inset
+
+).
+ Note that 
+\begin_inset Formula $\vec{C}$
+\end_inset
+
+ denotes the position of the center and is not the constant 
+\begin_inset Formula $C$
+\end_inset
+
+ of the density function 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:space_charge_density"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+.
+ This can be achieved as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{cc}
+\vec{r}_{2}= & \vec{P}_{dq_{sp}}-\vec{C}\\
+\vec{r}_{2}= & rsin(\theta)cos(\phi)\hat{x}+rsin(\theta)sin(\phi)\hat{y}+rcos(\theta)\hat{z}-\left(-R\hat{z}\right)\\
+\vec{r}_{2}= & rsin(\theta)cos(\phi)\hat{x}+rsin(\theta)sin(\phi)\hat{y}+\left[R+rcos(\theta)\right]\hat{z}
+\end{array}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+while its magnitude (length):
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{cc}
+r_{2}= & \sqrt{r^{2}sin^{2}(\theta)cos^{2}(\phi)+r^{2}sin^{2}(\theta)sin^{2}(\phi)+\left[R+rcos(\theta)\right]^{2}}\\
+r_{2}= & \sqrt{r^{2}sin^{2}(\theta)\left[\cancelto{1}{cos^{2}(\phi)+sin^{2}(\phi)}\right]+\left[R+rcos(\theta)\right]^{2}}\\
+r_{2}= & \sqrt{\left[R+rcos(\theta)\right]^{2}+\left[rsin(\theta)\right]^{2}}
+\end{array}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and its unit direction:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\hat{r}_{2}=\frac{\vec{r}_{2}}{r_{2}}=\frac{rsin(\theta)cos(\phi)\hat{x}+rsin(\theta)sin(\phi)\hat{y}+\left[R+rcos(\theta)\right]\hat{z}}{\sqrt{\left[R+rcos(\theta)\right]^{2}+\left[rsin(\theta)\right]^{2}}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Image Charge Position (
+\begin_inset Formula $\vec{P}_{dq'}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+According to the Method of 
+\bar under
+Images for a differential point charge in the presence of a grounded spherical conductor
+\bar default
+,
+ the image charge (
+\begin_inset Formula $dq'$
+\end_inset
+
+) is located at a distance (
+\begin_inset Formula $r_{3}$
+\end_inset
+
+) away from the center of the conductor:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+r_{3}=\frac{R^{2}}{r_{2}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+where
+\bar default
+:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $R$
+\end_inset
+
+:
+ Is the radius of the spherical conductor.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $r_{2}$
+\end_inset
+
+:
+ Is the distance between the differential point charge & the center of the spherical conductor.
+\end_layout
+
+\begin_layout Standard
+To maintain absolute theoretical alignment with the analytical framework established by 
+\series bold
+Wang Wenduan & Wang Haiting [1]
+\series default
+,
+ it is necessary to formally define the localized polar angle (
+\begin_inset Formula $\theta_{3}$
+\end_inset
+
+).
+ This angle characterizes the orientation of the alignment vector 
+\begin_inset Formula $\vec{r}_{2}$
+\end_inset
+
+ relative to the central vertical z-axis of symmetry.While tracking individual Cartesian coordinates introduces an explicit azimuthal dependency via 
+\begin_inset Formula $\cos(\phi)$
+\end_inset
+
+ or 
+\begin_inset Formula $\sin(\phi)$
+\end_inset
+
+,
+ the inherent axisymmetry of the rod-plane gap dictates that the localized polar angle depends globally on the absolute radial displacement away from the vertical axis.
+ By evaluating the norm of the total projection within the horizontal 
+\begin_inset Formula $x\text{-}y$
+\end_inset
+
+ plane,
+ the azimuthal parameter 
+\begin_inset Formula $\phi$
+\end_inset
+
+ is analytically eliminated via the fundamental circular identity 
+\begin_inset Formula $\cos^{2}(\phi)+\sin^{2}(\phi)=1$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{cc}
+sin(\theta_{3})= & \frac{\left\Vert \left(\vec{r}_{2}\cdot\hat{x}\right)\hat{x}+\left(\vec{r}_{2}\cdot\hat{y}\right)\hat{y}\right\Vert }{r_{2}}=\frac{\sqrt{\left[rsin(\theta)cos(\phi)\right]^{2}+\left[rsin(\theta)sin(\phi)\right]^{2}}}{r_{2}}=\frac{\sqrt{r^{2}sin^{2}(\theta)\left[\cancelto{1}{cos^{2}(\phi)+sin^{2}(\phi)}\right]}}{r_{2}}\\
+sin(\theta_{3})= & \frac{rsin(\theta)}{r_{2}}\Rightarrow rsin(\theta)=r_{2}sin(\theta_{3})\\
+\theta_{3}= & sin^{-1}\left(\frac{rsin(\theta)}{r_{2}}\right)
+\end{array}\label{eq:rod_image_sin_of_theta_3}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+while:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+cos(\theta_{3})=\frac{\vec{r}_{2}\cdot\hat{z}}{r_{2}}=\frac{R+rcos(\theta)}{r_{2}}\label{eq:rod_image_cos_of_theta_3}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The precise position vector that can describe the exact location of the differential image charge can be constructed as:
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{cc}
+\vec{P}_{dq'}= & \vec{C}+r_{3}\hat{r}_{2}=-R\hat{z}+r_{3}\frac{rsin(\theta)cos(\phi)\hat{x}+rsin(\theta)sin(\phi)\hat{y}+\left[R+rcos(\theta)\right]\hat{z}}{r_{2}}\\
+\vec{P}_{dq'}= & \frac{r_{3}}{r_{2}}rsin(\theta)cos(\phi)\hat{x}+\frac{r_{3}}{r_{2}}rsin(\theta)sin(\phi)\hat{y}+\left\{ \frac{r_{3}}{r_{2}}\left[R+rcos(\theta)\right]-R\right\} \hat{z}
+\end{array}\label{eq:rod_image_position}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Image Charge To Observation Displacement Vector (
+\begin_inset Formula $\vec{r}_{4}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+Finally,
+ the 
+\bar under
+Image Charge To Observation Displacement Vector
+\bar default
+ can be calculated as:
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{cc}
+\vec{r}_{4}= & \vec{P}_{obs}-\vec{P}_{dq'}\\
+\vec{r}_{4}= & z\hat{z}-\frac{r_{3}}{r_{2}}rsin(\theta)cos(\phi)\hat{x}-\frac{r_{3}}{r_{2}}rsin(\theta)sin(\phi)\hat{y}-\left\{ \frac{r_{3}}{r_{2}}\left[R+rcos(\theta)\right]-R\right\} \hat{z}\\
+\vec{r}_{4}= & -\frac{r_{3}}{r_{2}}rsin(\theta)cos(\phi)\hat{x}-\frac{r_{3}}{r_{2}}rsin(\theta)sin(\phi)\hat{y}-\left\{ \frac{r_{3}}{r_{2}}\left[R+rcos(\theta)\right]-R-z\right\} \hat{z}
+\end{array}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and the angle of the orientation of the vector 
+\begin_inset Formula $\vec{r}_{4}$
+\end_inset
+
+ relative to the central vertical z-axis of symmetry:
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{cc}
+sin(\theta_{4})= & \frac{\left\Vert \left(\vec{r}_{4}\cdot\hat{x}\right)\hat{x}+\left(\vec{r}_{4}\cdot\hat{y}\right)\hat{y}\right\Vert }{r_{4}}=\frac{\sqrt{\left[\frac{r_{3}}{r_{2}}rsin(\theta)cos(\phi)\right]^{2}+\left[\frac{r_{3}}{r_{2}}rsin(\theta)sin(\phi)\right]^{2}}}{r_{4}}\\
+sin(\theta_{4})= & \frac{\sqrt{\left(\frac{r_{3}}{r_{2}}\right)^{2}r^{2}sin^{2}(\theta)\left[\cancelto{1}{cos^{2}(\phi)+sin^{2}(\phi)}\right]}}{r_{4}}=\frac{\frac{r_{3}}{r_{2}}rsin(\theta)}{r_{4}}=\frac{r_{3}\cdot\cancelto{sin(\theta_{3})}{\frac{rsin(\theta)}{r_{2}}}}{r_{4}}\\
+\theta_{4}= & sin^{-1}\left(\frac{r_{3}sin(\theta_{3})}{r_{4}}\right)
+\end{array}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Projecting 
+\begin_inset Formula $\vec{r}_{4}$
+\end_inset
+
+ on the axis of symmetry yields:
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{cc}
+cos(\theta_{4})= & \frac{\vec{r}_{4}\cdot\hat{z}}{r_{4}}\\
+cos(\theta_{4})= & \frac{z+R-\frac{r_{3}}{r_{2}}\left[R+rcos(\theta)\right]}{r_{4}}=\frac{z+R-r_{3}\cancelto{cos(\theta_{3})}{\frac{\left[R+rcos(\theta)\right]}{r_{2}}}}{r_{4}}\\
+cos(\theta_{4})= & \frac{z+R-r_{3}cos(\theta_{3})}{r_{4}}
+\end{array}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+while its magnitude (length):
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{cc}
+r_{4}= & \sqrt{\left[\frac{r_{3}}{r_{2}}rsin(\theta)cos(\phi)\right]^{2}+\left[\frac{r_{3}}{r_{2}}rsin(\theta)sin(\phi)\right]^{2}+\left(\frac{r_{3}}{r_{2}}\left[R+rcos(\theta)\right]-R-z\right)^{2}}\\
+r_{4}= & \sqrt{\left(\frac{r_{3}}{r_{2}}rsin(\theta)\right)^{2}\left[\cancelto{1}{cos^{2}(\phi)+sin^{2}(\phi)}\right]+\left(\frac{r_{3}}{r_{2}}\left[R+rcos(\theta)\right]-R-z\right)^{2}}\\
+r_{4}= & \sqrt{\left(\frac{r_{3}}{r_{2}}rsin(\theta)\right)^{2}+\left(\frac{r_{3}}{r_{2}}\left[R+rcos(\theta)\right]-R-z\right)^{2}}
+\end{array}\label{eq:rod_image_r4}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and since 
+\begin_inset Formula $rsin(\theta)=r_{2}sin(\theta_{3})$
+\end_inset
+
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:rod_image_sin_of_theta_3"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+ & 
+\begin_inset Formula $\frac{R+rcos(\theta)}{r_{2}}=cos(\theta_{3})$
+\end_inset
+
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:rod_image_cos_of_theta_3"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+ substituting them into 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:rod_image_r4"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+ we get:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{cc}
+r_{4}= & \sqrt{\left(\frac{r_{3}}{r_{2}}r_{2}sin(\theta_{3})\right)^{2}+\left\{ r_{3}cos(\theta_{3})-R-z\right\} ^{2}}\\
+r_{4}= & \sqrt{\left[z+R-r_{3}cos(\theta_{3})\right]^{2}+\left[r_{3}sin(\theta_{3})\right]^{2}}
+\end{array}\label{eq:image_charge_r4_final}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and the unit direction:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\hat{r}_{4}=\frac{\vec{r}_{4}}{r_{4}}=\frac{-\frac{r_{3}}{r_{2}}rsin(\theta)cos(\phi)\hat{x}-\frac{r_{3}}{r_{2}}rsin(\theta)sin(\phi)\hat{y}-\left\{ \frac{r_{3}}{r_{2}}\left[R+rcos(\theta)\right]-R-z\right\} \hat{z}}{r_{4}}\label{eq:r4_direction}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Final Calculation Of The Conductor Image Electric Field (
+\begin_inset Formula $\vec{E}_{I_{rod}}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+According to the Method of 
+\bar under
+Images for a differential point charge in the presence of a grounded spherical conductor
+\bar default
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+dq'=-\frac{R}{r_{2}}dq_{sp}\label{eq:image_charge_dq_definition}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+substituting 
+\begin_inset Formula $dq_{sp}=\rho(r)r^{2}sin(\theta)drd\theta d\phi$
+\end_inset
+
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:dq_sp"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+ into 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:image_charge_dq_definition"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+dq'=-\frac{R}{r_{2}}\rho(r)r^{2}sin(\theta)drd\theta d\phi\label{eq:image_charge_dq_final}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+applying Coulumb's law using 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:image_charge_dq_final"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+,
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:r4_direction"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{cc}
+d\vec{E}_{I_{rod}}= & \frac{1}{4\pi\epsilon_{r}\epsilon_{0}}\frac{dq'}{r^{2}_{4}}\hat{r}_{4}\\
+d\vec{E}_{I_{rod}}= & \frac{1}{4\pi\epsilon_{r}\epsilon_{0}}\frac{-\frac{R}{r_{2}}\rho(r)r^{2}sin(\theta)drd\theta d\phi}{r^{2}_{4}}\cdot\frac{-\frac{r_{3}}{r_{2}}rsin(\theta)cos(\phi)\hat{x}-\frac{r_{3}}{r_{2}}rsin(\theta)sin(\phi)\hat{y}-\left\{ \frac{r_{3}}{r_{2}}\left[R+rcos(\theta)\right]-R-z\right\} \hat{z}}{r_{4}}\\
+d\vec{E}_{I_{rod}}= & \frac{1}{4\pi\epsilon_{r}\epsilon_{0}}\frac{\frac{R}{r_{2}}\rho(r)r^{2}sin(\theta)}{r^{3}_{4}}\left(\frac{r_{3}}{r_{2}}rsin(\theta)cos(\phi)\hat{x}+\frac{r_{3}}{r_{2}}rsin(\theta)sin(\phi)\hat{y}+\left\{ \frac{r_{3}}{r_{2}}\left[R+rcos(\theta)\right]-R-z\right\} \hat{z}\right)d\phi drd\theta
+\end{array}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+let:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\vec{E}_{I_{rod}}=\cancelto{0}{\vec{I}_{rod,1}}+\vec{I}_{rod,2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\vec{I}_{rod,1}=\int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\int^{2\pi}_{0}\frac{1}{4\pi\epsilon_{r}\epsilon_{0}}\frac{\frac{R}{r_{2}}\rho(r)r^{2}sin(\theta)}{r^{3}_{4}}\left(\frac{r_{3}}{r_{2}}rsin(\theta)cos(\phi)\hat{x}+\frac{r_{3}}{r_{2}}rsin(\theta)sin(\phi)\hat{y}\right)d\phi drd\theta=0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\vec{I}_{rod,2}=\int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\int^{2\pi}_{0}\frac{1}{4\pi\epsilon_{r}\epsilon_{0}}\frac{\frac{R}{r_{2}}\rho(r)r^{2}sin(\theta)}{r^{3}_{4}}\left\{ \frac{r_{3}}{r_{2}}\left[R+rcos(\theta)\right]-R-z\right\} \hat{z}d\phi drd\theta
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+so:
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+\begin_inset Formula 
+\[
+\begin{array}{cc}
+\vec{E}_{I_{rod}}= & \int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\int^{2\pi}_{0}\frac{1}{4\pi\epsilon_{r}\epsilon_{0}}\frac{\frac{R}{r_{2}}\rho(r)r^{2}sin(\theta)}{r^{3}_{4}}\left\{ \frac{r_{3}}{r_{2}}\left[R+rcos(\theta)\right]-R-z\right\} \hat{z}d\phi drd\theta\\
+\vec{E}_{I_{rod}}= & \frac{1}{4\pi\epsilon_{r}\epsilon_{0}}\cancelto{2\pi}{\int^{2\pi}_{0}d\phi}\;\;\;\;\int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\frac{\frac{R}{r_{2}}\rho(r)r^{2}sin(\theta)}{r^{3}_{4}}\left[r_{3}\frac{R+rcos(\theta)}{r_{2}}-R-z\right]drd\theta\hat{z}\\
+\vec{E}_{I_{rod}}= & -\frac{1}{2\epsilon_{r}\epsilon_{0}}\int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\frac{\frac{R}{r_{2}}\rho(r)r^{2}sin(\theta)}{r^{3}_{4}}\left[z+R-r_{3}\frac{R+rcos(\theta)}{r_{2}}\right]drd\theta\hat{z}\\
+\vec{E}_{I_{rod}}= & -\frac{1}{2\epsilon_{r}\epsilon_{0}}\int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\frac{R\rho(r)r^{2}sin(\theta)}{r^{2}_{4}r_{2}}\cdot\frac{z+R-r_{3}cos(\theta_{3})}{r_{4}}drd\theta\hat{z}\\
+\vec{E}_{I_{rod}}= & -\frac{1}{2\epsilon_{r}\epsilon_{0}}\int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\frac{Rr^{2}\rho(r)sin(\theta)}{r^{2}_{4}r_{2}}cos(\theta_{4})drd\theta\hat{z}
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+\begin_inset Formula 
+\begin{equation}
+\vec{E}_{I_{rod}}=-\frac{1}{2\epsilon_{r}\epsilon_{0}}\int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\frac{Rr^{2}\rho(r)sin(\theta)cos(\theta_{4})}{r^{2}_{4}r_{2}}drd\theta\hat{z}\label{eq:Erod_theta3_theta4}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\text{OR}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\vec{E}_{I_{rod}}=\frac{1}{2\epsilon_{r}\epsilon_{0}}\int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\frac{\rho(r)r^{2}R\cdot sin(\theta)}{r^{3}_{4}r_{2}}\left[r_{3}\frac{R+rcos(\theta)}{r_{2}}-R-z\right]drd\theta\hat{z}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Conclusion 
+\end_layout
+
+\begin_layout Subsubsection*
+Primary Formulation:
+ Pure Coordinate Representation (Computational Core)
+\end_layout
+
+\begin_layout Standard
+For numerical implementation and discrete simulations,
+ expressing the image electric field directly in the global coordinate system avoids intermediate trigonometric transformations and sign ambiguities.
+ The field is evaluated directly via:
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+\begin_inset Formula 
+\begin{equation}
+\begin{cases}
+r_{4}=\sqrt{\left(z+R-\frac{r_{3}}{r_{2}}\left[R+rcos(\theta)\right]\right)^{2}+\left(\frac{r_{3}}{r_{2}}rsin(\theta)\right)^{2}}\\
+\vec{E}_{I_{rod}}=-\frac{1}{2\epsilon_{r}\epsilon_{0}}\int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\frac{\rho(r)r^{2}R\cdot sin(\theta)}{r^{3}_{4}r_{2}}\left[z+R-\frac{r_{3}}{r_{2}}\left(R+rcos(\theta)\right)\right]drd\theta\hat{z}
+\end{cases}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Alternative Formulation:
+ Intermediate Angle Representation (Wang & Wang Framework)
+\end_layout
+
+\begin_layout Standard
+For analytical comparison with classical literature (e.g.,
+ Wang & Wang),
+ the geometry can alternatively be parameterized using the polar transformation angles 
+\begin_inset Formula $\theta_{3}$
+\end_inset
+
+ and 
+\begin_inset Formula $\theta_{4}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\paragraph_spacing double
+\begin_inset Formula 
+\begin{equation}
+\begin{cases}
+r_{4}=\sqrt{\left[z+R-r_{3}cos(\theta_{3})\right]^{2}+\left[r_{3}sin(\theta_{3})\right]^{2}}\\
+\vec{E}_{I_{rod}}=-\frac{1}{2\epsilon_{r}\epsilon_{0}}\int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\frac{Rr^{2}\rho(r)sin(\theta)cos(\theta_{4})}{r^{2}_{4}r_{2}}drd\theta\hat{z}
+\end{cases}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Note on Implementation
+\series default
+:
+ While both formulations are mathematically identical,
+ the pure coordinate representation is preferred in computational algorithms to minimize floating-point operation overhead (eliminating 
+\begin_inset Formula $cos^{-1}$
+\end_inset
+
+ ,
+ 
+\begin_inset Formula $sin^{-1}$
+\end_inset
+
+ calls) and preserve strict sign consistency along the 
+\begin_inset Formula $\hat{z}$
+\end_inset
+
+ axis.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Calculation Of The Plane Image Electric Field (
+\begin_inset Formula $\vec{E}_{I_{plane}}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:Vector-schematic-for-plane-image"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+ illustrates the schematic vector layout used to evaluate the electrostatic field contribution originating from the image charge of the grounded boundary plane located at 
+\begin_inset Formula $\vec{P}_{plane}=d\hat{z}$
+\end_inset
+
+ where 
+\begin_inset Formula $d$
+\end_inset
+
+ is the gap distance measured from the rod apex.
+ The differential element (
+\begin_inset Formula $dq_{sp}$
+\end_inset
+
+) within the localized space charge distribution is specified at spatial coordinate 
+\begin_inset Formula $\vec{P}_{dq_{sp}}=rsin(\theta)cos(\phi)\hat{x}+rsin(\theta)sin(\phi)\hat{y}+rcos(\theta)\hat{z}$
+\end_inset
+
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:p_dq_sp_position"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+ via spherical representation relative to the conductor tip (apex),
+ where 
+\begin_inset Formula $r$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\theta$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\phi$
+\end_inset
+
+ are the internal local cloud coordinates.
+ All remaining spatial distribution parameters retain their previously defined definitions.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/v2/plane_image_charge_side_view.pdf
+	scale 60
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Vector schematic for the plane image charge.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Vector-schematic-for-plane-image"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Image Charge Position (
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\nospellcheck off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\vec{P}_{dq'}$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\nospellcheck default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+) & Image Charge (
+\begin_inset Formula $dq'$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+The grounded conducting plane is oriented normal to the 
+\begin_inset Formula $\hat{z}$
+\end_inset
+
+ axis at 
+\begin_inset Formula $z=d$
+\end_inset
+
+.
+ According to the method of image charges,
+ the image distribution reflects solely along the spatial direction normal to the boundary while preserving its transverse 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $y$
+\end_inset
+
+ coordinates.
+ We define 
+\begin_inset Formula $h$
+\end_inset
+
+ as the axial separation distance from the discrete space charge element (
+\begin_inset Formula $\vec{P}_{dq_{sp}}$
+\end_inset
+
+) to the grounded plane:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+h=d-\vec{P}_{dq_{sp}}\cdot\hat{z}=d-rcos(\theta)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quote
+Reflecting the axial position across the boundary plane yields the image charge location:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{cc}
+\vec{P}_{dq'}= & \vec{P}_{dq_{sp}}+2h\hat{z}\\
+\vec{P}_{dq'}= & rsin(\theta)cos(\phi)\hat{x}+rsin(\theta)sin(\phi)\hat{y}+\left(rcos(\theta)+2d-2rcos(\theta)\right)\hat{z}\\
+\vec{P}_{dq'}= & rsin(\theta)cos(\phi)\hat{x}+rsin(\theta)sin(\phi)\hat{y}+\left(2d-rcos(\theta)\right)\hat{z}
+\end{array}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quote
+while the image charge is just the negated space charge:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+dq'=-dq_{sp}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quote
+substituting the space charge distribution 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:dq_sp"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+dq'=-\rho(r)r^{2}sin(\theta)drd\theta d\phi
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Image Charge To Observation Displacement Vector (
+\begin_inset Formula $\vec{r}_{5}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+The Image Charge To Observation Displacement Vector can be calculated as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{cc}
+\vec{r}_{5}= & \vec{P}_{obs}-\vec{P}_{dq'}\\
+\vec{r}_{5}= & z\hat{z}-rsin(\theta)cos(\phi)\hat{x}-rsin(\theta)sin(\phi)\hat{y}-\left(2d-rcos(\theta)\right)\hat{z}\\
+\vec{r}_{5}= & -\left[rsin(\theta)cos(\phi)\hat{x}+rsin(\theta)sin(\phi)\hat{y}+\left(2d-rcos(\theta)-z\right)\hat{z}\right]
+\end{array}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+while its magnitude (length):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{cc}
+r_{5}= & \sqrt{r^{2}sin^{2}(\theta)cos^{2}(\phi)+r^{2}sin^{2}(\theta)sin^{2}(\phi)+\left(2d-rcos(\theta)-z\right)^{2}}\\
+r_{5}= & \sqrt{r^{2}sin^{2}(\theta)\left[cos^{2}(\phi)+sin^{2}(\phi)\right]+\left(2d-rcos(\theta)-z\right)^{2}}\\
+r_{5}= & \sqrt{\left[rsin(\theta)\right]^{2}+\left(2d-rcos(\theta)-z\right)^{2}}
+\end{array}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quote
+and its unit direction:
+\end_layout
+
+\begin_layout Quote
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{cc}
+\hat{r}_{5}= & \frac{\vec{r}_{5}}{r_{5}}\\
+\hat{r}_{5}= & -\frac{rsin(\theta)cos(\phi)\hat{x}+rsin(\theta)sin(\phi)\hat{y}+\left(2d-rcos(\theta)-z\right)\hat{z}}{\sqrt{\left[rsin(\theta)\right]^{2}+\left(2d-rcos(\theta)-z\right)^{2}}}
+\end{array}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Final Calculation Of The Plane Image Electric Field (
+\begin_inset Formula $\vec{E}_{I_{plane}}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{ccc}
+d\vec{E}_{I_{plane}}= & \frac{1}{4\pi\epsilon_{r}\epsilon_{0}}\frac{dq'}{r^{2}_{5}}\hat{r}_{5}\\
+d\vec{E}_{I_{plane}}= & \frac{1}{4\pi\epsilon_{r}\epsilon_{0}}\frac{-\rho(r)r^{2}sin(\theta)drd\theta d\phi}{r^{2}_{5}}\left[-\frac{rsin(\theta)cos(\phi)\hat{x}+rsin(\theta)sin(\phi)\hat{y}+\left(2d-rcos(\theta)-z\right)\hat{z}}{r_{5}}\right]\\
+d\vec{E}_{I_{plane}}= & -\frac{1}{4\pi\epsilon_{r}\epsilon_{0}}\frac{-\rho(r)r^{2}sin(\theta)}{r^{3}_{5}}\left[rsin(\theta)cos(\phi)\hat{x}+rsin(\theta)sin(\phi)\hat{y}+\left(2d-rcos(\theta)-z\right)\hat{z}\right]drd\theta d\phi\\
+\vec{E}_{I_{plane}}= & \int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\int^{2\pi}_{0}\frac{1}{4\pi\epsilon_{r}\epsilon_{0}}\frac{\rho(r)r^{2}sin(\theta)}{r^{3}_{5}}\left[rsin(\theta)cos(\phi)\hat{x}+rsin(\theta)sin(\phi)\hat{y}+\left(2d-rcos(\theta)-z\right)\hat{z}\right]drd\theta d\phi\\
+\vec{E}_{I_{plane}}= & \cancelto{0}{\vec{I}_{plane,1}}+\vec{I}_{plane,2}\\
+\vec{I}_{plane,1}= & \int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\int^{2\pi}_{0}\frac{1}{4\pi\epsilon_{r}\epsilon_{0}}\frac{\rho(r)r^{2}sin(\theta)}{r^{3}_{5}}\left[rsin(\theta)cos(\phi)\hat{x}+rsin(\theta)sin(\phi)\hat{y}\right]drd\theta d\phi=0\\
+\vec{I}_{plane,2}= & \int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\int^{2\pi}_{0}\frac{1}{4\pi\epsilon_{r}\epsilon_{0}}\frac{\rho(r)r^{2}sin(\theta)}{r^{3}_{5}}\left(2d-rcos(\theta)-z\right)\hat{z}drd\theta d\phi\\
+\vec{I}_{plane,2}= & \int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\frac{1}{4\pi\epsilon_{r}\epsilon_{0}}\frac{\rho(r)r^{2}sin(\theta)}{r^{3}_{5}}\left(2d-rcos(\theta)-z\right)\hat{z}drd\theta\cancelto{2\pi}{\int^{2\pi}_{0}d\phi}\\
+\vec{I}_{plane,2}= & \frac{1}{2\epsilon_{r}\epsilon_{0}}\int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\frac{\rho(r)r^{2}sin(\theta)}{r^{3}_{5}}\left(2d-rcos(\theta)-z\right)\hat{z}drd\theta
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\vec{E}_{I_{plane}}=\frac{1}{2\epsilon_{r}\epsilon_{0}}\int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\frac{\rho(r)r^{2}sin(\theta)}{r^{3}_{5}}\left(2d-rcos(\theta)-z\right)\hat{z}drd\theta
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Derivation of Space Charge Amplitude 
+\begin_inset Formula $A$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The axial space charge electric field 
+\begin_inset Formula $\vec{E}_{sp}(z)$
+\end_inset
+
+ is given by:
+ 
+\begin_inset Formula 
+\begin{equation}
+\vec{E}_{sp}(z)=\frac{1}{2\epsilon_{r}\epsilon_{0}}\int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\frac{\rho(r)r^{2}\sin\theta}{r^{3}_{1}}\left[z-r\cos\theta\right]dr\,d\theta\,\hat{z}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $r_{1}=\sqrt{\left[z-r\cos\theta\right]^{2}+\left[r\sin\theta\right]^{2}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\rho(r)=\frac{A}{(r+C)^{B}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection*
+Volumetric Integration for 
+\begin_inset Formula $Q_{cs}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Integrating 
+\begin_inset Formula $\rho(r)$
+\end_inset
+
+ over the conical volume 
+\begin_inset Formula $dV=r^{2}\sin\theta\,dr\,d\theta\,d\phi$
+\end_inset
+
+:
+ 
+\begin_inset Formula 
+\begin{equation}
+Q_{cs}=\int\int\int\rho(r)\;dv=\int^{2\pi}_{0}d\phi\int^{\frac{\theta_{B}}{2}}_{0}\sin\theta\,d\theta\int^{L_{cs}}_{0}\frac{A}{(r+C)^{B}}r{}^{2}\,dr
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Evaluating the angular terms:
+ 
+\begin_inset Formula 
+\begin{equation}
+Q_{cs}=A\cdot2\pi\left[1-\cos\left(\frac{\theta_{B}}{2}\right)\right]\int^{L_{cs}}_{0}\frac{r^{2}}{(r+C)^{B}}\,dr
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Gauss's Law at Streamer Boundary
+\end_layout
+
+\begin_layout Standard
+Applying Gauss's Law over a closed surface 
+\begin_inset Formula $S$
+\end_inset
+
+ enclosing the streamer volume:
+ 
+\begin_inset Formula 
+\begin{equation}
+\oint_{S}\vec{E}\cdot d\vec{A}=\frac{Q_{cs}}{\epsilon_{0}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Assuming the flux is concentrated across the circular head area 
+\begin_inset Formula $S_{\text{head}}$
+\end_inset
+
+ at axial distance 
+\begin_inset Formula $L_{cs}$
+\end_inset
+
+ where the field magnitude is uniform (
+\begin_inset Formula $\|\vec{E}\|=E_{c}$
+\end_inset
+
+):
+ 
+\begin_inset Formula 
+\begin{equation}
+\iint_{S_{\text{head}}}E_{c}\,dA=E_{c}A_{\text{head}}=\frac{Q_{cs}}{\epsilon_{0}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+From cone trigonometry,
+ the head radius is 
+\begin_inset Formula $r_{\text{head}}=L_{cs}\tan\left(\frac{\theta_{B}}{2}\right)$
+\end_inset
+
+,
+ giving the head area:
+ 
+\begin_inset Formula 
+\begin{equation}
+A_{\text{head}}=\pi r^{2}_{\text{head}}=\pi\left[L_{cs}\tan\left(\frac{\theta_{B}}{2}\right)\right]^{2}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Substituting 
+\begin_inset Formula $A_{\text{head}}$
+\end_inset
+
+ back into Gauss's Law and isolating 
+\begin_inset Formula $Q_{cs}$
+\end_inset
+
+:
+ 
+\begin_inset Formula 
+\begin{equation}
+Q_{cs}=\epsilon_{0}E_{c}A_{\text{head}}=\pi\epsilon_{0}E_{c}L^{2}_{cs}\tan^{2}\left(\frac{\theta_{B}}{2}\right)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Equating and Isolating 
+\begin_inset Formula $A$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Equating both expressions for 
+\begin_inset Formula $Q_{cs}$
+\end_inset
+
+ yields the explicit result:
+ 
+\begin_inset Formula 
+\begin{equation}
+A(E_{c},B,C,L_{cs},\theta_{B})=\frac{\overbrace{\pi\epsilon_{0}E_{c}L^{2}_{cs}\tan^{2}\left(\frac{\theta_{B}}{2}\right)}^{Q_{cs}}}{2\pi\left(1-\cos\left(\frac{\theta_{B}}{2}\right)\right)\int^{L_{cs}}_{0}\frac{r^{2}}{(r+C)^{B}}\,dr}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Summarizing
+\end_layout
+
+\begin_layout Quote
+Space Charge Density Function & Domains:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\rho(r)=\frac{A}{\left(r+C\right)^{B}}\;\;\left[\frac{C}{m^{3}}\right]\;\;,\;\;\text{Domains:}\begin{cases}
+r\in\left[0\;,\;L_{cs}\right]\\
+\theta\in\left[0\;,\;\theta_{B}/2\right]\\
+\phi\in[0\;,\;2\pi]
+\end{cases}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+A(\;E_{c}\;,\;B\;,\;C\;,\;L_{cs}\;,\;\theta_{B}\;)=\frac{\overbrace{\pi\epsilon_{0}E_{c}L^{2}_{cs}\tan^{2}\left(\frac{\theta_{B}}{2}\right)}^{Q_{cs}}}{2\pi\left[1-\cos\left(\frac{\theta_{B}}{2}\right)\right]\int^{L_{cs}}_{0}\frac{r^{2}}{(r+C)^{B}}\,dr}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+B,C are choosen such that 
+\begin_inset Formula $E_{total}=E_{ext}+E_{sp}+E_{I_{rod}}+E_{I_{plane}}=\text{constant}$
+\end_inset
+
+ (uniform),
+ 
+\begin_inset Formula $E_{c}:$
+\end_inset
+
+ Average electric field in the streamer region ( typically ~5.0 [kV/cm] ).
+\end_layout
+
+\begin_layout Subsubsection*
+Space Charge (
+\begin_inset Formula $\vec{E}_{sp}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Quote
+Space charge attenuation distance:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+r_{1}=\sqrt{\left[z-rcos(\theta)\right]{}^{2}+\left[rsin(\theta)\right]^{2}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quote
+Space charge electric field:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\vec{E}_{sp}=\frac{1}{2\epsilon_{r}\epsilon_{0}}\int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\frac{\rho(r)r^{2}sin(\theta)}{r^{3}_{1}}[z-rcos(\theta)]drd\theta\hat{z}\label{eq:final_Esp}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Rod Image (
+\begin_inset Formula $\vec{E}_{I_{rod}}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Quote
+Distance between space charge & rod center.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+r_{2}=\sqrt{\left[R+rcos(\theta)\right]^{2}+\left[rsin(\theta)\right]^{2}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quote
+Distance of the rod image charge from its center:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+r_{3}=\frac{R^{2}}{r_{2}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quote
+Rod image charge attenuation distance:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+r_{4}=\sqrt{\left(z+R-\frac{r_{3}}{r_{2}}\left[R+rcos(\theta)\right]\right)^{2}+\left(\frac{r_{3}}{r_{2}}rsin(\theta)\right)^{2}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quote
+Rod image electric field:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\vec{E}_{I_{rod}}=-\frac{1}{2\epsilon_{r}\epsilon_{0}}\int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\frac{\rho(r)r^{2}Rsin(\theta)}{r^{3}_{4}r_{2}}\left[z+R-\frac{r_{3}}{r_{2}}\left(R+rcos(\theta)\right)\right]drd\theta\hat{z}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Plane Image (
+\begin_inset Formula $\vec{E}_{I_{plane}}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Quote
+Plane image charge attenuation distance:
+\end_layout
+
+\begin_layout Quote
+\begin_inset Formula 
+\begin{equation}
+r_{5}=\sqrt{\left[rsin(\theta)\right]^{2}+\left(2d-rcos(\theta)-z\right)^{2}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quote
+Plane image electric field:
+\end_layout
+
+\begin_layout Quote
+\begin_inset Formula 
+\begin{equation}
+\vec{E}_{I_{plane}}=\frac{1}{2\epsilon_{r}\epsilon_{0}}\int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\frac{\rho(r)r^{2}sin(\theta)}{r^{3}_{5}}\left(2d-rcos(\theta)-z\right)drd\theta\hat{z}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Mathematical Equivalence with the Wang–Haiting Formulation
+\end_layout
+
+\begin_layout Standard
+To validate the analytical formulation developed above,
+ we show that it is identical to the space-charge model published by Wang and Haiting [1] (Eqs.
+ 4 and 5 of [1]).
+ While the Wang–Haiting equations use the intermediate angles 
+\begin_inset Formula $\theta_{3}$
+\end_inset
+
+ and 
+\begin_inset Formula $\theta_{4}$
+\end_inset
+
+,
+ our implementation uses coordinate-based algebraic forms that are better suited to numerical integration.
+ This section proves,
+ term by term,
+ that the two are the same,
+ and lists the typographical errors of the original paper that the derivation corrects.
+\end_layout
+
+\begin_layout Subsection
+Common Coordinate System
+\end_layout
+
+\begin_layout Standard
+Both formulations use the same coordinate system,
+ so no transformation between them is needed:
+\end_layout
+
+\begin_layout Itemize
+the origin 
+\begin_inset Formula $\vec{O}$
+\end_inset
+
+ is the apex (tip) of the rod electrode,
+ which is also the apex of the space-charge cone;
+\end_layout
+
+\begin_layout Itemize
+the 
+\begin_inset Formula $z$
+\end_inset
+
+ axis is the axis of symmetry,
+ pointing from the rod towards the grounded plane;
+\end_layout
+
+\begin_layout Itemize
+the centre of the hemispherical rod tip lies at 
+\begin_inset Formula $\vec{C}=-R\hat{z}$
+\end_inset
+
+ and the plane at 
+\begin_inset Formula $z=d$
+\end_inset
+
+,
+ where 
+\begin_inset Formula $d$
+\end_inset
+
+ is the apex-to-plane gap distance.
+\end_layout
+
+\begin_layout Standard
+The axial coordinate 
+\begin_inset Formula $Z$
+\end_inset
+
+ of [1] is therefore our 
+\begin_inset Formula $z$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $\epsilon=\epsilon_{r}\epsilon_{0}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Direct Space-Charge Field
+\end_layout
+
+\begin_layout Standard
+From 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:final_Esp"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+,
+ the direct space-charge field on the axis is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\vec{E}_{sp}(z)=\frac{1}{2\epsilon_{r}\epsilon_{0}}\int^{\theta_{B}/2}_{0}\int^{L_{cs}}_{0}\frac{\rho(r)\,r^{2}\sin(\theta)}{r^{3}_{1}}\left[z-r\cos(\theta)\right]dr\,d\theta\,\hat{z},\qquad r_{1}=\sqrt{\left[z-r\cos(\theta)\right]^{2}+\left[r\sin(\theta)\right]^{2}}.
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Taking the minus sign out of the bracket,
+ 
+\begin_inset Formula $z-r\cos(\theta)=-\left[r\cos(\theta)-z\right]$
+\end_inset
+
+,
+ and noting that the square in 
+\begin_inset Formula $r_{1}$
+\end_inset
+
+ does not change,
+ gives
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+E_{sp}=-\frac{1}{2\epsilon}\int^{\theta_{B}/2}_{0}\int^{L_{cs}}_{0}\frac{\rho(r)\,r^{2}\sin(\theta)}{r^{3}_{1}}\left[r\cos(\theta)-Z\right]dr\,d\theta,\qquad r_{1}=\sqrt{\left[r\cos(\theta)-Z\right]^{2}+\left[r\sin(\theta)\right]^{2}},
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+which is Eq.
+ 4 of [1].
+\end_layout
+
+\begin_layout Quote
+
+\series bold
+Note on a typographical error in [1]:
+
+\series default
+ the paper prints the second term of 
+\begin_inset Formula $r_{1}$
+\end_inset
+
+ as 
+\begin_inset Formula $\left[r_{3}\sin(\theta)\right]^{2}$
+\end_inset
+
+.
+ Since 
+\begin_inset Formula $r\sin(\theta)$
+\end_inset
+
+ is the distance of the charge element from the axis,
+ the correct term is 
+\begin_inset Formula $\left[r\sin(\theta)\right]^{2}$
+\end_inset
+
+,
+ as derived above.
+\end_layout
+
+\begin_layout Subsection
+Rod Image Field
+\end_layout
+
+\begin_layout Standard
+From 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Erod_theta3_theta4"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+,
+ the rod image field is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\vec{E}_{I_{rod}}(z)=-\frac{1}{2\epsilon_{r}\epsilon_{0}}\int^{\theta_{B}/2}_{0}\int^{L_{cs}}_{0}\frac{R\,r^{2}\rho(r)\sin(\theta)\cos(\theta_{4})}{r^{2}_{4}\,r_{2}}dr\,d\theta\,\hat{z},
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+whose integrand is the same as in Eq.
+ 5 of [1].
+ It remains to show that the auxiliary quantities are the same.
+ The first three are identical by construction,
+ because 
+\begin_inset Formula $\vec{r}_{2}=\vec{P}_{dq_{sp}}-\vec{C}$
+\end_inset
+
+ is measured from the centre of the rod tip in both formulations:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+r_{2}=\sqrt{\left[R+r\cos(\theta)\right]^{2}+\left[r\sin(\theta)\right]^{2}},\qquad r_{3}=\frac{R^{2}}{r_{2}},\qquad\theta_{3}=\sin^{-1}\left(\frac{r\sin(\theta)}{r_{2}}\right).
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For 
+\begin_inset Formula $r_{4}$
+\end_inset
+
+,
+ the image charge lies at 
+\begin_inset Formula $\vec{P}_{dq'}=\vec{C}+r_{3}\hat{r}_{2}$
+\end_inset
+
+,
+ so its axial distance from the observer is 
+\begin_inset Formula $z+R-r_{3}\cos(\theta_{3})$
+\end_inset
+
+ and its distance from the axis is 
+\begin_inset Formula $r_{3}\sin(\theta_{3})$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+r_{4}=\sqrt{\left[Z+R-r_{3}\cos(\theta_{3})\right]^{2}+\left[r_{3}\sin(\theta_{3})\right]^{2}},
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+which is the 
+\begin_inset Formula $r_{4}$
+\end_inset
+
+ of [1].
+ The term 
+\begin_inset Formula $+R$
+\end_inset
+
+ is the distance between the origin (apex) and the centre of the rod tip,
+ about which the Kelvin image is constructed.
+\end_layout
+
+\begin_layout Quote
+
+\series bold
+Note on a typographical error in [1]:
+
+\series default
+ the paper prints the second term of 
+\begin_inset Formula $r_{4}$
+\end_inset
+
+ as 
+\begin_inset Formula $\left[r_{3}\sin(\theta)\right]^{2}$
+\end_inset
+
+.
+ The image lies on the line from 
+\begin_inset Formula $\vec{C}$
+\end_inset
+
+ to the charge element,
+ at angle 
+\begin_inset Formula $\theta_{3}$
+\end_inset
+
+ from the axis,
+ so the correct term is 
+\begin_inset Formula $\left[r_{3}\sin(\theta_{3})\right]^{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Finally,
+ [1] defines 
+\begin_inset Formula $\theta_{4}=\sin^{-1}\left(r_{3}\sin(\theta_{3})/r_{4}\right)$
+\end_inset
+
+.
+ The inverse sine returns 
+\begin_inset Formula $\theta_{4}\in\left[0,\pi/2\right]$
+\end_inset
+
+,
+ so it always gives 
+\begin_inset Formula $\cos(\theta_{4})\ge0$
+\end_inset
+
+,
+ whereas our derivation gives the signed axial projection
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\cos(\theta_{4})=\frac{\vec{r}_{4}\cdot\hat{z}}{r_{4}}=\frac{z+R-r_{3}\cos(\theta_{3})}{r_{4}}.
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The two agree because this projection is never negative in the gap.
+ Every charge element lies outside the rod,
+ so 
+\begin_inset Formula $r_{2}\ge R$
+\end_inset
+
+ and 
+\begin_inset Formula $r_{3}=R^{2}/r_{2}\le R$
+\end_inset
+
+:
+ the image lies inside the hemisphere.
+ Hence,
+ for every observation point 
+\begin_inset Formula $z\ge0$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+r_{3}\cos(\theta_{3})\le r_{3}\le R\le z+R\quad\Rightarrow\quad z+R-r_{3}\cos(\theta_{3})\ge0,
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and the inverse-sine definition of [1] and our signed projection give the same 
+\begin_inset Formula $\cos(\theta_{4})$
+\end_inset
+
+.
+ The coordinate form of the conclusion of the rod image subsection,
+ which evaluates 
+\begin_inset Formula $z+R-\frac{r_{3}}{r_{2}}\left[R+r\cos(\theta)\right]$
+\end_inset
+
+ directly,
+ is therefore identical to Eq.
+ 5 of [1] without evaluating 
+\begin_inset Formula $\theta_{3}$
+\end_inset
+
+ or 
+\begin_inset Formula $\theta_{4}$
+\end_inset
+
+ during the integration.
+\end_layout
+
+\begin_layout Subsection
+Grounded Plane Image Field and Boundary Approximations
+\end_layout
+
+\begin_layout Standard
+In long rod-plane gaps (
+\begin_inset Formula $d\gg R$
+\end_inset
+
+) the ionization and streamer propagation occur near the rod tip.
+ Wang and Haiting omit the image of the space charge in the grounded plane (
+\begin_inset Formula $\vec{E}_{I_{plane}}\approx0$
+\end_inset
+
+),
+ so their total field is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\vec{E}_{\text{total, WH}}=\vec{E}_{ex}+\vec{E}_{sp}+\vec{E}_{I_{rod}}.
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Our model keeps 
+\begin_inset Formula $\vec{E}_{I_{plane}}$
+\end_inset
+
+ to satisfy the boundary condition on the plane over the whole gap.
+ Near the rod (
+\begin_inset Formula $z\ll d$
+\end_inset
+
+) the image charges lie about 
+\begin_inset Formula $2d$
+\end_inset
+
+ away and 
+\begin_inset Formula $\vec{E}_{I_{plane}}\to0$
+\end_inset
+
+,
+ so the two formulations agree where [1] applies.
+\end_layout
+
+\begin_layout Subsection
+Summary of Analytical Equivalence
+\end_layout
+
+\begin_layout Standard
+The comparison is summarized in 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "tab:wh_equivalence"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="8" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Item
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+This work
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Wang–Haiting [1]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Status
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Origin
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+rod apex
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+rod apex
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+identical
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $E_{sp}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+bracket 
+\begin_inset Formula $z-r\cos(\theta)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+bracket 
+\begin_inset Formula $-(r\cos(\theta)-Z)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+identical
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $r_{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $r\sin(\theta)$
+\end_inset
+
+ term
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+printed 
+\begin_inset Formula $r_{3}\sin(\theta)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+typo corrected
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $E_{I_{rod}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+coordinate form
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+angles 
+\begin_inset Formula $\theta_{3}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\theta_{4}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+identical
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $r_{4}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $r_{3}\sin(\theta_{3})$
+\end_inset
+
+ term
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+printed 
+\begin_inset Formula $r_{3}\sin(\theta)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+typo corrected
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\cos(\theta_{4})$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+signed projection
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+from 
+\begin_inset Formula $\sin^{-1}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\ge0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+identical in the gap
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $E_{I_{plane}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+included
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+neglected
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+generalization
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Comparison between the formulation of this work and Wang–Haiting [1].
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:wh_equivalence"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Dynamic Kinematics and Relative Coordinate Tracking
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/v2/space_charge_kinematics.pdf
+	scale 60
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Space Charge Kinematics
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To incorporate the spatial translation of the drifting space charge cloud along the primary axis of symmetry,
+ the kinematics are integrated into the existing framework using a 
+\series bold
+continuous relative coordinate mapping
+\series default
+.
+ Let 
+\begin_inset Formula $z_{\text{drift}}(t)$
+\end_inset
+
+ represent the time-dependent,
+ absolute physical translation of the whole space charge cloud,
+ which moves as a rigid body,
+ along the positive 
+\begin_inset Formula $\hat{z}$
+\end_inset
+
+ direction away from its initial coordinate.
+ Every charge element is translated by the same distance,
+ and so is the reference point 
+\begin_inset Formula $z_{c}$
+\end_inset
+
+ where the cloud's own field vanishes.
+ Following [1],
+ 
+\begin_inset Formula $z_{c}$
+\end_inset
+
+ is defined as the zero of 
+\begin_inset Formula $E_{sp}$
+\end_inset
+
+,
+ not as the centre of mass of the charge:
+ 
+\begin_inset Formula 
+\begin{equation}
+z_{\text{c}}(t)=z_{\text{c},0}+z_{\text{drift}}(t)\;\;\;\;,\;\;\;\;E_{\text{sp}}(z_{c,0})=0\implies z_{c,0}=E^{-1}_{\text{sp}}(0)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Because the governing electrostatic field equations depend strictly on the relative displacement vector directed from the source charge coordinate to the target evaluation point (
+\begin_inset Formula $\vec{P}_{observer}-\vec{P}_{charge,source}$
+\end_inset
+
+),
+ the physical vertical tracking component transforms as follows:
+ 
+\begin_inset Formula 
+\begin{align}
+\text{Axial Displacement} & =z-z_{\text{c}}(t)\nonumber \\
+ & =z-\left(z_{\text{c},0}+z_{\text{drift}}(t)\right)\nonumber \\
+ & =\left(z-z_{\text{drift}}(t)\right)-z_{\text{c},0}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This algebraic grouping demonstrates that physically moving the space charge cloud forward by 
+\begin_inset Formula $+z_{\text{drift}}(t)$
+\end_inset
+
+ is mathematically identical to keeping the cloud’s integration grid completely stationary and shifting the effective observation coordinate backward by 
+\begin_inset Formula $-z_{\text{drift}}(t)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Consequently,
+ the simulation engine preserves the static computational geometry of the mesh grid.
+ To evaluate the resulting fields at an absolute location 
+\begin_inset Formula $z$
+\end_inset
+
+,
+ the framework simply passes a time-dependent effective observer coordinate into the static integral of the space charge field 
+\begin_inset Formula $\vec{E}_{sp}$
+\end_inset
+
+:
+ 
+\begin_inset Formula 
+\begin{equation}
+z_{\text{eff}}(t)=z-z_{\text{drift}}(t)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This spatial substitution variable replaces the literal observer coordinate 
+\begin_inset Formula $z$
+\end_inset
+
+ in the space charge field 
+\begin_inset Formula $\vec{E}_{sp}$
+\end_inset
+
+,
+ eliminating the computational overhead of dynamically rebuilding or translating multi-dimensional arrays during runtime.
+ It does not apply to the image fields 
+\begin_inset Formula $\vec{E}_{I_{rod}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\vec{E}_{I_{plane}}$
+\end_inset
+
+,
+ which also depend on the fixed electrodes;
+ their treatment under drift is derived in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:drift_image_fields"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Kinematic Time-Stepping and Discrete Integration
+\end_layout
+
+\begin_layout Standard
+The dynamic translation 
+\begin_inset Formula $z_{\text{drift}}(t)$
+\end_inset
+
+ of the space charge cloud is governed by the time-varying total driving electric field evaluated at the moving reference point 
+\begin_inset Formula $z_{c}(t)$
+\end_inset
+
+.
+ By framing the translation explicitly as a continuous function of time,
+ the total accumulated drift distance at any instant 
+\begin_inset Formula $t$
+\end_inset
+
+ is resolved directly by integrating the cloud’s velocity:
+ 
+\begin_inset Formula 
+\begin{equation}
+z_{\text{drift}}(t)=\int^{t}_{0}\underbrace{\mu^{+}\left[E_{\text{ex}}\left(\;z_{c}(\tau)\;\right)+E_{\text{I,rod}}\left(\;z_{c}(\tau)\;\right)+E_{\text{I,plane}}\left(\;z_{c}(\tau)\;\right)\right]}_{\left\Vert \vec{v}\right\Vert \;\left[m/s\right]:\;\text{The drift speed of the cloud}}d\tau\;\;\left[m\right]
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where the mobility coefficient for positive ions in atmospheric air is taken from [1] (
+\begin_inset Formula $b=1.36\times10^{-3}\,\text{cm}^{2}/(\text{kV}\cdot\mu\text{s})$
+\end_inset
+
+):
+ 
+\begin_inset Formula 
+\begin{equation}
+\mu^{+}=1.36\times10^{-4}\quad\left[\frac{\text{m}^{2}}{\text{V}\cdot\text{s}}\right]
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Decoupled Coordinate Mapping and Kinematic Reference Tracking
+\end_layout
+
+\begin_layout Standard
+To progress the system chronologically from time 
+\begin_inset Formula $t$
+\end_inset
+
+ to 
+\begin_inset Formula $t+\Delta t$
+\end_inset
+
+,
+ the continuous integration limits are partitioned according to the additive property of definite integrals:
+ 
+\begin_inset Formula 
+\begin{equation}
+z_{\text{drift}}(t+\Delta t)=z_{\text{drift}}(t)+\int^{t+\Delta t}_{t}\mu^{+}\left[E_{\text{ex}}\left(\;z_{c}(\tau)\;\right)+E_{\text{I,rod}}\left(\;z_{c}(\tau)\;\right)+E_{\text{I,plane}}\left(\;z_{c}(\tau)\;\right)\right]d\tau
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The second term on the right-hand side represents the exact incremental spatial displacement 
+\begin_inset Formula $z_{m}(t)$
+\end_inset
+
+ 
+\series bold
+[1]
+\series default
+ over the step interval 
+\begin_inset Formula $\Delta t$
+\end_inset
+
+.
+ Defining this step displacement yields:
+ 
+\begin_inset Formula 
+\begin{equation}
+z_{m}(t)=\int^{t+\Delta t}_{t}\mu^{+}\left[E_{\text{ex}}\left(\;z_{c}(\tau)\;\right)+E_{\text{I,rod}}\left(\;z_{c}(\tau)\;\right)+E_{\text{I,plane}}\left(\;z_{c}(\tau)\;\right)\right]d\tau
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Substituting this definition back into the partitioned integral yields the clean time-dependent kinematic evolution law:
+ 
+\begin_inset Formula 
+\begin{equation}
+z_{\text{drift}}(t+\Delta t)=z_{\text{drift}}(t)+z_{m}(t)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This mathematical formulation bridges continuous classical kinematics with discrete computational execution.
+ The simulation engine simply advances a master time variable 
+\begin_inset Formula $t\to t+\Delta t$
+\end_inset
+
+,
+ which inherently maps the updated spatial boundaries for 
+\begin_inset Formula $z_{\text{drift}}(t)$
+\end_inset
+
+,
+ 
+\begin_inset Formula $z_{c}(t)$
+\end_inset
+
+,
+ and 
+\begin_inset Formula $z_{\text{eff}}(t)$
+\end_inset
+
+ without relying on software-specific accumulator variables.
+\end_layout
+
+\begin_layout Subsection
+Applying the Drift to the Image Fields
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:drift_image_fields"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The relative coordinate mapping 
+\begin_inset Formula $z_{\text{eff}}(t)=z-z_{\text{drift}}(t)$
+\end_inset
+
+ of the previous subsections is exact for the space charge field 
+\begin_inset Formula $\vec{E}_{sp}$
+\end_inset
+
+ only.
+ Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:final_Esp"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+ depends solely on the displacement between a source element and the observer,
+ and no other body takes part,
+ so translating the cloud is the same as translating the observer backwards.
+ The image fields 
+\begin_inset Formula $\vec{E}_{I_{rod}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\vec{E}_{I_{plane}}$
+\end_inset
+
+ are different:
+ they also depend on where the charge sits relative to the rod and the grounded plane,
+ and 
+\series bold
+the electrodes do not move
+\series default
+ during the drift.
+ Shifting the observer would implicitly drag the rod and the plane along with the cloud.
+ For the image fields the drift must therefore be applied to the 
+\series bold
+source position
+\series default
+,
+ while the electrodes stay fixed.
+\end_layout
+
+\begin_layout Subsubsection*
+Translated Source Position
+\end_layout
+
+\begin_layout Standard
+During the dark period the cloud moves as a rigid body,
+ so every charge element is translated by the same distance.
+ Measured from the apex 
+\begin_inset Formula $\vec{O}$
+\end_inset
+
+ of the rod tip,
+ the axial position of a source element becomes
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+z_{dq}(t)=r\cos(\theta)+z_{\text{drift}}(t),\label{eq:drift_source_position}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+while its radial position 
+\begin_inset Formula $r\sin(\theta)$
+\end_inset
+
+,
+ the density 
+\begin_inset Formula $\rho(r)$
+\end_inset
+
+ and the integration domains are unchanged.
+ Every field of the space charge follows by replacing 
+\begin_inset Formula $r\cos(\theta)$
+\end_inset
+
+ with 
+\begin_inset Formula $r\cos(\theta)+z_{\text{drift}}(t)$
+\end_inset
+
+ wherever the source position appears.
+\end_layout
+
+\begin_layout Subsubsection*
+Space Charge Field
+\end_layout
+
+\begin_layout Standard
+For 
+\begin_inset Formula $\vec{E}_{sp}$
+\end_inset
+
+ the substitution gives
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+r_{1}(t)=\sqrt{\left[z-r\cos(\theta)-z_{\text{drift}}(t)\right]^{2}+\left[r\sin(\theta)\right]^{2}},
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+which is 
+\begin_inset Formula $r_{1}$
+\end_inset
+
+ evaluated at 
+\begin_inset Formula $z_{\text{eff}}(t)$
+\end_inset
+
+.
+ The source-translation view therefore reproduces the result of the relative coordinate mapping exactly:
+ 
+\begin_inset Formula $\vec{E}_{sp}(z,t)=\vec{E}_{sp}\left(z_{\text{eff}}(t)\right)$
+\end_inset
+
+,
+ i.e.
+ the curve is shifted by 
+\begin_inset Formula $z_{\text{drift}}(t)$
+\end_inset
+
+ without changing shape.
+\end_layout
+
+\begin_layout Subsubsection*
+Rod Image Field
+\end_layout
+
+\begin_layout Standard
+The centre 
+\begin_inset Formula $\vec{C}$
+\end_inset
+
+ of the rod tip does not move,
+ so the distance between a source element and 
+\begin_inset Formula $\vec{C}$
+\end_inset
+
+ grows with the drift:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+r_{2}(t)=\sqrt{\left[R+r\cos(\theta)+z_{\text{drift}}(t)\right]^{2}+\left[r\sin(\theta)\right]^{2}},\qquad r_{3}(t)=\frac{R^{2}}{r_{2}(t)},\label{eq:drift_r2_r3}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+r_{4}(t)=\sqrt{\left(z+R-\frac{r_{3}(t)}{r_{2}(t)}\left[R+r\cos(\theta)+z_{\text{drift}}(t)\right]\right)^{2}+\left(\frac{r_{3}(t)}{r_{2}(t)}r\sin(\theta)\right)^{2}},
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\vec{E}_{I_{rod}}(z,t)=-\frac{1}{2\epsilon_{r}\epsilon_{0}}\int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\frac{\rho(r)r^{2}R\sin(\theta)}{r^{3}_{4}(t)\,r_{2}(t)}\left[z+R-\frac{r_{3}(t)}{r_{2}(t)}\left(R+r\cos(\theta)+z_{\text{drift}}(t)\right)\right]dr\,d\theta\,\hat{z}\label{eq:drift_E_rod}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Two effects make this field change shape rather than shift.
+ First,
+ the Kelvin image of a source element lies at 
+\begin_inset Formula $\left(R/r_{2}\right)^{2}\left[R+r\cos(\theta)+z_{\text{drift}}\right]$
+\end_inset
+
+ from 
+\begin_inset Formula $\vec{C}$
+\end_inset
+
+;
+ as the cloud moves away,
+ 
+\begin_inset Formula $r_{2}$
+\end_inset
+
+ grows and the image moves 
+\series bold
+towards
+\series default
+ 
+\begin_inset Formula $\vec{C}$
+\end_inset
+
+,
+ not along with the cloud.
+ Second,
+ the image charge is 
+\begin_inset Formula $-dq\,R/r_{2}$
+\end_inset
+
+,
+ so it becomes 
+\series bold
+weaker
+\series default
+ as the cloud recedes.
+ Applying 
+\begin_inset Formula $z_{\text{eff}}$
+\end_inset
+
+ to 
+\begin_inset Formula $\vec{E}_{I_{rod}}$
+\end_inset
+
+ instead would keep the image rigidly attached to the cloud,
+ which describes a rod that moves with the space charge.
+\end_layout
+
+\begin_layout Subsubsection*
+Plane Image Field
+\end_layout
+
+\begin_layout Standard
+The grounded plane at 
+\begin_inset Formula $z=d$
+\end_inset
+
+ (measured from the apex 
+\begin_inset Formula $\vec{O}$
+\end_inset
+
+) does not move either.
+ The mirror image of a source element lies at 
+\begin_inset Formula $2d-\left[r\cos(\theta)+z_{\text{drift}}(t)\right]$
+\end_inset
+
+,
+ so it moves by 
+\begin_inset Formula $-z_{\text{drift}}$
+\end_inset
+
+,
+ i.e.
+ 
+\series bold
+towards
+\series default
+ the cloud:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+r_{5}(t)=\sqrt{\left[r\sin(\theta)\right]^{2}+\left(2d-r\cos(\theta)-z_{\text{drift}}(t)-z\right)^{2}},
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\vec{E}_{I_{plane}}(z,t)=\frac{1}{2\epsilon_{r}\epsilon_{0}}\int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\frac{\rho(r)r^{2}\sin(\theta)}{r^{3}_{5}(t)}\left(2d-r\cos(\theta)-z_{\text{drift}}(t)-z\right)dr\,d\theta\,\hat{z}\label{eq:drift_E_plane}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Substituting 
+\begin_inset Formula $z_{\text{eff}}$
+\end_inset
+
+ here would give 
+\begin_inset Formula $+z_{\text{drift}}$
+\end_inset
+
+ inside the bracket,
+ moving the image in the wrong direction.
+ In long gaps this field is very small,
+ but the formulation must still be consistent.
+\end_layout
+
+\begin_layout Subsubsection*
+Applied Field
+\end_layout
+
+\begin_layout Standard
+The applied field 
+\begin_inset Formula $\vec{E}_{ext}$
+\end_inset
+
+ depends only on the electrode geometry and the applied voltage.
+ It is independent of the space charge and therefore 
+\series bold
+does not change
+\series default
+ during the drift.
+\end_layout
+
+\begin_layout Subsubsection*
+Consequence for the Driving Field
+\end_layout
+
+\begin_layout Standard
+In the drift integral for 
+\begin_inset Formula $z_{\text{drift}}(t)$
+\end_inset
+
+,
+ the image fields 
+\begin_inset Formula $E_{\text{I,rod}}\left(z_{c}(\tau)\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $E_{\text{I,plane}}\left(z_{c}(\tau)\right)$
+\end_inset
+
+ are the images of the cloud 
+\series bold
+at its drifted position
+\series default
+ 
+\begin_inset Formula $z_{\text{drift}}(\tau)$
+\end_inset
+
+,
+ i.e.
+ they are evaluated with Eqs.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:drift_E_rod"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:drift_E_plane"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+.
+ The space charge field is absent from the driving field on purpose:
+ a charge distribution exerts no net force on itself,
+ and 
+\begin_inset Formula $z_{c}$
+\end_inset
+
+ is by definition the point where 
+\begin_inset Formula $E_{sp}\left(z_{c}\right)=0$
+\end_inset
+
+.
+ Since 
+\begin_inset Formula $\vec{E}_{sp}$
+\end_inset
+
+ moves rigidly with the cloud,
+ its zero stays at 
+\begin_inset Formula $z_{c}(t)=z_{c,0}+z_{\text{drift}}(t)$
+\end_inset
+
+ throughout the drift.
+\end_layout
+
+\begin_layout Subsubsection*
+Summary
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Field
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Depends on
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Update during the drift
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\vec{E}_{sp}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+space charge only
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+exact shift:
+ 
+\begin_inset Formula $z\rightarrow z-z_{\text{drift}}(t)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\vec{E}_{I_{rod}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+space charge and rod
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+source shift,
+ rod fixed,
+ Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:drift_E_rod"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\vec{E}_{I_{plane}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+space charge and plane
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+source shift,
+ plane fixed,
+ Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:drift_E_plane"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\vec{E}_{ext}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+electrodes and voltage
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+unchanged
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+How each field is updated when the space charge drifts by 
+\begin_inset Formula $z_{\text{drift}}(t)$
+\end_inset
+
+.
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:drift_field_summary"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The size of the difference for the Figure 3 benchmark is shown in 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "tab:drift_rod_example"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+ (
+\begin_inset Formula $\theta_{B}=93.39^{\circ}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $z_{\text{drift}}=0.07\,\text{cm}$
+\end_inset
+
+).
+ Near the tip the mapping 
+\begin_inset Formula $z\rightarrow z_{\text{eff}}$
+\end_inset
+
+ places the observer inside the conductor and gives a meaningless value.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement document
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Distance from tip apex
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Before drift
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+After drift (source shift)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+With 
+\begin_inset Formula $z\rightarrow z_{\text{eff}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0$
+\end_inset
+
+ cm
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-123.83$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-94.98$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-1471.56$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0.2$
+\end_inset
+
+ cm
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-9.74$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-8.84$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-17.11$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $1.0$
+\end_inset
+
+ cm
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-0.68$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-0.62$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-0.77$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Rod image field 
+\begin_inset Formula $E_{I_{rod}}$
+\end_inset
+
+ [kV/cm] after a drift of 
+\begin_inset Formula $0.07\,\text{cm}$
+\end_inset
+
+:
+ source translation (correct) versus the mapping 
+\begin_inset Formula $z\rightarrow z_{\text{eff}}$
+\end_inset
+
+.
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:drift_rod_example"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Sources
+\end_layout
+
+\begin_layout Standard
+[1] Wang Wenduan,
+ Wang Haiting
+\series bold
+ 
+\series default
+
+\begin_inset Quotes eld
+\end_inset
+
+A New Model For Simulating The Effects Of Space Charge In Gas Discharge
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\end_body
+\end_document

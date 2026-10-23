@@ -15,6 +15,8 @@ New analysis scripts compute data and save it to an `.xlsx` workbook in `output/
 - A `Fields` sheet (one row per z, one column per quantity, with units in the header) and a `Parameters` sheet (every input plus solved values, so each file records the settings that produced it).
 - Short progress prints and a module docstring explaining what the script does and how to run it. Keep scripts readable for the user; favour clarity over cleverness.
 
+The user copies the output workbooks to `excel/` and adds charts there. `export_excel_charts.py` turns those charts into vector PDFs (`Theory/assets/plots/<workbook>_chart<N>.pdf`, numbered by sheet and position) for the LyX write-up. It redraws each chart with pgfplots from the chart XML and the cell data, and leaves the title out because the LyX caption replaces it.
+
 Conclusions from analyses are written up as editable LyX notes in `Theory/Notes/` (`NN_topic.lyx`, LyX 2.5 / `\lyxformat 643`, header copied from the main write-up) for reuse in the thesis. LyX is installed as a Flatpak: check a note compiles with `flatpak run --filesystem=<dir> org.lyx.LyX -batch -e pdf2 <file>` on a copy.
 
 The older matplotlib scripts (`main.py`, `interactive.py`, `interactive2.py`, `calculate_thetab.py`, `sensitivity_analysis.py`) are kept for now; keep them working when the solver API changes.
@@ -32,6 +34,7 @@ There is no test suite, linter, or build step. Scripts are run directly from the
 python wh_fig3_reproduction.py    # solves theta_B, writes all field components to output/wh_fig3_reproduction.xlsx
 python wh_fig4_reproduction.py    # drifts the Fig. 3 cloud (rigid body, Eq. 6), fields before/after -> output/wh_fig4_reproduction.xlsx
 python wh_fig5_reproduction.py    # 320 kV 100/2500 us impulse: applied field (5a) and with drifting space charge (5b) per time step
+python export_excel_charts.py     # redraw the user's Excel charts (excel/*.xlsx) as vector PDFs in Theory/assets/plots/ (pgfplots, needs pdflatex)
 python compare_datasets.py        # interactive: compare two curve files (e.g. digitized paper data vs our output)
 python compare_datasets.py --reference input/wh_fig3_datasets.csv --compare output/wh_fig3_reproduction.xlsx \
     --pair "Esp=E_sp space" --pair "Ei,rod=E_I,rod"   # same, scripted; --list FILE shows a file's curves

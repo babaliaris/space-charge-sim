@@ -5189,6 +5189,4238 @@ name "tab:drift_rod_example"
 \end_layout
 
 \begin_layout Section
+Reproducing the Results of Wang & Haiting
+\end_layout
+
+\begin_layout Standard
+This section applies the model of the previous chapters to the cases published by Wang and Haiting [1] and compares the results with their Figures 3, 4 and 5. It also explains why Figures 6 to 8 cannot be reproduced with the information given in the paper alone. Every result was produced by a script that writes its data to an Excel workbook (
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "tab:repro_scripts"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+); the plots were made in Excel and exported as vector figures.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Script
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Reproduces
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Main output
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+wh_fig3_reproduction.py
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Figure 3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+all field components after the first streamer
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+wh_fig4_reproduction.py
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Figure 4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+fields before and after the drift
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+wh_fig5_reproduction.py
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Figure 5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+field near the tip during the impulse
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+compare_datasets.py
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+comparison
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+differences from the digitized figures
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+export_excel_charts.py
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+plots
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+vector PDF figures from the Excel charts
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Scripts used in this chapter. All of them use the solver described in the previous chapters.
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:repro_scripts"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+All distances 
+\begin_inset Formula $z$
+\end_inset
+ are measured from the rod tip apex, as in [1]. The scripts take their inputs in high-voltage engineering units (cm, kV, kV/cm, µs) and convert them to SI units for the solver.
+\end_layout
+
+\begin_layout Subsection
+Figure 3: The Space Charge of the First Corona Streamer
+\end_layout
+
+\begin_layout Subsubsection
+Parameters
+\end_layout
+
+\begin_layout Standard
+For Figure 3 the paper gives a rod-plane gap of 
+\begin_inset Formula $D=80\,\text{cm}$
+\end_inset
+, a tip radius 
+\begin_inset Formula $R=0.1\,\text{cm}$
+\end_inset
+, a first-streamer inception voltage of 
+\begin_inset Formula $27.5\,\text{kV}$
+\end_inset
+, a streamer length 
+\begin_inset Formula $L_{cs}=2.7\,\text{cm}$
+\end_inset
+, a field of about 
+\begin_inset Formula $E_{c}=5\,\text{kV/cm}$
+\end_inset
+ in the streamer region, and the “usual” constants 
+\begin_inset Formula $B=1.5$
+\end_inset
+ and 
+\begin_inset Formula $C\approx0.035\,\text{cm}$
+\end_inset
+. It does not give the cone angle 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+, the amplitude 
+\begin_inset Formula $A$
+\end_inset
+, or how 
+\begin_inset Formula $A$
+\end_inset
+ was chosen. We close the model as follows: 
+\begin_inset Formula $A$
+\end_inset
+ follows from the streamer charge 
+\begin_inset Formula $Q_{cs}$
+\end_inset
+ obtained with Gauss's law (Section 2.6), and 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+ is solved so that the total field at the head of the streamer equals 
+\begin_inset Formula $E_{c}$
+\end_inset
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+E_{ex}(L_{cs})+E_{sp}(L_{cs})+E_{I_{rod}}(L_{cs})+E_{I_{plane}}(L_{cs})=E_{c}.\label{eq:repro_theta_condition}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Each trial angle changes 
+\begin_inset Formula $Q_{cs}$
+\end_inset
+ and 
+\begin_inset Formula $A$
+\end_inset
+, so the condition is solved by root finding over 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+. The result is listed in 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "tab:repro_fig3_params"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="8" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Quantity
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Value
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Source
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $D$
+\end_inset
+, 
+\begin_inset Formula $R$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $80\,\text{cm}$
+\end_inset
+, 
+\begin_inset Formula $0.1\,\text{cm}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+paper
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $V$
+\end_inset
+ at inception
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $27.5\,\text{kV}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+paper
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $L_{cs}$
+\end_inset
+, 
+\begin_inset Formula $E_{c}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $2.7\,\text{cm}$
+\end_inset
+, 
+\begin_inset Formula $5\,\text{kV/cm}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+paper
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $B$
+\end_inset
+, 
+\begin_inset Formula $C$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $1.5$
+\end_inset
+, 
+\begin_inset Formula $0.035\,\text{cm}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+paper (“usually”)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $\theta_{B}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $93.39^{\circ}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+solved, 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:repro_theta_condition"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $Q_{cs}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $11.41\,\text{nC}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Gauss's law
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{ex}(L_{cs})$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $1.00\,\text{kV/cm}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Charge Simulation Method
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Parameters of the Figure 3 case.
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:repro_fig3_params"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Results
+\end_layout
+
+\begin_layout Standard
+Every field component on the axis is shown in 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:repro_fig3_all"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+, and the same curves with the vertical axis limited to the range of the paper's figure in 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:repro_fig3_zoom"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/plots/wh_fig3_reproduction_chart1.pdf
+	width 95col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Field components on the axis after the first corona streamer (
+\begin_inset Formula $V=27.5\,\text{kV}$
+\end_inset
+, 
+\begin_inset Formula $\theta_{B}=93.39^{\circ}$
+\end_inset
+).
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:repro_fig3_all"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/plots/wh_fig3_reproduction_chart2.pdf
+	width 95col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+The curves of the previous figure with the vertical axis of Figure 3 of [1].
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:repro_fig3_zoom"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Near the tip
+\series default
+ the space charge opposes the applied field. At the apex 
+\begin_inset Formula $E_{sp}=-29.1\,\text{kV/cm}$
+\end_inset
+ and the rod image adds 
+\begin_inset Formula $E_{I_{rod}}=-123.8\,\text{kV/cm}$
+\end_inset
+, so the total field drops from 
+\begin_inset Formula $149.4\,\text{kV/cm}$
+\end_inset
+ (applied field alone) to 
+\begin_inset Formula $-3.6\,\text{kV/cm}$
+\end_inset
+. No new ionization can start at the tip.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+The direct field changes sign
+\series default
+ at 
+\begin_inset Formula $z_{c}=0.572\,\text{cm}$
+\end_inset
+. Beyond this point the space charge strengthens the field towards the plane.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+In the streamer region
+\series default
+ the total field stays close to 
+\begin_inset Formula $E_{c}=5\,\text{kV/cm}$
+\end_inset
+, as required by condition (b) of [1].
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+The plane image
+\series default
+ is negligible near the tip, below 
+\begin_inset Formula $10^{-3}\,\text{kV/cm}$
+\end_inset
+, because the image charges lie about 
+\begin_inset Formula $160\,\text{cm}$
+\end_inset
+ away.
+\end_layout
+
+\begin_layout Subsubsection
+Comparison with the Paper
+\end_layout
+
+\begin_layout Standard
+The curves of Figure 3 were digitized with WebPlotDigitizer (69 to 88 points per curve) and compared with our results in 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:repro_fig3_compare"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+,
+ where the digitized points are plotted directly,
+ without any processing.
+ The digitized points and our curves lie at different positions 
+\begin_inset Formula $z$
+\end_inset
+
+,
+ so for the numerical comparisons below (Tables 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:repro_fig3_features"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:repro_fig3_shift"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+) our curves were linearly interpolated at the digitized positions,
+ without extrapolation.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/plots/wh_fig3_reproduction_chart3.pdf
+	width 95col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Our 
+\begin_inset Formula $E_{sp}$
+\end_inset
+ and 
+\begin_inset Formula $E_{I_{rod}}$
+\end_inset
+ compared with the curves digitized from Figure 3 of [1] (subscript wh).
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:repro_fig3_compare"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The model reproduces the shape and the order of magnitude of both curves, but the differences are systematic (
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "tab:repro_fig3_features"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+): the paper's 
+\begin_inset Formula $E_{sp}$
+\end_inset
+ changes sign further from the tip, and its rod image field reaches much further into the gap.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Feature
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Paper
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Model
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{sp}$
+\end_inset
+ at the tip
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $\approx-33\,\text{kV/cm}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-29.1\,\text{kV/cm}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{sp}$
+\end_inset
+ zero crossing
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $z\approx0.67\,\text{cm}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $z=0.57\,\text{cm}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{sp}$
+\end_inset
+ positive peak
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $5.0\,\text{kV/cm}$
+\end_inset
+ at 
+\begin_inset Formula $2.2\,\text{cm}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $4.1\,\text{kV/cm}$
+\end_inset
+ at 
+\begin_inset Formula $2.7\,\text{cm}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{I_{rod}}$
+\end_inset
+ at 
+\begin_inset Formula $z=0.15\,\text{cm}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $\approx-48\,\text{kV/cm}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-14.3\,\text{kV/cm}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{I_{rod}}$
+\end_inset
+ at 
+\begin_inset Formula $z=1.0\,\text{cm}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $\approx-1.3\,\text{kV/cm}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-0.7\,\text{kV/cm}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Characteristic features of Figure 3: paper (digitized) versus our model.
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:repro_fig3_features"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Four possible causes were examined:
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Digitization.
+\series default
+ The random click error is 
+\begin_inset Formula $\pm0.14$
+\end_inset
+ to 
+\begin_inset Formula $\pm0.32\,\text{kV/cm}$
+\end_inset
+. The vertical axis of the hand-drawn figure is not evenly spaced, which makes the two-point calibration read values up to 
+\begin_inset Formula $1.6\,\text{kV/cm}$
+\end_inset
+ too negative. Both are an order of magnitude smaller than the differences.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+The applied field.
+\series default
+ It enters only through 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+. Sweeping 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+ from 
+\begin_inset Formula $60^{\circ}$
+\end_inset
+ to 
+\begin_inset Formula $130^{\circ}$
+\end_inset
+ shows that no single angle fits all curves, and the angles that fit better would need a negative applied field at the streamer head.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+The unreported parameters.
+\series default
+ A least-squares fit with 
+\begin_inset Formula $A$
+\end_inset
+, 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+ and 
+\begin_inset Formula $C$
+\end_inset
+ all free still leaves 
+\begin_inset Formula $4.5$
+\end_inset
+ to 
+\begin_inset Formula $5\,\text{kV/cm}$
+\end_inset
+ RMS error, and needs 
+\begin_inset Formula $C=0.34\,\text{cm}$
+\end_inset
+ (ten times the stated value) and a field of 
+\begin_inset Formula $12.8\,\text{kV/cm}$
+\end_inset
+ at the streamer head instead of 
+\begin_inset Formula $5\,\text{kV/cm}$
+\end_inset
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+A shift along the axis.
+\series default
+ Moving our curves along 
+\begin_inset Formula $z$
+\end_inset
+ shows that the paper's 
+\begin_inset Formula $E_{sp}$
+\end_inset
+ is reproduced almost exactly if our curve is shifted by about 
+\begin_inset Formula $0.2\,\text{cm}$
+\end_inset
+ towards the plane (
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "tab:repro_fig3_shift"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $\Delta z$
+\end_inset
+ [cm]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $0$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $0.1$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $0.2$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $0.3$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{sp}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $8.2$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $4.1$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $1.8$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $4.5$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{I_{rod}}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $18.9$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $13.1$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $11.1$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $15.8$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{sp}+E_{I}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $18.8$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $16.6$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $11.9$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $17.3$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+RMS difference between our curves, shifted by 
+\begin_inset Formula $\Delta z$
+\end_inset
+ towards the plane, and the digitized curves of Figure 3 [kV/cm].
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:repro_fig3_shift"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+With a shift of 
+\begin_inset Formula $0.2\,\text{cm}$
+\end_inset
+, which equals 
+\begin_inset Formula $2R$
+\end_inset
+, the remaining 
+\begin_inset Formula $E_{sp}$
+\end_inset
+ difference (
+\begin_inset Formula $1.8\,\text{kV/cm}$
+\end_inset
+) is as small as the digitization error. The paper does not explain such an offset; it could come from a different origin of the plotted axis or from the position of the cone apex in the authors' code. The shift does not explain the rod image field, whose difference remains above 
+\begin_inset Formula $11\,\text{kV/cm}$
+\end_inset
+ for every shift.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Conclusion.
+\series default
+ Our implementation follows the paper's equations (Section 3) and reproduces the shape, sign, order of magnitude and characteristic points of Figure 3. The quantitative difference, mainly in the rod image field near the tip, cannot be removed by any physically consistent choice of the unreported parameters, so it must come from a detail of the authors' calculation that the paper does not report. The reproduction is therefore considered qualitatively validated.
+\end_layout
+
+\begin_layout Subsection
+Figure 4: Drift of the Space Charge
+\end_layout
+
+\begin_layout Standard
+Figure 4 of [1] shows 
+\begin_inset Formula $E_{sp}$
+\end_inset
+ before and after the space charge has drifted towards the plane during the dark period. The paper gives the drift equation and the ion mobility, but not the drift time. The two curves of the figure show a drift of about 
+\begin_inset Formula $0.07\,\text{cm}$
+\end_inset
+: the minimum of the drifted curve, where the apex of the moved cone now sits, lies at 
+\begin_inset Formula $z\approx0.07\,\text{cm}$
+\end_inset
+. The cloud of Figure 3 was therefore drifted by 
+\begin_inset Formula $0.07\,\text{cm}$
+\end_inset
+ as a rigid body (Section 4), with 
+\begin_inset Formula $b=1.36\times10^{-4}\,\text{m}^{2}/(\text{V}\cdot\text{s})$
+\end_inset
+ and the applied voltage held at 
+\begin_inset Formula $27.5\,\text{kV}$
+\end_inset
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Quantity
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Before drift
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+After drift
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Zero of 
+\begin_inset Formula $E_{sp}$
+\end_inset
+, 
+\begin_inset Formula $z_{c}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $0.572\,\text{cm}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $0.642\,\text{cm}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Driving field at 
+\begin_inset Formula $z_{c}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $4.29\,\text{kV/cm}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $3.97\,\text{kV/cm}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Drift speed
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $58.4\,\text{m/s}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $54.0\,\text{m/s}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Elapsed time
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $0$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $12.5\,\mu\text{s}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Drift of the Figure 3 space charge by 
+\begin_inset Formula $0.07\,\text{cm}$
+\end_inset
+.
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:repro_drift"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The drift takes 
+\begin_inset Formula $12.5\,\mu\text{s}$
+\end_inset
+ (
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "tab:repro_drift"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+). Figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:repro_fig4_esp"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+ to 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:repro_fig4_total"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+ show how each field changes.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/plots/wh_fig4_reproduction_chart1.pdf
+	width 95col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Direct space-charge field before and after a drift of 
+\begin_inset Formula $0.07\,\text{cm}$
+\end_inset
+ (
+\begin_inset Formula $12.5\,\mu\text{s}$
+\end_inset
+).
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:repro_fig4_esp"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/plots/wh_fig4_reproduction_chart2.pdf
+	width 95col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Rod image field before and after the drift.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:repro_fig4_rod"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/plots/wh_fig4_reproduction_chart3.pdf
+	width 95col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Total field before and after the drift.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:repro_fig4_total"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Field
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Before drift
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+After drift
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{ex}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $149.37$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $149.37$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{sp}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-29.10$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-11.65$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{I_{rod}}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-123.83$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-94.98$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{total}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-3.57$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $+42.73$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Fields at the rod tip apex (
+\begin_inset Formula $z=0$
+\end_inset
+) before and after the drift [kV/cm].
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:repro_fig4_tip"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+The direct field is shifted, not deformed.
+\series default
+ The drifted 
+\begin_inset Formula $E_{sp}$
+\end_inset
+ is the original curve moved by 
+\begin_inset Formula $0.07\,\text{cm}$
+\end_inset
+, as Section 4.2 predicts. Behind the drifted cloud the field at the tip is 
+\begin_inset Formula $0.40$
+\end_inset
+ of the minimum; the paper's Figure 4 gives 
+\begin_inset Formula $0.42$
+\end_inset
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+The rod image changes shape.
+\series default
+ Its image charges move towards the centre of the tip and become weaker as the cloud recedes, so 
+\begin_inset Formula $E_{I_{rod}}$
+\end_inset
+ at the tip weakens from 
+\begin_inset Formula $-123.8$
+\end_inset
+ to 
+\begin_inset Formula $-95.0\,\text{kV/cm}$
+\end_inset
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+The tip field recovers quickly.
+\series default
+ A drift of only 
+\begin_inset Formula $0.7\,\text{mm}$
+\end_inset
+ raises the total field at the tip from 
+\begin_inset Formula $-3.6$
+\end_inset
+ to 
+\begin_inset Formula $+42.7\,\text{kV/cm}$
+\end_inset
+ (
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "tab:repro_fig4_tip"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+). This reproduces the paper's statement that “a small drift toward the low voltage plane electrode can make a rapid increasing of the electric field in the surface of the rod tip”, and shows why the drift sets the length of the dark period.
+\end_layout
+
+\begin_layout Standard
+The absolute values of our 
+\begin_inset Formula $E_{sp}$
+\end_inset
+ are about 
+\begin_inset Formula $10\%$
+\end_inset
+ smaller than the paper's, the same difference already found at the tip in Figure 3.
+\end_layout
+
+\begin_layout Subsection
+Figure 5: The Field During a Switching Impulse
+\end_layout
+
+\begin_layout Standard
+Figure 5 of [1] shows the field near the rod tip at several instants of a 
+\begin_inset Formula $320\,\text{kV}$
+\end_inset
+ switching impulse with a 
+\begin_inset Formula $100\,\mu\text{s}$
+\end_inset
+ front: (a) the applied field alone and (b) the field including the space charge of the first streamer. The impulse is modelled as a double exponential,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+V(t)=V_{p}\,k\left(e^{-\alpha t}-e^{-\beta t}\right),\label{eq:repro_impulse}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+with 
+\begin_inset Formula $\alpha$
+\end_inset
+, 
+\begin_inset Formula $\beta$
+\end_inset
+ and 
+\begin_inset Formula $k$
+\end_inset
+ fitted so that the crest is 
+\begin_inset Formula $V_{p}=320\,\text{kV}$
+\end_inset
+ at 
+\begin_inset Formula $100\,\mu\text{s}$
+\end_inset
+. The paper does not give the tail, so the standard switching-impulse value of 
+\begin_inset Formula $2500\,\mu\text{s}$
+\end_inset
+ to half value was assumed. Because the applied field is linear in the voltage, it is computed once for 
+\begin_inset Formula $1\,\text{V}$
+\end_inset
+ and scaled by 
+\begin_inset Formula $V(t)$
+\end_inset
+. The simulation then proceeds as follows:
+\end_layout
+
+\begin_layout Enumerate
+
+\begin_inset Formula $V(t)$
+\end_inset
+ reaches 
+\begin_inset Formula $27.5\,\text{kV}$
+\end_inset
+ at 
+\begin_inset Formula $t_{inc}=1.671\,\mu\text{s}$
+\end_inset
+. Before this instant there is no space charge, so (a) and (b) are identical.
+\end_layout
+
+\begin_layout Enumerate
+At 
+\begin_inset Formula $t_{inc}$
+\end_inset
+ the space charge of Figure 3 is created (
+\begin_inset Formula $\theta_{B}=93.39^{\circ}$
+\end_inset
+, 
+\begin_inset Formula $Q_{cs}=11.41\,\text{nC}$
+\end_inset
+).
+\end_layout
+
+\begin_layout Enumerate
+During the dark period the charge is constant and the cloud drifts under the rising applied field, with 
+\begin_inset Formula $V(t)$
+\end_inset
+ in the driving field.
+\end_layout
+
+\begin_layout Enumerate
+At each time step the total field is the scaled applied field plus the fields of the drifted cloud.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/plots/wh_fig5_reproduction_chart1.pdf
+	width 95col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Applied field near the rod tip at several instants of the 
+\begin_inset Formula $320\,\text{kV}$
+\end_inset
+, 
+\begin_inset Formula $100/2500\,\mu\text{s}$
+\end_inset
+ impulse, without space charge (Figure 5(a) of [1]).
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:repro_fig5_applied"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/plots/wh_fig5_reproduction_chart2.pdf
+	width 95col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Total field near the rod tip with the space charge of the first corona streamer (Figure 5(b) of [1]).
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:repro_fig5_total"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $t$
+\end_inset
+ [
+\begin_inset Formula $\mu$
+\end_inset
+s]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $V$
+\end_inset
+ [kV]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $z_{\text{drift}}$
+\end_inset
+ [cm]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{ex}$
+\end_inset
+ [kV/cm]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{total}$
+\end_inset
+ [kV/cm]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $1.000$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $16.75$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $90.96$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $90.96$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $1.671$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $27.50$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $0$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $149.37$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $-3.57$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $2.000$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $32.64$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $0.0022$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $177.27$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $31.62$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $3.000$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $47.71$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $0.0118$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $259.16$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $126.59$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $4.000$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $62.02$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $0.0255$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $336.87$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $213.97$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Field at the rod tip during the impulse.
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:repro_fig5_tip"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+The streamer region agrees with the paper.
+\series default
+ At inception the total field between 
+\begin_inset Formula $z=0.5$
+\end_inset
+ and 
+\begin_inset Formula $2.7\,\text{cm}$
+\end_inset
+ lies between 
+\begin_inset Formula $4.06$
+\end_inset
+ and 
+\begin_inset Formula $4.97\,\text{kV/cm}$
+\end_inset
+. The paper reports “4 to 5.5 kV/cm” and an experimental value of 
+\begin_inset Formula $5.2\,\text{kV/cm}$
+\end_inset
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+The tip field is suppressed and then recovers
+\series default
+ (
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "tab:repro_fig5_tip"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+), both because 
+\begin_inset Formula $V(t)$
+\end_inset
+ keeps rising and because the drifting cloud shields the tip less.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+The tail matters little.
+\series default
+ Assuming a tail of 
+\begin_inset Formula $1000$
+\end_inset
+ or 
+\begin_inset Formula $4000\,\mu\text{s}$
+\end_inset
+ instead of 
+\begin_inset Formula $2500\,\mu\text{s}$
+\end_inset
+ moves the inception instant to 
+\begin_inset Formula $2.07$
+\end_inset
+ or 
+\begin_inset Formula $1.52\,\mu\text{s}$
+\end_inset
+; the conclusions do not change.
+\end_layout
+
+\begin_layout Standard
+Figure 5 of [1] is a hand-drawn 3-D projection with clipped axes, so its values cannot be digitized reliably; the comparison is limited to the streamer-region field and the overall behaviour.
+\end_layout
+
+\begin_layout Subsubsection
+The Second Corona Streamer
+\end_layout
+
+\begin_layout Standard
+The paper gives the first inception as a voltage, not a field. At that instant there is no space charge yet, so the inception field at the tip is the applied field alone:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+E_{inc}=E_{ex}(0)\big|_{V=27.5\,\text{kV}}=149.37\,\text{kV/cm}.\label{eq:repro_inception_field}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The tip geometry and the gas do not change after the first streamer, so a second streamer is assumed to start when the total tip field returns to this value:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+V(t)\,e_{ex}(0)+E_{sp}\left(0;z_{\text{drift}}(t)\right)+E_{I_{rod}}\left(0;z_{\text{drift}}(t)\right)+E_{I_{plane}}\left(0;z_{\text{drift}}(t)\right)\ge E_{inc},\label{eq:repro_second_streamer}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $e_{ex}(0)$
+\end_inset
+ is the applied field at the tip for 
+\begin_inset Formula $1\,\text{V}$
+\end_inset
+. The criterion 
+\begin_inset Formula $E_{c}=5\,\text{kV/cm}$
+\end_inset
+ is not used here: it is the field a streamer needs to keep propagating, applied at the streamer head, whereas starting a new streamer at the tip requires ionization, i.e. roughly 
+\begin_inset Formula $25$
+\end_inset
+ to 
+\begin_inset Formula $30\,\text{kV/cm}$
+\end_inset
+ in air.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Stage
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Time
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Voltage
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Tip field
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+First streamer, cloud created
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $1.671\,\mu\text{s}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $27.5\,\text{kV}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $149.37\rightarrow-3.6\,\text{kV/cm}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dark period: 
+\begin_inset Formula $V$
+\end_inset
+ rises, cloud drifts
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+recovers
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Criterion met (with drift)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $3.254\,\mu\text{s}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $51.4\,\text{kV}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $149.37\,\text{kV/cm}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Criterion met (without drift)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $3.549\,\mu\text{s}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $55.7\,\text{kV}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $149.37\,\text{kV/cm}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Inception, dark period and second-streamer criterion during the impulse.
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:repro_second_streamer"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The second streamer therefore needs about 
+\begin_inset Formula $51\,\text{kV}$
+\end_inset
+ instead of 
+\begin_inset Formula $27.5\,\text{kV}$
+\end_inset
+: the charge left by the first streamer raises the voltage needed for the next one (
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "tab:repro_second_streamer"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+). Although the cloud moves only 
+\begin_inset Formula $0.15\,\text{mm}$
+\end_inset
+ by then, the drift brings the second streamer forward by about 
+\begin_inset Formula $0.3\,\mu\text{s}$
+\end_inset
+. The criterion uses the tip field only; the stricter ionization integral along the axis, 
+\begin_inset Formula $\int\left(\alpha-\eta\right)dz\ge K$
+\end_inset
+, would also account for how the space charge flattens the field in front of the tip. The second streamer itself is not modelled.
+\end_layout
+
+\begin_layout Subsection
+Figures 6 to 8: What the Paper Leaves Out
+\end_layout
+
+\begin_layout Standard
+Figures 6, 7 and 8 of [1] plot the inception voltage 
+\begin_inset Formula $V_{cs}$
+\end_inset
+, the length 
+\begin_inset Formula $L_{cs}$
+\end_inset
+ and the charge 
+\begin_inset Formula $Q_{cs}$
+\end_inset
+ of the first and second corona streamers against the front time 
+\begin_inset Formula $T_{f}$
+\end_inset
+ of the impulse (
+\begin_inset Formula $15$
+\end_inset
+ to 
+\begin_inset Formula $600\,\mu\text{s}$
+\end_inset
+, gaps of 
+\begin_inset Formula $40$
+\end_inset
+ and 
+\begin_inset Formula $80\,\text{cm}$
+\end_inset
+). Each point is a separate impulse. All three quantities fall as 
+\begin_inset Formula $T_{f}$
+\end_inset
+ increases, and the second streamer always needs a higher voltage than the first.
+\end_layout
+
+\begin_layout Standard
+The fall of 
+\begin_inset Formula $V_{cs}$
+\end_inset
+ is the time-lag effect of inception: after the tip field exceeds its static threshold, a free electron must appear near the tip and the avalanche must grow into a streamer. On a fast front the voltage rises further during this delay. A higher inception voltage gives a stronger field further from the tip, hence a longer streamer with more charge.
+\end_layout
+
+\begin_layout Standard
+In Figures 3 to 5 the inception voltage and the streamer length were 
+\series bold
+inputs
+\series default
+; in Figures 6 to 8 they are 
+\series bold
+outputs
+\series default
+, and the rules that produce them are not given. The paper refers to an earlier paper of the same authors, in Chinese, for these models. What is missing, and a candidate model from the literature on long air gaps for each item, is listed in 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "tab:repro_missing"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Missing
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Needed for
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Candidate model
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Inception with time lag
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Figure 6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ionization integral and a time lag
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Streamer length
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Figure 7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+average applied field along the streamer 
+\begin_inset Formula $=E_{c}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Streamer charge
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Figure 8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Gauss's law, as for Figures 3 to 5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Crest voltage, tail
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+all
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+assumed, with a sensitivity check
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Second streamer
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+curves 2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+the same rules in the shielded field
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Information missing for Figures 6 to 8 and candidate models.
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:repro_missing"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Reproducing these figures is therefore a reconstruction with documented assumptions. It should be judged by whether it reproduces the trends, the order of the two curves and the magnitudes of the published results, not by an exact match.
+\end_layout
+
+\begin_layout Subsection
+Summary of the Assumptions
+\end_layout
+
+\begin_layout Standard
+Every input that the paper does not give, and the choice made in this work, is collected in 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "tab:repro_assumptions"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="10" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Missing input
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Choice in this work
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Used in
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Applied field 
+\begin_inset Formula $E_{ex}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Charge Simulation Method
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Figures 3 to 5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Cone angle 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $E_{total}(L_{cs})=E_{c}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Figures 3 to 5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Amplitude 
+\begin_inset Formula $A$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Gauss's law over the cone head
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Figures 3 to 5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $B$
+\end_inset
+, 
+\begin_inset Formula $C$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+“usual” values 
+\begin_inset Formula $1.5$
+\end_inset
+, 
+\begin_inset Formula $0.035\,\text{cm}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Figures 3 to 5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Drift of Figure 4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $0.07\,\text{cm}$
+\end_inset
+, read from the figure
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Figure 4
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Shape during the drift
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+rigid body, constant charge
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Figures 4, 5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Impulse tail
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $2500\,\mu\text{s}$
+\end_inset
+ to half value
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Figure 5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Time axis of Figure 5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+time from the start of the impulse
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Figure 5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Second-streamer criterion
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+tip field back to 
+\begin_inset Formula $E_{inc}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Figure 5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Inputs not given in [1] and the choices made in this work.
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:repro_assumptions"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+With these choices the model reproduces the qualitative behaviour of Figures 3 to 5 and several quantitative features: the field of about 
+\begin_inset Formula $5\,\text{kV/cm}$
+\end_inset
+ in the streamer region, the shape of the drifted field and the rapid recovery of the tip field during the dark period.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
 Sources
 \end_layout
 
