@@ -1,0 +1,633 @@
+#LyX 2.5 created this file. For more info see https://www.lyx.org/
+\lyxformat 643
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass scrartcl
+\use_default_options true
+\maintain_unincluded_children no
+\language american
+\language_package default
+\inputencoding utf8
+\fontencoding auto
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement class
+\float_alignment class
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification default
+\crossref_package refstyle
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\backgroundcolor none
+\fontcolor none
+\notefontcolor lightgray
+\boxbgcolor red
+\table_border_color default
+\table_odd_row_color default
+\table_even_row_color default
+\table_alt_row_colors_start 1
+\index Index
+\shortcut idx
+\color #008080
+\end_index
+\leftmargin 2cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content true
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\docbook_mathml_version 0
+\end_header
+
+
+\begin_body
+
+\begin_layout Title
+Use of AI Assistance in This Work
+\end_layout
+
+\begin_layout Author
+Bampaliaris Nikolaos
+\end_layout
+
+\begin_layout Date
+03-11-2026
+\end_layout
+
+\begin_layout Section
+Summary
+\end_layout
+
+\begin_layout Standard
+An AI assistant, Claude (Anthropic), used through the Claude Code tool, was used during this thesis in three roles: to 
+\series bold
+implement
+\series default
+ the numerical code that evaluates the mathematical model, to 
+\series bold
+typeset
+\series default
+ text and equations in LyX, and as an 
+\series bold
+advisor
+\series default
+ for discussing problems and options. The physical model, its mathematical derivation, the modelling decisions and the interpretation of the results are the author's. Every output of the assistant was reviewed by the author, who directed the work and made the final decisions. This note records the division of work so that it can be stated accurately in the thesis.
+\end_layout
+
+\begin_layout Section
+Work Done by the Author
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Mathematical model.
+\series default
+ Derivation of the field equations of the space charge and of its images in the rod and in the grounded plane (the vectors, the distances 
+\begin_inset Formula $r_{1}$
+\end_inset
+ to 
+\begin_inset Formula $r_{5}$
+\end_inset
+ and the integrals), and of the drift kinematics, in the first version of the main document.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Figures.
+\series default
+ All vector schematics of the document, including their redrawing for the apex coordinate system.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Data.
+\series default
+ Digitization of Figure 3 of the paper with WebPlotDigitizer, and all plots of the results in Excel.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Direction and decisions.
+\series default
+ Choice of what to reproduce and how, and approval of every modelling decision (for example measuring all distances from the rod apex, including the drift in Figure 5, the impulse tail, and treating the inception voltage as a measured input).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Critical review.
+\series default
+ Identification of problems in the results and the text, for example the paper's 
+\begin_inset Formula $E_{sp}$
+\end_inset
+ exceeding the streamer-region field, the apparent shift of the digitized data, unclear or unsupported statements in drafts, and the choice of notation (e.g. 
+\begin_inset Formula $\mu^{+}$
+\end_inset
+ for the ion mobility).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Understanding and verification.
+\series default
+ Review of all code results and of every argument and equation in the documents.
+\end_layout
+
+\begin_layout Section
+Work Done with the AI Assistant
+\end_layout
+
+\begin_layout Subsection
+Numerical Code
+\end_layout
+
+\begin_layout Standard
+The assistant wrote the Python implementation of the author's equations and the supporting scripts, following the author's specifications:
+\end_layout
+
+\begin_layout Itemize
+the field functions and solvers in the solver/ package (space-charge and image fields as numerical integrals, the solution for 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+, the drift integration, the impulse fit) and their conversion to SI units and to the apex coordinate system;
+\end_layout
+
+\begin_layout Itemize
+the reproduction scripts for Figures 3, 4 and 5, which write their results to Excel;
+\end_layout
+
+\begin_layout Itemize
+the tools compare_datasets.py (comparison with digitized data) and export_excel_charts.py (export of the author's Excel charts as vector figures).
+\end_layout
+
+\begin_layout Standard
+Writing this code without assistance would have required learning the numerical libraries in detail (SciPy integration, root finding and ODE solvers, openpyxl), which was not the subject of the thesis.
+\end_layout
+
+\begin_layout Subsection
+Typesetting and Drafting in LyX
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Edits of the author's derivations:
+\series default
+ conversion of the equations of Sections 2 to 4 to the apex coordinate system and correction of small typographical errors, following the author's redrawn figures.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Drafts written from the analyses and the author's decisions:
+\series default
+ the term-by-term comparison with the paper (Section 3), applying the drift to the image fields (Section 4.2), the impulse voltage (Section 4.3), the summary of the framework (Section 5) and the reproduction chapter (Section 6), all revised at the author's request.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+The analysis notes
+\series default
+ 01 to 05 in Theory/Notes/, written from the analyses carried out in the project.
+\end_layout
+
+\begin_layout Subsection
+Advice and Analysis
+\end_layout
+
+\begin_layout Itemize
+explanation of background topics on request (e.g. corona inception, the meaning of Figures 6 to 8 of the paper), and recommendations among options, which the author accepted or rejected;
+\end_layout
+
+\begin_layout Itemize
+checks proposed by the assistant or the author and carried out with the code: digitization error, sweeps and fits of the unreported parameters, the shift and peak analysis of Figure 3, and the test of the paper's misprinted formulas;
+\end_layout
+
+\begin_layout Itemize
+numerical verification that the equations in the document agree with the code.
+\end_layout
+
+\begin_layout Section
+Review of AI Output
+\end_layout
+
+\begin_layout Standard
+The output of the assistant was not accepted without review. During the work the author found and had corrected, among others, a description of a comparison chart that did not match how the chart was made, explanations judged too long or based on numbers the reader could not trace, numerical tables that did not belong in a purely mathematical section, and inconsistent notation. Errors of the assistant found by itself during verification were also corrected. All numerical results in the thesis come from the scripts in the repository and can be reproduced.
+\end_layout
+
+\begin_layout Section
+Division of Work
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="9" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Part of the work
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Author
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+AI assistant
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Physical model and derivations
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+derived
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+edits, apex conversion
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Modelling decisions
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+decided
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+proposed options
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Numerical code
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+specified, reviewed
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+implemented
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Running the analyses
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+directed, reviewed
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+executed
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Paper data and plots
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+digitized, plotted
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+chart export tool
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Figures (schematics)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+drawn
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Interpretation of results
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+decided
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+discussed
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+LyX text and notes
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+directed, reviewed
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+drafted, typeset
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Division of work between the author and the AI assistant.
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:ai_division"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Suggested Statement for the Thesis
+\end_layout
+
+\begin_layout Standard
+The following statement can be adapted to the rules of the department:
+\end_layout
+
+\begin_layout Quote
+During this thesis the AI assistant Claude (Anthropic), used through the Claude Code tool, was used to implement the numerical code that evaluates the derived model, to typeset parts of the text and equations in LyX, and as a tool for discussing problems and options. The physical model, the mathematical derivations, the modelling decisions and the interpretation of the results are the author's own. All output of the assistant was reviewed by the author, and all numerical results can be reproduced with the accompanying code.
+\end_layout
+
+\begin_layout Standard
+Before including it, check whether the department or the university has specific requirements on how the use of AI tools must be declared.
+\end_layout
+
+\end_body
+\end_document
