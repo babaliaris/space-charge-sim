@@ -16,6 +16,12 @@ How to run (from the repository root; needs pdflatex with pgfplots):
     python export_excel_charts.py                      # every workbook in excel/
     python export_excel_charts.py excel/wh_fig3_reproduction.xlsx
     python export_excel_charts.py --output-dir Theory/assets/plots --width 14cm --height 8cm
+    python export_excel_charts.py --lang el            # Greek labels -> Theory/assets/plots/greek/
+
+The Greek version translates the axis titles and the words in the legends with the GREEK table
+below (symbols such as E_sp, t, V and the units stay as they are). It needs a TeX with Greek
+support: it uses LuaLaTeX with the CMU Serif font from the LyX Flatpak (org.lyx.LyX) when that is
+installed, otherwise a lualatex on the PATH that can find CMU Serif.
 
 Each chart becomes  <output-dir>/<workbook name>_chart<N>.pdf, numbered by sheet and by
 position on the sheet (top to bottom, left to right), so the names stay the same
@@ -42,6 +48,28 @@ INPUT_FOLDER  = "excel"                   # workbooks to export when no file is 
 OUTPUT_FOLDER = "Theory/assets/plots"     # where the PDF figures are written
 FIGURE_WIDTH  = "14cm"                    # size of the plot area in the PDF
 FIGURE_HEIGHT = "8cm"
+
+# Greek translations of the chart texts (--lang el). Whole axis titles first, then legend phrases.
+GREEK = {
+    "Applied Electric Field [kV/cm]": "Εφαρμοζόμενο ηλεκτρικό πεδίο [kV/cm]",
+    "Total Electric Field [kV/cm]": "Συνολικό ηλεκτρικό πεδίο [kV/cm]",
+    "Electric Field [kV/cm]": "Ηλεκτρικό πεδίο [kV/cm]",
+    "Electric Field (kV/cm)": "Ηλεκτρικό πεδίο (kV/cm)",
+    "Distance (z) from the rod tip [cm]": "Απόσταση (z) από την κορυφή της ακίδας [cm]",
+    "Distance from the rod tip (cm)": "Απόσταση από την κορυφή της ακίδας (cm)",
+    "Distance from the rod-tip (z) in cm": "Απόσταση (z) από την κορυφή της ακίδας σε cm",
+    "z [cm] from the rod tip": "z [cm] από την κορυφή της ακίδας",
+    " after 2nd-streamer criterion": " μετά το κριτήριο 2ου οχετού",
+    " before drift": " πριν από την ολίσθηση",
+    " after drift": " μετά την ολίσθηση",
+    " inception": " έναυση",
+    "Time to crest (us)": "Χρόνος μετώπου (us)",
+    "Inception voltage (kV)": "Τάση έναυσης (kV)",
+    "Streamer length (cm)": "Μήκος οχετού (cm)",
+    "Streamer charge (nC)": "Φορτίο οχετού (nC)",
+    "first streamer": "πρώτος οχετός",
+    "second streamer": "δεύτερος οχετός",
+}
 
 NS = {
     "c": "http://schemas.openxmlformats.org/drawingml/2006/chart",
@@ -79,6 +107,11 @@ def theme_accents(z):
     return accents
 
 
+def part_path(target):
+    """Package path of a relationship target: Excel writes "../drawings/x.xml", openpyxl "/xl/drawings/x.xml"."""
+    return target.lstrip("/") if target.startswith("/xl/") else "xl/" + target.replace("../", "")
+
+
 def charts_in_order(z):
     """Chart XML paths, ordered by sheet and by position on the sheet."""
     workbook = ET.fromstring(z.read("xl/workbook.xml"))
@@ -96,9 +129,9 @@ def charts_in_order(z):
         for rel in ET.fromstring(z.read(sheet_rels)):
             if not rel.get("Type").endswith("/drawing"):
                 continue
-            drawing = "xl/" + rel.get("Target").replace("../", "")
+            drawing = part_path(rel.get("Target"))
             drawing_rels = drawing.replace("drawings/", "drawings/_rels/") + ".rels"
-            targets = {r.get("Id"): "xl/" + r.get("Target").replace("../", "")
+            targets = {r.get("Id"): part_path(r.get("Target"))
                        for r in ET.fromstring(z.read(drawing_rels))}
             anchors = []
             for anchor in ET.fromstring(z.read(drawing)):
@@ -199,6 +232,15 @@ def read_chart(z, path, workbook, accents):
 # =============================================================================
 # Writing LaTeX
 # =============================================================================
+def translate(text, lang):
+    """Replace the English chart texts with their Greek translation (GREEK table)."""
+    if lang != "el":
+        return text
+    for en in sorted(GREEK, key=len, reverse=True):
+        text = text.replace(en, GREEK[en])
+    return text
+
+
 def latex_text(text, legend=False):
     """Make a chart label safe for LaTeX and typeset field symbols such as E_sp or E_I,rod."""
     text = str(text)
@@ -225,8 +267,10 @@ def latex_text(text, legend=False):
     return "".join(pieces)
 
 
-def chart_to_tex(info, width, height):
+def chart_to_tex(info, width, height, lang="en"):
     x, y = info["axes"].get("x", {}), info["axes"].get("y", {})
+    x = {**x, "label": translate(x.get("label", ""), lang)}
+    y = {**y, "label": translate(y.get("label", ""), lang)}
     options = [f"width={width}", f"height={height}", "scale only axis", "grid=major",
                "grid style={black!12}", "axis line style={black!40}", "tick style={black!40}",
                "every axis label/.append style={font=\\small}", "tick label style={font=\\footnotesize}",
@@ -247,8 +291,11 @@ def chart_to_tex(info, width, height):
     elif info["legend"] == "t":
         options.append("legend style={at={(0.5,1.03)}, anchor=south}")
 
-    lines = [r"\documentclass{standalone}", r"\usepackage[utf8]{inputenc}", r"\usepackage[T1]{fontenc}",
-             r"\usepackage{lmodern}", r"\usepackage{pgfplots}", r"\pgfplotsset{compat=1.18}",
+    if lang == "el":       # Unicode font with Greek, the same as the Greek LyX document
+        fonts = [r"\usepackage{fontspec}", r"\setmainfont{CMU Serif}"]
+    else:
+        fonts = [r"\usepackage[utf8]{inputenc}", r"\usepackage[T1]{fontenc}", r"\usepackage{lmodern}"]
+    lines = [r"\documentclass{standalone}"] + fonts + [r"\usepackage{pgfplots}", r"\pgfplotsset{compat=1.18}",
              r"\begin{document}", r"\begin{tikzpicture}", r"\begin{axis}[" + ",\n  ".join(options) + "]"]
     for i, s in enumerate(info["series"]):
         style = ["mark=*" if s["marker"] else "no markers", f"line width={max(s['width'] * 0.6, 0.4):.2f}pt"]
@@ -261,7 +308,7 @@ def chart_to_tex(info, width, height):
             style.append("mark size=1pt")
         coordinates = " ".join(f"({px:.6g},{py:.6g})" for px, py in s["points"])
         lines.append(r"\addplot[%s] coordinates {%s};" % (", ".join(style), coordinates))
-        lines.append(r"\addlegendentry{%s}" % latex_text(s["name"], legend=True))
+        lines.append(r"\addlegendentry{%s}" % latex_text(translate(s["name"], lang), legend=True))
     lines += [r"\end{axis}", r"\end{tikzpicture}", r"\end{document}"]
     return "\n".join(lines)
 
@@ -269,7 +316,20 @@ def chart_to_tex(info, width, height):
 # =============================================================================
 # Main
 # =============================================================================
-def export_workbook(path, output_dir, width, height):
+def latex_command(lang, workdir):
+    """Command that compiles chart.tex in workdir: pdflatex for English, LuaLaTeX with Greek fonts for Greek."""
+    if lang != "el":
+        return ["pdflatex", "-interaction=nonstopmode", "-halt-on-error", "chart.tex"]
+    has_lyx_flatpak = shutil.which("flatpak") and subprocess.run(
+        ["flatpak", "info", "org.lyx.LyX"], capture_output=True).returncode == 0
+    if has_lyx_flatpak:
+        return ["flatpak", "run", f"--filesystem={workdir}", "--env=LC_ALL=C.UTF-8", "--command=sh", "org.lyx.LyX",
+                "-c", 'export PATH=/app/texlive/bin/x86_64-linux:$PATH; cd "$0" && '
+                      'exec lualatex -interaction=nonstopmode -halt-on-error chart.tex', str(workdir)]
+    return ["lualatex", "-interaction=nonstopmode", "-halt-on-error", "chart.tex"]
+
+
+def export_workbook(path, output_dir, width, height, lang="en"):
     print(f"\n{path}")
     z = zipfile.ZipFile(path)
     workbook = openpyxl.load_workbook(path, data_only=True)
@@ -280,9 +340,8 @@ def export_workbook(path, output_dir, width, height):
         name = f"{path.stem}_chart{number}.pdf"
         with tempfile.TemporaryDirectory() as tmp:
             tex = Path(tmp) / "chart.tex"
-            tex.write_text(chart_to_tex(info, width, height), encoding="utf-8")
-            result = subprocess.run(["pdflatex", "-interaction=nonstopmode", "-halt-on-error", tex.name],
-                                    cwd=tmp, capture_output=True, text=True)
+            tex.write_text(chart_to_tex(info, width, height, lang), encoding="utf-8")
+            result = subprocess.run(latex_command(lang, tmp), cwd=tmp, capture_output=True, text=True)
             if result.returncode != 0:
                 print(f"   FAILED {name}:\n" + "\n".join(result.stdout.splitlines()[-15:]))
                 continue
@@ -295,19 +354,20 @@ def export_workbook(path, output_dir, width, height):
 def main():
     parser = argparse.ArgumentParser(description="Export Excel charts as vector PDF figures (pgfplots).")
     parser.add_argument("workbooks", nargs="*", help=f"xlsx files (default: every .xlsx in {INPUT_FOLDER}/)")
-    parser.add_argument("--output-dir", default=OUTPUT_FOLDER)
+    parser.add_argument("--lang", choices=["en", "el"], default="en", help="label language (el = Greek)")
+    parser.add_argument("--output-dir", default=None, help=f"default: {OUTPUT_FOLDER} (Greek: {OUTPUT_FOLDER}/greek)")
     parser.add_argument("--width", default=FIGURE_WIDTH)
     parser.add_argument("--height", default=FIGURE_HEIGHT)
     args = parser.parse_args()
 
-    if shutil.which("pdflatex") is None:
+    if args.lang == "en" and shutil.which("pdflatex") is None:
         sys.exit("pdflatex was not found. Install a TeX distribution with pgfplots.")
     workbooks = [Path(w) for w in args.workbooks] or sorted(Path(INPUT_FOLDER).glob("*.xlsx"))
     workbooks = [w for w in workbooks if not w.name.startswith(("~$", ".~lock"))]
-    output_dir = Path(args.output_dir)
+    output_dir = Path(args.output_dir or (OUTPUT_FOLDER + ("/greek" if args.lang == "el" else "")))
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    total = sum(len(export_workbook(w, output_dir, args.width, args.height)) for w in workbooks)
+    total = sum(len(export_workbook(w, output_dir, args.width, args.height, args.lang)) for w in workbooks)
     print(f"\nDone: {total} figure(s) written to {output_dir}/")
 
 

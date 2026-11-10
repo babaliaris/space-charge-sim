@@ -34,6 +34,17 @@ def charge_density(r, A, B, C):
 
 
 
+def _r_limit(L_cs, z_drift, z_cut):
+    """Upper limit r_max(theta) of the radial integral.
+
+    The whole cone (r up to L_cs) unless z_cut is given: then the charge above the
+    height z_cut (the plane) is left out, r*cos(theta) + z_drift <= z_cut.
+    """
+    if z_cut is None:
+        return lambda _theta: L_cs
+    return lambda theta: max(0.0, min(L_cs, (z_cut - z_drift) / np.cos(theta)))
+
+
 def _esp_integrand(r, theta, z, R, A, B, C, z_drift=0.0):
     """
     Evaluates the scalar integrand of E_sp at a single point (r, theta).
@@ -93,7 +104,8 @@ def _e_rod_image_integrand(r, theta, z, R, A, B, C, z_drift=0.0):
     return numerator / denominator
 
 
-def calculate_e_sp(z, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsabs=1e-8, epsrel=1e-8, z_drift=0.0):
+def calculate_e_sp(z, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsabs=1e-8, epsrel=1e-8, z_drift=0.0,
+                   z_cut=None):
     """
     Calculates the axial direct space charge field E_sp(z).
     
@@ -115,6 +127,9 @@ def calculate_e_sp(z, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsabs=1e-8, eps
         Absolute and relative error tolerances for adaptive quadrature.
     z_drift : float
         Rigid-body drift of the whole charge cone towards the plane [m] (default 0).
+    z_cut : float or None
+        Remove the charge beyond this height [m] (the plane, z_cut = d, once the
+        drifted cone reaches it: that charge has been absorbed). None keeps the whole cone.
         
     Returns:
     --------
@@ -134,7 +149,7 @@ def calculate_e_sp(z, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsabs=1e-8, eps
         res = dblquad(
             _esp_integrand,
             0.0, theta_max,                 # Outer integral limits (theta)
-            lambda _: 0.0,  lambda _: L_cs, # Inner limits r(theta)
+            lambda _: 0.0,  _r_limit(L_cs, z_drift, z_cut),  # Inner limits r(theta)
             args=(z_val, R, A, B, C, z_drift),  # Extra arguments passed to _esp_integrand
             epsabs=epsabs,                  # Error condition.
             epsrel=epsrel                   # Relative error condition.
@@ -144,11 +159,12 @@ def calculate_e_sp(z, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsabs=1e-8, eps
     return e_sp_results if isinstance(z, np.ndarray) else e_sp_results[0]
 
 
-def calculate_e_rod_image(z, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsabs=1e-8, epsrel=1e-8, z_drift=0.0):
+def calculate_e_rod_image(z, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsabs=1e-8, epsrel=1e-8, z_drift=0.0,
+                          z_cut=None):
     """
     Calculates the axial rod image electric field E_{I_rod}(z).
     Same parameters as calculate_e_sp (z measured from the tip apex [m]), including
-    z_drift: the cone moves, the rod does not.
+    z_drift (the cone moves, the rod does not) and z_cut.
 
     Returns:
     --------
@@ -167,7 +183,7 @@ def calculate_e_rod_image(z, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsabs=1e
             _e_rod_image_integrand,
             0.0, theta_max,
             lambda _: 0.0,
-            lambda _: L_cs,
+            _r_limit(L_cs, z_drift, z_cut),
             args=(z_val, R, A, B, C, z_drift),
             epsabs=epsabs,
             epsrel=epsrel
@@ -208,7 +224,8 @@ def _e_plane_image_integrand(r, theta, z, d, R, A, B, C, z_drift=0.0):
     return numerator / denominator
 
 
-def calculate_e_plane_image(z, d, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsabs=1e-8, epsrel=1e-8, z_drift=0.0):
+def calculate_e_plane_image(z, d, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsabs=1e-8, epsrel=1e-8, z_drift=0.0,
+                            z_cut=None):
     """
     Calculates the axial grounded plane image electric field E_{I_plane}(z).
 
@@ -232,6 +249,9 @@ def calculate_e_plane_image(z, d, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsa
         Absolute and relative error tolerances for adaptive quadrature.
     z_drift : float
         Rigid-body drift of the whole charge cone towards the plane [m] (default 0).
+    z_cut : float or None
+        Remove the charge beyond this height [m] (the plane, z_cut = d, once the
+        drifted cone reaches it: that charge has been absorbed). None keeps the whole cone.
         
     Returns:
     --------
@@ -250,7 +270,7 @@ def calculate_e_plane_image(z, d, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsa
             _e_plane_image_integrand,
             0.0, theta_max,
             lambda _: 0.0,
-            lambda _: L_cs,
+            _r_limit(L_cs, z_drift, z_cut),
             args=(z_val, d, R, A, B, C, z_drift),
             epsabs=epsabs,
             epsrel=epsrel

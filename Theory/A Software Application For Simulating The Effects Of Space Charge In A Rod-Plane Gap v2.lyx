@@ -6411,6 +6411,823 @@ The Charge Simulation Method is therefore solved only once, for
 .
 \end_layout
 
+\begin_layout Subsection
+Successive Corona Bursts
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:bursts"
+
+\end_inset
+
+\end_layout
+
+\begin_layout Standard
+So far the model follows one cloud, the space charge of the first corona streamer. During an impulse the rod emits several streamers (bursts), one after the other, and the space charge grows with every burst. This section extends the model to any number of bursts. 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:burst_geometry"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+ shows the clouds at the instant of a burst, and 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:burst_timeline"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+ shows how the bursts follow each other in time.
+\end_layout
+
+\begin_layout Subsubsection*
+Two Time Scales
+\end_layout
+
+\begin_layout Standard
+A streamer of length 
+\begin_inset Formula $L_{cs}$
+\end_inset
+ grows at the streamer velocity 
+\begin_inset Formula $v_{s}$
+\end_inset
+, in the time 
+\begin_inset Formula $\tau_{s}=L_{cs}/v_{s}$
+\end_inset
+, while the ions drift at 
+\begin_inset Formula $v_{d}=\mu^{+}E$
+\end_inset
+. Because 
+\begin_inset Formula $v_{s}\gg v_{d}$
+\end_inset
+, the ions hardly move while a streamer grows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+v_{d}\,\tau_{s}=\frac{\mu^{+}E}{v_{s}}\,L_{cs}\ll L_{cs}.\label{eq:time_scales}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A burst is therefore modelled as instantaneous: its cone appears at once, with its apex at the rod tip, and only afterwards drifts. The real growth of the space charge, a cone that keeps its apex at the tip and becomes larger, is represented by a sequence of such cones.
+\end_layout
+
+\begin_layout Subsubsection*
+The Clouds
+\end_layout
+
+\begin_layout Standard
+Burst 
+\begin_inset Formula $k=1,2,\dots$
+\end_inset
+ happens at the instant 
+\begin_inset Formula $t_{k}$
+\end_inset
+ and leaves a cloud with its own length 
+\begin_inset Formula $L_{k}$
+\end_inset
+, the common cone angle 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+, and the charge 
+\begin_inset Formula $Q_{k}$
+\end_inset
+ and amplitude 
+\begin_inset Formula $A_{k}$
+\end_inset
+ of Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:amplitude_A"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\rho_{k}(r)=\frac{A_{k}}{(r+C)^{B}},\qquad Q_{k}=\pi\epsilon_{0}E_{c}L_{k}^{2}\tan^{2}\left(\theta_{B}/2\right),\qquad A_{k}=\frac{Q_{k}}{2\pi\left[1-\cos\left(\theta_{B}/2\right)\right]\int_{0}^{L_{k}}\frac{r^{2}}{(r+C)^{B}}\,dr}.\label{eq:burst_cloud}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Each cloud drifts as a rigid body by 
+\begin_inset Formula $z_{d,k}(t)$
+\end_inset
+, with 
+\begin_inset Formula $z_{d,k}(t)=0$
+\end_inset
+ for 
+\begin_inset Formula $t\le t_{k}$
+\end_inset
+. Its field is the sum of the three space-charge fields of Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:drift_image_fields"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+, evaluated with 
+\begin_inset Formula $L_{k}$
+\end_inset
+, 
+\begin_inset Formula $A_{k}$
+\end_inset
+ and 
+\begin_inset Formula $z_{d,k}(t)$
+\end_inset
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+E_{k}(z,t)=E_{sp,k}(z,t)+E_{I_{rod},k}(z,t)+E_{I_{plane},k}(z,t).\label{eq:cloud_field}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+The Total Space Charge and the Recursive Total Field
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/v2/burst_geometry.pdf
+	width 95col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+The burst model at the instant 
+\begin_inset Formula $t_{3}$
+\end_inset
+ of the third burst. The new cloud (solid) has its apex at the rod tip and the length 
+\begin_inset Formula $L_{3}$
+\end_inset
+ at which the field at its head is 
+\begin_inset Formula $E_{c}$
+\end_inset
+. The history clouds (dashed) have drifted by 
+\begin_inset Formula $z_{d,1}$
+\end_inset
+ and 
+\begin_inset Formula $z_{d,2}$
+\end_inset
+; each moves with the velocity 
+\begin_inset Formula $\vec{v}_{k}$
+\end_inset
+ at its own point 
+\begin_inset Formula $z_{c,k}$
+\end_inset
+. Right: the part of a cloud beyond the plane is absorbed, so its radial limit becomes 
+\begin_inset Formula $r_{max}$
+\end_inset
+.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:burst_geometry"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The space charge in the gap is the sum of every cloud created so far, each shifted by its own drift (
+\begin_inset Formula $\rho_{k}(\vec{x})$
+\end_inset
+ is the density of cloud 
+\begin_inset Formula $k$
+\end_inset
+ with its apex at the rod tip):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\rho(\vec{x},t)=\sum_{k:\,t_{k}\le t}\rho_{k}\left(\vec{x}-z_{d,k}(t)\,\hat{z}\right),\qquad Q(t)=\sum_{k:\,t_{k}\le t}Q_{k}.\label{eq:total_density}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The fields are linear in the charge, so the total field is the applied field plus the field of every cloud:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+E_{total}(z,t)=V(t)\,e_{ex}(z)+\sum_{k:\,t_{k}\le t}E_{k}(z,t).\label{eq:total_field_bursts}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For burst 
+\begin_inset Formula $k$
+\end_inset
+, the clouds of the earlier bursts form its 
+\series bold
+history
+\series default
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+H_{k}(z,t)=\sum_{j<k}E_{j}(z,t),\qquad H_{1}(z,t)=0,\label{eq:history}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+which grows by one cloud at every burst,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+H_{k+1}(z,t)=H_{k}(z,t)+E_{k}(z,t).\label{eq:history_recursion}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Between the bursts 
+\begin_inset Formula $k$
+\end_inset
+ and 
+\begin_inset Formula $k+1$
+\end_inset
+ the total field is therefore 
+\begin_inset Formula $E_{total}=V(t)\,e_{ex}(z)+H_{k}(z,t)+E_{k}(z,t)=V(t)\,e_{ex}(z)+H_{k+1}(z,t)$
+\end_inset
+: every new burst is computed on top of the drifting history of the earlier ones.
+\end_layout
+
+\begin_layout Subsubsection*
+Burst Condition
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/v2/burst_timeline.pdf
+	width 95col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+The recursion in time (schematic). The tip field rises with 
+\begin_inset Formula $V(t)$
+\end_inset
+ until it reaches 
+\begin_inset Formula $E_{inc}$
+\end_inset
+. At each burst a cloud is added to the history and the tip field drops; it then recovers because the voltage rises and the clouds drift away.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:burst_timeline"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The rod tip and the air do not change, so every burst needs the same tip field as the first one, 
+\begin_inset Formula $E_{inc}=V_{inc}\,e_{ex}(0)$
+\end_inset
+. Burst 
+\begin_inset Formula $k$
+\end_inset
+ happens at the first instant after the previous burst at which the total field at the tip reaches it:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+t_{k}=\min\left\{ t>t_{k-1}\,:\;V(t)\,e_{ex}(0)+H_{k}(0,t)=E_{inc}\right\} ,\qquad E_{inc}=V_{inc}\,e_{ex}(0).\label{eq:burst_condition}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For 
+\begin_inset Formula $k=1$
+\end_inset
+ the history is zero and the condition reduces to 
+\begin_inset Formula $V(t_{1})=V_{inc}$
+\end_inset
+.
+\end_layout
+
+\begin_layout Subsubsection*
+Growth of the New Cloud
+\end_layout
+
+\begin_layout Standard
+During the burst the older clouds stay where they are, at 
+\begin_inset Formula $z_{d,j}(t_{k})$
+\end_inset
+, because of 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:time_scales"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+. The streamer keeps growing while the field at its head is above 
+\begin_inset Formula $E_{c}$
+\end_inset
+. Its length 
+\begin_inset Formula $L_{k}$
+\end_inset
+ is therefore the length beyond which the head field stays below 
+\begin_inset Formula $E_{c}$
+\end_inset
+, the 
+\series bold
+largest
+\series default
+ root of the head condition:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+L_{k}=\max\left\{ L\,:\;V(t_{k})\,e_{ex}(L)+E_{k}(L,t_{k})+H_{k}(L,t_{k})=E_{c}\right\} ,\label{eq:burst_length}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $E_{k}(L,t_{k})$
+\end_inset
+ is the field of the new, not yet drifted cloud of length 
+\begin_inset Formula $L$
+\end_inset
+ at its own head; its charge and amplitude depend on 
+\begin_inset Formula $L$
+\end_inset
+ through 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:burst_cloud"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+. This is one equation for the single unknown 
+\begin_inset Formula $L_{k}$
+\end_inset
+, solved by root finding.
+\end_layout
+
+\begin_layout Standard
+The largest root, and not the first one, is used because of the history. Close to the tip the head field of the new streamer passes the drifted apex of an older cloud, which is the densest part of that cloud (
+\begin_inset Formula $\rho_{j}$
+\end_inset
+ is largest at 
+\begin_inset Formula $r=0$
+\end_inset
+). Its field makes a short, narrow dip in the head field, and the streamer is assumed to cross it. The dip is sharp only because the cloud keeps its shape during the drift; a real cloud spreads out near its apex.
+\end_layout
+
+\begin_layout Standard
+For the first burst (
+\begin_inset Formula $H_{1}=0$
+\end_inset
+) this is the cone-angle condition of Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:static_summary"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+ with the roles swapped: there 
+\begin_inset Formula $L_{cs}$
+\end_inset
+ is given and 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+ is the unknown. The cone angle is therefore 
+\series bold
+calibrated once
+\series default
+, on a first streamer of known length, and kept for every later burst and every impulse. Every length, 
+\begin_inset Formula $L_{1}$
+\end_inset
+ included, then follows from 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:burst_length"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+.
+\end_layout
+
+\begin_layout Subsubsection*
+Drift of Many Clouds
+\end_layout
+
+\begin_layout Standard
+Each cloud moves with the ion velocity at its own reference point 
+\begin_inset Formula $z_{c,k}$
+\end_inset
+, driven by every field except its own direct field:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+E_{sp,k}(z_{c,k,0},t_{k})=0,\qquad z_{c,k}(t)=z_{c,k,0}+z_{d,k}(t),\label{eq:burst_zc}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{dz_{d,k}}{dt}=\mu^{+}\Big[V(t)\,e_{ex}(z_{c,k})+E_{I_{rod},k}(z_{c,k},t)+E_{I_{plane},k}(z_{c,k},t)+\sum_{j\neq k}E_{j}(z_{c,k},t)\Big],\qquad z_{d,k}(t_{k})=0.\label{eq:burst_drift}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The clouds are coupled: each one is pushed by the fields of the others. The drifts are therefore one system of ordinary differential equations, integrated together, which gains one equation at every burst. Clouds may overlap; by 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:total_density"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+ their densities simply add.
+\end_layout
+
+\begin_layout Subsubsection*
+Absorption by the Plane
+\end_layout
+
+\begin_layout Standard
+A charge element of cloud 
+\begin_inset Formula $k$
+\end_inset
+ sits at 
+\begin_inset Formula $r\cos(\theta)+z_{d,k}(t)$
+\end_inset
+. It reaches the grounded plane and is neutralized when
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+r\cos(\theta)+z_{d,k}(t)\ge d.\label{eq:absorption_element}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The field integrals then run only over the charge that is still in the gap. The upper radial limit becomes
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+r_{max,k}(\theta,t)=\min\left[L_{k},\;\frac{d-z_{d,k}(t)}{\cos(\theta)}\right],\label{eq:absorption_limit}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+so the charge of the cloud decreases:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+Q_{k}(t)=2\pi\int_{0}^{\theta_{B}/2}\int_{0}^{r_{max,k}(\theta,t)}\rho_{k}(r)\,r^{2}\sin(\theta)\,dr\,d\theta.\label{eq:absorption_charge}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The cloud is completely absorbed, and removed, when its apex reaches the plane:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+z_{d,k}(t)\ge d.\label{eq:absorption_cloud}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+With an average field of about 
+\begin_inset Formula $V/d$
+\end_inset
+ in the gap, the time an ion needs to cross it is of the order
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+t_{cross}\approx\frac{d}{\mu^{+}\,V/d}=\frac{d^{2}}{\mu^{+}V}.\label{eq:crossing_time}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+If 
+\begin_inset Formula $t_{cross}$
+\end_inset
+ is much longer than the impulse, no cloud reaches the plane while the voltage is applied.
+\end_layout
+
+\begin_layout Subsubsection*
+End of the Simulation
+\end_layout
+
+\begin_layout Standard
+The simulation covers a time window 
+\begin_inset Formula $0\le t\le t_{end}$
+\end_inset
+. Here the bursts are searched on the front of the impulse, 
+\begin_inset Formula $t_{end}=T_{cr}$
+\end_inset
+:
+\end_layout
+
+\begin_layout Itemize
+after the crest 
+\begin_inset Formula $dV/dt<0$
+\end_inset
+, so the applied field at the tip falls and a new burst can only come from the clouds drifting away;
+\end_layout
+
+\begin_layout Itemize
+in long gaps the streamers on the front lead to the inception of a leader, which the model does not include. The model describes the corona bursts before the leader.
+\end_layout
+
+\begin_layout Subsubsection*
+The Recursive Algorithm
+\end_layout
+
+\begin_layout Enumerate
+Calibrate 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+ and 
+\begin_inset Formula $E_{inc}$
+\end_inset
+ on a first streamer of known 
+\begin_inset Formula $V_{inc}$
+\end_inset
+ and 
+\begin_inset Formula $L_{cs}$
+\end_inset
+.
+\end_layout
+
+\begin_layout Enumerate
+Start with no clouds: 
+\begin_inset Formula $k=1$
+\end_inset
+, 
+\begin_inset Formula $H_{1}=0$
+\end_inset
+.
+\end_layout
+
+\begin_layout Enumerate
+Integrate the drift 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:burst_drift"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+ of the existing clouds forward in time until the burst condition 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:burst_condition"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+ is met, a cloud reaches the plane (
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:absorption_cloud"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+, remove it and continue), or 
+\begin_inset Formula $t=t_{end}$
+\end_inset
+ (stop).
+\end_layout
+
+\begin_layout Enumerate
+At the burst: solve 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:burst_length"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+ for 
+\begin_inset Formula $L_{k}$
+\end_inset
+, compute 
+\begin_inset Formula $Q_{k}$
+\end_inset
+ and 
+\begin_inset Formula $A_{k}$
+\end_inset
+ from 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:burst_cloud"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+ and 
+\begin_inset Formula $z_{c,k,0}$
+\end_inset
+ from 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:burst_zc"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+, add the cloud to the history with 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:history_recursion"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+, set 
+\begin_inset Formula $k\to k+1$
+\end_inset
+ and go back to step 3.
+\end_layout
+
 \begin_layout Standard
 \begin_inset Newpage pagebreak
 \end_inset
@@ -6976,7 +7793,18 @@ The charge, and therefore
  and 
 \begin_inset Formula $\theta_{B}$
 \end_inset
-, stays constant after inception: only its position changes.
+, stays constant after inception: only its position changes. Later bursts add more clouds of the same form (Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:fw_bursts"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+).
 \end_layout
 
 \begin_layout Subsection
@@ -7293,7 +8121,10 @@ tuple "list"
 , this is one equation for the single unknown 
 \begin_inset Formula $\theta_{B}$
 \end_inset
-, solved by root finding.
+, solved by root finding. It is solved once, for a first streamer of known length (the calibration), and the same 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+ is used for every later burst.
 \end_layout
 
 \begin_layout Subsection
@@ -7342,21 +8173,202 @@ Because the right-hand side depends on
 \end_layout
 
 \begin_layout Subsection
-Next Corona Streamer
+Successive Bursts
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:fw_bursts"
+
+\end_inset
+
 \end_layout
 
 \begin_layout Standard
-A new streamer can start when the total field at the tip returns to the field that started the first one:
+The equations above describe one cloud. Every corona burst 
+\begin_inset Formula $k$
+\end_inset
+ (Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:bursts"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+) adds a cloud with its own length 
+\begin_inset Formula $L_{k}$
+\end_inset
+, charge 
+\begin_inset Formula $Q_{k}$
+\end_inset
+, amplitude 
+\begin_inset Formula $A_{k}$
+\end_inset
+ and drift 
+\begin_inset Formula $z_{d,k}(t)$
+\end_inset
+, and the common 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-E_{total}(0,t)\ge E_{ex}(0,t_{inc})=V_{inc}\,e_{ex}(0).\label{eq:fw_next_streamer}
+Q_{k}=\pi\epsilon_{0}E_{c}L_{k}^{2}\tan^{2}\left(\theta_{B}/2\right),\qquad A_{k}=\frac{Q_{k}}{2\pi\left[1-\cos\left(\theta_{B}/2\right)\right]\int_{0}^{L_{k}}\frac{r^{2}}{(r+C)^{B}}\,dr}.\label{eq:fw_cloud}
 \end{equation}
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+The field 
+\begin_inset Formula $E_{k}=E_{sp,k}+E_{I_{rod},k}+E_{I_{plane},k}$
+\end_inset
+ of cloud 
+\begin_inset Formula $k$
+\end_inset
+ is given by 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:fw_esp"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+ to 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:fw_r5"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+ with 
+\begin_inset Formula $L_{cs}\to r_{max,k}(\theta,t)$
+\end_inset
+, 
+\begin_inset Formula $A\to A_{k}$
+\end_inset
+ and 
+\begin_inset Formula $z_{d}\to z_{d,k}$
+\end_inset
+, where the radial limit leaves out the charge absorbed by the plane:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+r_{max,k}(\theta,t)=\min\left[L_{k},\;\frac{d-z_{d,k}(t)}{\cos(\theta)}\right].\label{eq:fw_rmax}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Total field.
+\series default
+ The applied field plus every cloud created so far, with the history 
+\begin_inset Formula $H_{k}$
+\end_inset
+ of the clouds before burst 
+\begin_inset Formula $k$
+\end_inset
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+E_{total}(z,t)=V(t)\,e_{ex}(z)+\sum_{k:\,t_{k}\le t}E_{k}(z,t),\qquad H_{k}(z,t)=\sum_{j<k}E_{j}(z,t).\label{eq:fw_total_bursts}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Burst instant.
+\series default
+ The first instant after the previous burst at which the tip field reaches the inception field:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+V(t_{k})\,e_{ex}(0)+H_{k}(0,t_{k})=E_{inc},\qquad E_{inc}=V_{inc}\,e_{ex}(0).\label{eq:fw_burst}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Burst length.
+\series default
+ The largest root of the head condition, with the older clouds frozen at 
+\begin_inset Formula $t_{k}$
+\end_inset
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+L_{k}=\max\left\{ L\,:\;V(t_{k})\,e_{ex}(L)+E_{k}(L,t_{k})+H_{k}(L,t_{k})=E_{c}\right\} .\label{eq:fw_burst_length}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Drift.
+\series default
+ Every cloud is driven by every field except its own direct field:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\frac{dz_{d,k}}{dt}=\mu^{+}\Big[V(t)\,e_{ex}(z_{c,k})+E_{I_{rod},k}(z_{c,k},t)+E_{I_{plane},k}(z_{c,k},t)+\sum_{j\neq k}E_{j}(z_{c,k},t)\Big],\qquad z_{c,k}=z_{c,k,0}+z_{d,k}.\label{eq:fw_burst_drift}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Absorption and end.
+\series default
+ A cloud is removed when 
+\begin_inset Formula $z_{d,k}(t)\ge d$
+\end_inset
+, and the simulation stops at 
+\begin_inset Formula $t=t_{end}$
+\end_inset
+.
 \end_layout
 
 \begin_layout Subsection
@@ -7389,25 +8401,13 @@ Fit
 \end_layout
 
 \begin_layout Enumerate
-Find 
-\begin_inset Formula $t_{inc}$
+Calibrate once, on a first streamer of known 
+\begin_inset Formula $V_{inc}$
 \end_inset
- from 
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "eq:fw_inception"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-tuple "list"
-
+ and 
+\begin_inset Formula $L_{cs}$
 \end_inset
-.
-\end_layout
-
-\begin_layout Enumerate
-Solve 
+: solve 
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "eq:fw_theta_b"
@@ -7421,15 +8421,75 @@ tuple "list"
  for 
 \begin_inset Formula $\theta_{B}$
 \end_inset
-, which also gives 
-\begin_inset Formula $A$
+ and set 
+\begin_inset Formula $E_{inc}=V_{inc}\,e_{ex}(0)$
 \end_inset
 .
 \end_layout
 
 \begin_layout Enumerate
-Find 
-\begin_inset Formula $z_{c,0}$
+Start with no clouds. Integrate 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:fw_burst_drift"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+ for the existing clouds until 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:fw_burst"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+ is met, a cloud is absorbed, or 
+\begin_inset Formula $t=t_{end}$
+\end_inset
+.
+\end_layout
+
+\begin_layout Enumerate
+At a burst, solve 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:fw_burst_length"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+ for 
+\begin_inset Formula $L_{k}$
+\end_inset
+, compute 
+\begin_inset Formula $Q_{k}$
+\end_inset
+ and 
+\begin_inset Formula $A_{k}$
+\end_inset
+ from 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:fw_cloud"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+ and 
+\begin_inset Formula $z_{c,k,0}$
 \end_inset
  from 
 \begin_inset CommandInset ref
@@ -7442,28 +8502,14 @@ nolink "false"
 tuple "list"
 
 \end_inset
- and integrate 
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "eq:fw_drift"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-tuple "list"
-
-\end_inset
- to obtain 
-\begin_inset Formula $z_{d}(t)$
-\end_inset
-.
+, add the cloud and return to step 3.
 \end_layout
 
 \begin_layout Enumerate
 At every time of interest, evaluate 
 \begin_inset CommandInset ref
 LatexCommand eqref
-reference "eq:fw_total"
+reference "eq:fw_total_bursts"
 plural "false"
 caps "false"
 noprefix "false"
@@ -7474,18 +8520,7 @@ tuple "list"
  along 
 \begin_inset Formula $z$
 \end_inset
-, and check 
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "eq:fw_next_streamer"
-plural "false"
-caps "false"
-noprefix "false"
-nolink "false"
-tuple "list"
-
-\end_inset
- at the tip.
+.
 \end_layout
 
 \begin_layout Standard
@@ -7508,7 +8543,18 @@ literal "false"
 
 \end_inset
 
- and compares the results with their Figures 3, 4 and 5. It also explains why Figures 6 to 8 cannot be reproduced with the information given in the paper alone. Every result was produced by a script that writes its data to an Excel workbook (
+ and compares the results with their Figures 3 to 5. Figures 6 to 8 are then reproduced with the burst model of Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:bursts"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+, with our own choices for what the paper does not give. Every result was produced by a script that writes its data to an Excel workbook (
 \begin_inset CommandInset ref
 LatexCommand formatted
 reference "tab:repro_scripts"
@@ -7533,7 +8579,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="6" columns="3">
+<lyxtabular version="3" rows="7" columns="3">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -7661,6 +8707,35 @@ Figure 5
 
 \begin_layout Plain Layout
 field near the tip during the impulse
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+wh_fig678_reproduction.py
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Figures 6 to 8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+first and second streamer against the front time
 \end_layout
 
 \end_inset
@@ -9849,6 +10924,12 @@ name "tab:repro_fig5_tip"
 
 \begin_layout Subsubsection
 When Can the Next Streamer Start?
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:repro_next_streamer"
+
+\end_inset
+
 \end_layout
 
 \begin_layout Standard
@@ -9889,11 +10970,28 @@ In our simulation this happens at
 , when the voltage is 
 \begin_inset Formula $51.4\,\text{kV}$
 \end_inset
-. The second streamer therefore needs almost twice the voltage of the first, because the charge left by the first streamer shields the tip. This is the space-charge effect the paper studies. The second streamer itself is not modelled.
+. The second streamer therefore needs almost twice the voltage of the first, because the charge left by the first streamer shields the tip. This is the space-charge effect the paper studies. The second streamer itself is modelled in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:repro_fig678"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+.
 \end_layout
 
 \begin_layout Subsection
-Figures 6 to 8: What the Paper Leaves Out
+Figures 6 to 8: First and Second Streamer
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:repro_fig678"
+
+\end_inset
+
 \end_layout
 
 \begin_layout Standard
@@ -9904,8 +11002,22 @@ key "wang1988"
 literal "false"
 
 \end_inset
-
- show, for the first and the second streamer, how the inception voltage, the length and the charge of the streamer change with the front time of the impulse. In Figures 3 to 5 the inception voltage and the streamer length were 
+ show, for the first and the second streamer, how the inception voltage, the length and the charge of the streamer change with the time to crest of the impulse, from 
+\begin_inset Formula $15$
+\end_inset
+ to 
+\begin_inset Formula $600\,\mu\text{s}$
+\end_inset
+ (Figures 6 and 7 for a 
+\begin_inset Formula $40\,\text{cm}$
+\end_inset
+ gap, Figure 8 for 
+\begin_inset Formula $40$
+\end_inset
+ and 
+\begin_inset Formula $80\,\text{cm}$
+\end_inset
+). In Figures 3 to 5 the inception voltage and the streamer length were 
 \series bold
 given
 \series default
@@ -9913,7 +11025,7 @@ given
 \series bold
 results
 \series default
-, and the paper does not say how they were calculated. It refers instead to an earlier paper of the same authors, in Chinese. The missing pieces are listed in 
+, and the paper does not say how they were calculated. It refers instead to an earlier paper of the same authors, in Chinese. The missing pieces, and the choice made for each in this work, are listed in 
 \begin_inset CommandInset ref
 LatexCommand formatted
 reference "tab:repro_missing"
@@ -9924,7 +11036,7 @@ nolink "false"
 tuple "list"
 
 \end_inset
-, each with a standard model that could replace it.
+.
 \end_layout
 
 \begin_layout Standard
@@ -9938,7 +11050,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="6" columns="3">
+<lyxtabular version="3" rows="7" columns="3">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -9976,7 +11088,7 @@ Needed for
 \begin_layout Plain Layout
 
 \series bold
-Candidate model
+Choice in this work
 \series default
 
 \end_layout
@@ -9989,7 +11101,7 @@ Candidate model
 \begin_inset Text
 
 \begin_layout Plain Layout
-Inception with time lag
+Inception criterion
 \end_layout
 
 \end_inset
@@ -10007,7 +11119,21 @@ Figure 6
 \begin_inset Text
 
 \begin_layout Plain Layout
-ionization integral and a time lag
+tip field reaches 
+\begin_inset Formula $E_{inc}$
+\end_inset
+, no time lag, 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:burst_condition"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
 \end_layout
 
 \end_inset
@@ -10036,8 +11162,16 @@ Figure 7
 \begin_inset Text
 
 \begin_layout Plain Layout
-average applied field along the streamer 
-\begin_inset Formula $=E_{c}$
+head condition 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:burst_length"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
 \end_inset
 
 \end_layout
@@ -10068,7 +11202,18 @@ Figure 8
 \begin_inset Text
 
 \begin_layout Plain Layout
-Gauss's law, as for Figures 3 to 5
+Gauss's law 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:burst_cloud"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
 \end_layout
 
 \end_inset
@@ -10079,7 +11224,7 @@ Gauss's law, as for Figures 3 to 5
 \begin_inset Text
 
 \begin_layout Plain Layout
-Crest voltage, tail
+Crest voltage
 \end_layout
 
 \end_inset
@@ -10097,7 +11242,53 @@ all
 \begin_inset Text
 
 \begin_layout Plain Layout
-assumed
+Gallet's 
+\begin_inset Formula $U_{50}$
+\end_inset
+, 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:repro_gallet"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Impulse tail
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+all
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $2500\,\mu\text{s}$
+\end_inset
+ to half value
 \end_layout
 
 \end_inset
@@ -10126,7 +11317,18 @@ curves 2
 \begin_inset Text
 
 \begin_layout Plain Layout
-the same rules with the space charge included
+burst model of Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:bursts"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
 \end_layout
 
 \end_inset
@@ -10142,7 +11344,7 @@ the same rules with the space charge included
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Information missing for Figures 6 to 8 and candidate models.
+Information missing for Figures 6 to 8 and the choice made in this work.
 \begin_inset CommandInset label
 LatexCommand label
 name "tab:repro_missing"
@@ -10162,8 +11364,891 @@ name "tab:repro_missing"
 
 \end_layout
 
+\begin_layout Subsubsection
+Parameters
+\end_layout
+
 \begin_layout Standard
-These figures can therefore only be reconstructed with our own assumptions, and should be compared with the paper by their trends, not by their exact values.
+The rod and the charge model are those of Figure 3 (
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "tab:repro_fig3_params"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+). The cone angle and the inception field are calibrated once, on the first streamer of Figure 3 (
+\begin_inset Formula $27.5\,\text{kV}$
+\end_inset
+, 
+\begin_inset Formula $L_{cs}=2.7\,\text{cm}$
+\end_inset
+, 
+\begin_inset Formula $d=80\,\text{cm}$
+\end_inset
+), which gives 
+\begin_inset Formula $\theta_{B}=93.39^{\circ}$
+\end_inset
+ and 
+\begin_inset Formula $E_{inc}=149.4\,\text{kV/cm}$
+\end_inset
+. The paper gives no crest voltage, so the crest is set to the 
+\begin_inset Formula $50\,\%$
+\end_inset
+ breakdown voltage of the gap from the formula of Gallet et al. 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gallet1975"
+literal "false"
+
+\end_inset
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+V_{p}=U_{50}=\frac{3400}{1+8/d}\;\text{kV}\qquad(d\text{ in m}),\label{eq:repro_gallet}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+which gives 
+\begin_inset Formula $V_{p}=161.9\,\text{kV}$
+\end_inset
+ for 
+\begin_inset Formula $d=40\,\text{cm}$
+\end_inset
+ and 
+\begin_inset Formula $V_{p}=309.1\,\text{kV}$
+\end_inset
+ for 
+\begin_inset Formula $d=80\,\text{cm}$
+\end_inset
+. The formula was fitted to gaps of about 
+\begin_inset Formula $1\,\text{m}$
+\end_inset
+ and longer, so for these gaps it is an extrapolation. The time to crest takes the values 
+\begin_inset Formula $15$
+\end_inset
+, 
+\begin_inset Formula $20$
+\end_inset
+, 
+\begin_inset Formula $30$
+\end_inset
+, 
+\begin_inset Formula $50$
+\end_inset
+, 
+\begin_inset Formula $75$
+\end_inset
+, 
+\begin_inset Formula $100$
+\end_inset
+, 
+\begin_inset Formula $150$
+\end_inset
+, 
+\begin_inset Formula $200$
+\end_inset
+, 
+\begin_inset Formula $300$
+\end_inset
+, 
+\begin_inset Formula $400$
+\end_inset
+, 
+\begin_inset Formula $500$
+\end_inset
+ and 
+\begin_inset Formula $600\,\mu\text{s}$
+\end_inset
+, and each simulation stops at the second burst.
+\end_layout
+
+\begin_layout Standard
+Two checks confirm that the burst model contains the earlier results. For 
+\begin_inset Formula $d=80\,\text{cm}$
+\end_inset
+ the first burst gets back the calibration length, 
+\begin_inset Formula $L_{1}=2.70\,\text{cm}$
+\end_inset
+. With the impulse of Figure 5, the second burst happens at 
+\begin_inset Formula $t=3.25\,\mu\text{s}$
+\end_inset
+ and 
+\begin_inset Formula $V=51.4\,\text{kV}$
+\end_inset
+, the same instant as in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:repro_next_streamer"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+.
+\end_layout
+
+\begin_layout Subsubsection
+Results
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/plots/wh_fig678_reproduction_chart1.pdf
+	width 95col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Inception voltage of the first and the second streamer against the time to crest, 
+\begin_inset Formula $d=40\,\text{cm}$
+\end_inset
+ (Figure 6 of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "wang1988"
+literal "false"
+
+\end_inset
+).
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:repro_fig6"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/plots/wh_fig678_reproduction_chart2.pdf
+	width 95col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Length of the first and the second streamer against the time to crest, 
+\begin_inset Formula $d=40\,\text{cm}$
+\end_inset
+ (Figure 7 of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "wang1988"
+literal "false"
+
+\end_inset
+).
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:repro_fig7"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/plots/wh_fig678_reproduction_chart3.pdf
+	width 95col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Charge of the first and the second streamer against the time to crest, 
+\begin_inset Formula $d=40\,\text{cm}$
+\end_inset
+ and 
+\begin_inset Formula $80\,\text{cm}$
+\end_inset
+ (Figure 8 of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "wang1988"
+literal "false"
+
+\end_inset
+).
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:repro_fig8"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="7">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+
+\begin_inset Formula $T_{cr}$
+\end_inset
+ [
+\begin_inset Formula $\mu$
+\end_inset
+s]
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+
+\begin_inset Formula $t_{1}$
+\end_inset
+ [
+\begin_inset Formula $\mu$
+\end_inset
+s]
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+
+\begin_inset Formula $t_{2}$
+\end_inset
+ [
+\begin_inset Formula $\mu$
+\end_inset
+s]
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+
+\begin_inset Formula $V_{2}$
+\end_inset
+ [kV]
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+
+\begin_inset Formula $L_{2}$
+\end_inset
+ [cm]
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+
+\begin_inset Formula $Q_{2}$
+\end_inset
+ [nC]
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+
+\begin_inset Formula $z_{d,1}(t_{2})$
+\end_inset
+ [cm]
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $15$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $0.35$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $0.76$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $51.3$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $7.20$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $81.1$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $0.004$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $100$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $3.28$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $6.45$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $47.6$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $6.97$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $76.0$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $0.029$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $600$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $31.5$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $53.3$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $42.1$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $6.71$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $70.5$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $0.162$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Bursts for 
+\begin_inset Formula $d=40\,\text{cm}$
+\end_inset
+ at three times to crest (sheet Bursts of the Figures 6 to 8 workbook). 
+\begin_inset Formula $z_{d,1}(t_{2})$
+\end_inset
+ is the drift of the first cloud when the second burst happens.
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:repro_fig678_values"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+First streamer.
+\series default
+ Its curves are flat (
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:repro_fig6"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+ to 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:repro_fig8"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+). The first burst needs the fixed tip field 
+\begin_inset Formula $E_{inc}$
+\end_inset
+, and the applied field is proportional to the voltage, so 
+\begin_inset Formula $V_{inc}=E_{inc}/e_{ex}(0)$
+\end_inset
+ does not depend on the front: 
+\begin_inset Formula $26.2\,\text{kV}$
+\end_inset
+ for 
+\begin_inset Formula $d=40\,\text{cm}$
+\end_inset
+ and 
+\begin_inset Formula $27.5\,\text{kV}$
+\end_inset
+ for 
+\begin_inset Formula $d=80\,\text{cm}$
+\end_inset
+. The length and the charge are then fixed too. In the paper the first-streamer curves decrease with the time to crest; reproducing that needs an inception criterion with a time lag, which the paper does not give.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Second streamer.
+\series default
+ Its inception voltage, length and charge all decrease with the time to crest, as in the paper. The second burst has to wait until the first cloud has moved away from the tip. On a slow front the voltage rises slowly, so the cloud drifts further before the voltage gets high enough (last column of 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "tab:repro_fig678_values"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+), and less voltage is needed. A lower voltage gives a lower applied field along the streamer, so the second streamer is shorter and carries less charge (
+\begin_inset Formula $Q_{2}\propto L_{2}^{2}$
+\end_inset
+).
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Plane.
+\series default
+ With 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:crossing_time"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+ and 
+\begin_inset Formula $V=V_{p}$
+\end_inset
+, an ion needs about 
+\begin_inset Formula $7\,\text{ms}$
+\end_inset
+ to cross the 
+\begin_inset Formula $40\,\text{cm}$
+\end_inset
+ gap and 
+\begin_inset Formula $15\,\text{ms}$
+\end_inset
+ for the 
+\begin_inset Formula $80\,\text{cm}$
+\end_inset
+ gap, much longer than the longest front (
+\begin_inset Formula $0.6\,\text{ms}$
+\end_inset
+) and the tail (
+\begin_inset Formula $2.5\,\text{ms}$
+\end_inset
+). No cloud reaches the plane in these simulations.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Length rule.
+\series default
+ For 
+\begin_inset Formula $d=40\,\text{cm}$
+\end_inset
+ and 
+\begin_inset Formula $T_{cr}=600\,\mu\text{s}$
+\end_inset
+ the dip of the head field at the apex of the first cloud (Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:bursts"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+) falls below 
+\begin_inset Formula $E_{c}$
+\end_inset
+. With the largest root the second streamer is 
+\begin_inset Formula $6.71\,\text{cm}$
+\end_inset
+ long; with the first root it would stop after 
+\begin_inset Formula $0.17\,\text{cm}$
+\end_inset
+.
+\end_layout
+
+\begin_layout Standard
+The paper also shows measured values. A comparison of the values, and not only of the trends, needs the curves of Figures 6 to 8 digitized, as was done for Figure 3.
 \end_layout
 
 \begin_layout Subsection
@@ -10196,7 +12281,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="10" columns="3">
+<lyxtabular version="3" rows="14" columns="3">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -10504,7 +12589,129 @@ Impulse tail
 \begin_inset Text
 
 \begin_layout Plain Layout
-Figure 5
+Figures 5 to 8
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Next streamer
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+tip field back to its first-inception value, no time lag
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Figures 5 to 8
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Crest voltage
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Gallet's 
+\begin_inset Formula $U_{50}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Figures 6 to 8
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Cone angle of later bursts
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+the calibrated 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Figures 6 to 8
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Streamer length
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+largest root of the head condition
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Figures 6 to 8
 \end_layout
 
 \end_inset
@@ -10515,7 +12722,7 @@ Figure 5
 \begin_inset Text
 
 \begin_layout Plain Layout
-Next streamer
+Charge of later bursts
 \end_layout
 
 \end_inset
@@ -10524,7 +12731,10 @@ Next streamer
 \begin_inset Text
 
 \begin_layout Plain Layout
-tip field back to its first-inception value
+Gauss's law with 
+\begin_inset Formula $E_{c}$
+\end_inset
+ at its head
 \end_layout
 
 \end_inset
@@ -10533,7 +12743,7 @@ tip field back to its first-inception value
 \begin_inset Text
 
 \begin_layout Plain Layout
-Figure 5
+Figures 6 to 8
 \end_layout
 
 \end_inset
@@ -10663,6 +12873,25 @@ Computation of Corona Inception Voltage by the Charge Simulation Method
 \end_inset
 
 , Proceedings of the 13th International Symposium on High Voltage Engineering (ISH 2003), Delft, The Netherlands, 2003.
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "gallet1975"
+literal "false"
+
+\end_inset
+
+G. Gallet, G. Leroy, R. Lacey, I. Kromer, 
+\begin_inset Quotes eld
+\end_inset
+
+General Expression for Positive Switching Impulse Strength Valid up to Extra Long Air Gaps
+\begin_inset Quotes erd
+\end_inset
+
+, IEEE Transactions on Power Apparatus and Systems, vol. PAS-94, no. 6, pp. 1989–1993, 1975. doi:10.1109/T-PAS.1975.32045.
 \end_layout
 
 \end_body
