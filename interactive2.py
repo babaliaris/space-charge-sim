@@ -1,15 +1,16 @@
 import matplotlib
+
 matplotlib.use('TkAgg')
 
+import matplotlib.pyplot as plt
 import mplcursors
 import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.widgets import Slider, Button
+from matplotlib.widgets import Button, Slider
 from scipy.optimize import brentq
 
 from solver.applied_field import calculate_applied_field
-from solver.fields import calculate_e_sp, calculate_e_rod_image, calculate_e_plane_image
-from solver.utilities import calculate_qcs_from_field, calculate_A_from_charge
+from solver.fields import calculate_e_plane_image, calculate_e_rod_image, calculate_e_sp
+from solver.utilities import calculate_A_from_charge, calculate_qcs_from_field
 
 # Setup figure
 fig, ax = plt.subplots(figsize=(10, 8.5))
@@ -84,7 +85,7 @@ def compute_fields_for_theta(theta_deg, B_val, C_cm):
 # Automatically solve for initial theta using brentq between 5° and 175°
 try:
     solved_theta_init = brentq(objective_theta, 5.0, 175.0, args=(init_B, init_C_cm))
-except Exception as e:
+except (ValueError, RuntimeError):     # brentq: no sign change / no convergence
     solved_theta_init = 45.0  # fallback
 
 eex_init, esp_init, eirod_init, eiplane_init, etot_init = compute_fields_for_theta(solved_theta_init, init_B, init_C_cm)
@@ -122,7 +123,7 @@ apply_y_limits()
 
 status_text = ax.text(0.02, 0.92, f'Solved Theta_B: {solved_theta_init:.2f}°', 
                       transform=ax.transAxes, fontsize=11,
-                      verticalalignment='top', bbox=dict(boxstyle='round', facecolor='lightgreen', alpha=0.6))
+                      verticalalignment='top', bbox={'boxstyle': 'round', 'facecolor': 'lightgreen', 'alpha': 0.6})
 
 # Sliders only for secondary parameters like B and C (since L_cs and R are fixed by benchmark)
 ax_B     = plt.axes((0.15, 0.22, 0.55, 0.03))
@@ -146,7 +147,7 @@ def on_zoom_clicked(event):
 
 def on_compute_clicked(event):
     status_text.set_text('Computing integrals, please wait...')
-    status_text.set_bbox(dict(boxstyle='round', facecolor='lightblue', alpha=0.6))
+    status_text.set_bbox({'boxstyle': 'round', 'facecolor': 'lightblue', 'alpha': 0.6})
     fig.canvas.draw()
     fig.canvas.flush_events()
     update_plot()
@@ -159,10 +160,10 @@ def update_plot():
         # Automatically solve for theta where total field equals 5 kV/cm at L_cs = 2.7 cm
         solved_theta = brentq(objective_theta, 1.0, 179.0, args=(b_val, c_val))
         status_text.set_text(f'Solved Theta_B: {solved_theta:.2f}° (Valid Equilibrium)')
-        status_text.set_bbox(dict(boxstyle='round', facecolor='lightgreen', alpha=0.6))
-    except Exception as ex:
+        status_text.set_bbox({'boxstyle': 'round', 'facecolor': 'lightgreen', 'alpha': 0.6})
+    except (ValueError, RuntimeError) as ex:
         status_text.set_text(f'Root finding failed: {str(ex)[:30]}')
-        status_text.set_bbox(dict(boxstyle='round', facecolor='lightcoral', alpha=0.6))
+        status_text.set_bbox({'boxstyle': 'round', 'facecolor': 'lightcoral', 'alpha': 0.6})
         fig.canvas.draw_idle()
         return
 

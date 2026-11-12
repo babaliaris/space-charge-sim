@@ -23,35 +23,39 @@ impulse): pass V as a function of the time since the drift started.
 Units: everything is SI (metres, seconds, V/m, m^2/(V*s)).
 """
 
+from typing import cast
+
 import numpy as np
 from scipy.integrate import solve_ivp
 from scipy.optimize import brentq
 
 from solver.applied_field import calculate_applied_field
-from solver.fields import calculate_e_sp, calculate_e_rod_image, calculate_e_plane_image
+from solver.fields import calculate_e_plane_image, calculate_e_rod_image, calculate_e_sp
+from solver.utilities import terminal_event
 
 
 def find_e_sp_zero(R, L_cs, theta_B, A, B, C):
     """z [m] (from the tip apex) where the undrifted E_sp changes sign from - to +."""
     def e_sp(z):
         return calculate_e_sp(z, R, L_cs, theta_B, A, B, C)
-    return brentq(e_sp, 1e-6, L_cs, xtol=1e-9)
+    return cast(float, brentq(e_sp, 1e-6, L_cs, xtol=1e-9))
 
 
-def driving_field(z_drift, z_c0, R, D, V, L_cs, theta_B, A, B, C):
+def driving_field(z_drift, z_c0, R, D, V, L_cs, theta_B, A, B, C, rod_length=None):
     """Field [V/m] that moves the cloud: E_ex + E_I,rod + E_I,plane at z_c = z_c0 + z_drift.
 
-    V is the applied voltage [V] at that instant.
+    V is the applied voltage [V] at that instant; rod_length the modelled rod length
+    for the applied field [m] (None = 5 * D).
     """
     z_c = z_c0 + z_drift
-    return (float(calculate_applied_field(R, D, V, z_c))
+    return (float(calculate_applied_field(R, D, V, z_c, rod_length=rod_length))
             + calculate_e_rod_image(z_c, R, L_cs, theta_B, A, B, C, z_drift=z_drift)
             + calculate_e_plane_image(z_c, D, R, L_cs, theta_B, A, B, C, z_drift=z_drift))
 
 
 def simulate_drift(R, D, V, L_cs, theta_B, A, B, C, mobility,
                    drift_time=None, drift_distance=None, n_samples=41, max_time=1e-3,
-                   sample_times=None):
+                   sample_times=None, rod_length=None):
     """
     Integrate the rigid-body drift. Give exactly one of:
 
@@ -65,6 +69,7 @@ def simulate_drift(R, D, V, L_cs, theta_B, A, B, C, mobility,
     sample_times : optional explicit sample times [s] (since the drift started),
                    used instead of n_samples; they must lie within the drift
     max_time     : give up if drift_distance is not reached within this time [s]
+    rod_length   : modelled rod length for the applied field [m] (None = 5 * D)
 
     Returns a dict with z_c0, final time / distance, the sampled history
     (t, z_drift, z_c, E_drive, velocity) and "z_drift_at", a function giving
@@ -77,15 +82,13 @@ def simulate_drift(R, D, V, L_cs, theta_B, A, B, C, mobility,
     voltage = V if callable(V) else (lambda _t: V)
 
     def velocity(t, state):
-        return [mobility * driving_field(state[0], z_c0, R, D, voltage(t), L_cs, theta_B, A, B, C)]
+        return [mobility * driving_field(state[0], z_c0, R, D, voltage(t), L_cs, theta_B, A, B, C, rod_length)]
 
     events = None
     if drift_distance is not None:
         def reached(_t, state):
             return state[0] - drift_distance
-        reached.terminal = True
-        reached.direction = 1
-        events = reached
+        events = terminal_event(reached)
 
     t_end = drift_time if drift_time is not None else max_time
     # max_step stops the solver from trying huge steps that would carry the cloud out of the gap

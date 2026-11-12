@@ -69,6 +69,7 @@ GREEK = {
     "Streamer charge (nC)": "Φορτίο οχετού (nC)",
     "first streamer": "πρώτος οχετός",
     "second streamer": "δεύτερος οχετός",
+    "max ": "μέγιστο ",
 }
 
 NS = {
@@ -91,6 +92,22 @@ DASHES = {"dash": "dashed", "sysDash": "dashed", "lgDash": "dashed", "dashDot": 
 # =============================================================================
 # Reading the workbook
 # =============================================================================
+def find(node, path):
+    """node.find(path), with a clear error if the chart XML lacks the element."""
+    found = node.find(path, NS)
+    if found is None:
+        raise ValueError(f"element {path} not found in the chart XML")
+    return found
+
+
+def attribute(node, name):
+    """node.get(name), with a clear error if the attribute is missing."""
+    value = node.get(name)
+    if value is None:
+        raise ValueError(f"attribute {name} missing on <{node.tag}>")
+    return value
+
+
 def theme_accents(z):
     """Accent colours of the workbook theme (hex strings)."""
     names = [n for n in z.namelist() if n.startswith("xl/theme/")]
@@ -103,7 +120,7 @@ def theme_accents(z):
         if node is not None:
             colour = node.find("a:srgbClr", NS)
             if colour is not None:
-                accents[key] = colour.get("val")
+                accents[key] = attribute(colour, "val")
     return accents
 
 
@@ -116,31 +133,31 @@ def charts_in_order(z):
     """Chart XML paths, ordered by sheet and by position on the sheet."""
     workbook = ET.fromstring(z.read("xl/workbook.xml"))
     rels = ET.fromstring(z.read("xl/_rels/workbook.xml.rels"))
-    rid_to_target = {r.get("Id"): r.get("Target") for r in rels}
+    rid_to_target = {attribute(r, "Id"): attribute(r, "Target") for r in rels}
     sheets = [s for s in workbook.iter() if s.tag.endswith("}sheet")]
 
     ordered = []
     for sheet in sheets:
-        target = rid_to_target[sheet.get("{%s}id" % NS["r"])]
+        target = rid_to_target[attribute(sheet, f"{{{NS['r']}}}id")]
         sheet_path = target.lstrip("/") if target.startswith("/xl/") else "xl/" + target
         sheet_rels = sheet_path.replace("worksheets/", "worksheets/_rels/") + ".rels"
         if sheet_rels not in z.namelist():
             continue
         for rel in ET.fromstring(z.read(sheet_rels)):
-            if not rel.get("Type").endswith("/drawing"):
+            if not attribute(rel, "Type").endswith("/drawing"):
                 continue
-            drawing = part_path(rel.get("Target"))
+            drawing = part_path(attribute(rel, "Target"))
             drawing_rels = drawing.replace("drawings/", "drawings/_rels/") + ".rels"
-            targets = {r.get("Id"): part_path(r.get("Target"))
+            targets = {attribute(r, "Id"): part_path(attribute(r, "Target"))
                        for r in ET.fromstring(z.read(drawing_rels))}
             anchors = []
             for anchor in ET.fromstring(z.read(drawing)):
                 start = anchor.find("xdr:from", NS)
-                row = int(start.find("xdr:row", NS).text) if start is not None else 0
-                col = int(start.find("xdr:col", NS).text) if start is not None else 0
+                row = int(find(start, "xdr:row").text or 0) if start is not None else 0
+                col = int(find(start, "xdr:col").text or 0) if start is not None else 0
                 chart = anchor.find(".//c:chart", NS)
                 if chart is not None:
-                    anchors.append((row, col, targets[chart.get("{%s}id" % NS["r"])]))
+                    anchors.append((row, col, targets[attribute(chart, f"{{{NS['r']}}}id")]))
             ordered += [path for _, _, path in sorted(anchors)]
     return ordered
 
@@ -149,7 +166,7 @@ def rich_text(node):
     """Plain text of a <c:title> or <c:tx> element."""
     if node is None:
         return ""
-    return "".join(t.text or "" for t in node.iter("{%s}t" % NS["a"])).strip()
+    return "".join(t.text or "" for t in node.iter(f"{{{NS['a']}}}t")).strip()
 
 
 def read_range(workbook, formula):
@@ -187,25 +204,25 @@ def line_style(ser, accents):
 
 def read_chart(z, path, workbook, accents):
     root = ET.fromstring(z.read(path))
-    chart = root.find("c:chart", NS)
+    chart = find(root, "c:chart")
     info = {"title": rich_text(chart.find("c:title", NS)), "series": [], "axes": {}}
 
     legend = chart.find("c:legend/c:legendPos", NS)
     info["legend"] = legend.get("val") if legend is not None else None
 
-    for ax in chart.find("c:plotArea", NS):
+    for ax in find(chart, "c:plotArea"):
         if not ax.tag.endswith(("}valAx", "}catAx")):
             continue
-        pos = ax.find("c:axPos", NS).get("val")
-        scaling = ax.find("c:scaling", NS)
+        pos = attribute(find(ax, "c:axPos"), "val")
+        scaling = find(ax, "c:scaling")
         limits = {}
         for key in ("min", "max"):
             node = scaling.find(f"c:{key}", NS)
             if node is not None:
-                limits[key] = float(node.get("val"))
+                limits[key] = float(attribute(node, "val"))
         info["axes"]["x" if pos in ("b", "t") else "y"] = {"label": rich_text(ax.find("c:title", NS)), **limits}
 
-    for ser in chart.iter("{%s}ser" % NS["c"]):
+    for ser in chart.iter(f"{{{NS['c']}}}ser"):
         name_ref = ser.find("c:tx/c:strRef/c:f", NS)
         name_cache = ser.find("c:tx/c:strRef/c:strCache/c:pt/c:v", NS)
         name = ser.find("c:tx/c:v", NS)
@@ -248,13 +265,13 @@ def latex_text(text, legend=False):
         stripped = re.sub(r"\s*\[kV/cm\]\s*$", "", text)
         text = stripped if not re.fullmatch(r"[0-9.]+", stripped) else stripped + " kV/cm"
     pieces = []
-    for token in re.split(r"(\bE_[A-Za-z0-9,]+|\bE[a-z]+,[a-z,]+\b|Δ|μ|θ|\bus\b)", text):
+    for token in re.split(r"(\bE_[A-Za-z0-9,]+|\bE[a-z]+,[a-z,]+\b|(?<![\u0370-\u03ff\u1f00-\u1fff])[Δμθ](?![\u0370-\u03ff\u1f00-\u1fff])|\bus\b)", text):
         if not token:
             continue
         if token.startswith("E_"):
-            pieces.append(r"$E_{\mathrm{%s}}$" % token[2:].replace(",", ",\\,"))
+            pieces.append(r"$E_{\mathrm{" + token[2:].replace(",", ",\\,") + "}}$")
         elif re.fullmatch(r"E[a-z]+,[a-z,]+", token):             # e.g. Esp,wh  Ei,rod,wh
-            pieces.append(r"$E_{\mathrm{%s}}$" % token[1:].replace(",", ",\\,"))
+            pieces.append(r"$E_{\mathrm{" + token[1:].replace(",", ",\\,") + "}}$")
         elif token in ("Δ", "μ", "θ"):
             pieces.append({"Δ": r"$\Delta$", "μ": r"$\mu$", "θ": r"$\theta$"}[token])
         elif token == "us":
@@ -284,7 +301,7 @@ def chart_to_tex(info, width, height, lang="en"):
                 options.append(f"{axis}{key}={spec[key]:g}")
     if info["legend"] in ("b", None):
         n = len(info["series"])
-        options.append("legend columns=%d" % (2 if n > 3 else n))
+        options.append(f"legend columns={2 if n > 3 else n}")
         options.append("legend style={at={(0.5,-0.18)}, anchor=north, /tikz/every even column/.append style={column sep=1em}}")
     elif info["legend"] == "r":
         options.append("legend pos=outer north east")
@@ -300,15 +317,15 @@ def chart_to_tex(info, width, height, lang="en"):
     for i, s in enumerate(info["series"]):
         style = ["mark=*" if s["marker"] else "no markers", f"line width={max(s['width'] * 0.6, 0.4):.2f}pt"]
         if s["colour"]:
-            lines.append(r"\definecolor{series%d}{HTML}{%s}" % (i, s["colour"].upper()))
+            lines.append(rf"\definecolor{{series{i}}}{{HTML}}{{{s['colour'].upper()}}}")
             style.append(f"color=series{i}")
         if s["dash"]:
             style.append(s["dash"])
         if s["marker"]:
             style.append("mark size=1pt")
         coordinates = " ".join(f"({px:.6g},{py:.6g})" for px, py in s["points"])
-        lines.append(r"\addplot[%s] coordinates {%s};" % (", ".join(style), coordinates))
-        lines.append(r"\addlegendentry{%s}" % latex_text(translate(s["name"], lang), legend=True))
+        lines.append(rf"\addplot[{', '.join(style)}] coordinates {{{coordinates}}};")
+        lines.append(rf"\addlegendentry{{{latex_text(translate(s['name'], lang), legend=True)}}}")
     lines += [r"\end{axis}", r"\end{tikzpicture}", r"\end{document}"]
     return "\n".join(lines)
 
@@ -321,11 +338,11 @@ def latex_command(lang, workdir):
     if lang != "el":
         return ["pdflatex", "-interaction=nonstopmode", "-halt-on-error", "chart.tex"]
     has_lyx_flatpak = shutil.which("flatpak") and subprocess.run(
-        ["flatpak", "info", "org.lyx.LyX"], capture_output=True).returncode == 0
+        ["flatpak", "info", "org.lyx.LyX"], capture_output=True, check=False).returncode == 0
     if has_lyx_flatpak:
         return ["flatpak", "run", f"--filesystem={workdir}", "--env=LC_ALL=C.UTF-8", "--command=sh", "org.lyx.LyX",
-                "-c", 'export PATH=/app/texlive/bin/x86_64-linux:$PATH; cd "$0" && '
-                      'exec lualatex -interaction=nonstopmode -halt-on-error chart.tex', str(workdir)]
+                "-c", ('export PATH=/app/texlive/bin/x86_64-linux:$PATH; cd "$0" && '
+                       'exec lualatex -interaction=nonstopmode -halt-on-error chart.tex'), str(workdir)]
     return ["lualatex", "-interaction=nonstopmode", "-halt-on-error", "chart.tex"]
 
 
@@ -341,7 +358,7 @@ def export_workbook(path, output_dir, width, height, lang="en"):
         with tempfile.TemporaryDirectory() as tmp:
             tex = Path(tmp) / "chart.tex"
             tex.write_text(chart_to_tex(info, width, height, lang), encoding="utf-8")
-            result = subprocess.run(latex_command(lang, tmp), cwd=tmp, capture_output=True, text=True)
+            result = subprocess.run(latex_command(lang, tmp), cwd=tmp, capture_output=True, text=True, check=False)
             if result.returncode != 0:
                 print(f"   FAILED {name}:\n" + "\n".join(result.stdout.splitlines()[-15:]))
                 continue

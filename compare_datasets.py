@@ -70,7 +70,6 @@ from openpyxl import load_workbook
 
 from excel_export import save_to_excel
 
-
 # =============================================================================
 # SETTINGS
 # =============================================================================
@@ -317,7 +316,9 @@ def pick_file_interactively(role, files):
     print(f"\nChoose the {role} file:")
     for i, path in enumerate(files, 1):
         print(f"  [{i}] {path.relative_to(PROJECT_FOLDER)}")
-    path = files[ask_number("Number: ", len(files)) - 1]
+    number = ask_number("Number: ", len(files))
+    assert number is not None             # never None without allow_empty
+    path = files[number - 1]
 
     sheet = None
     if path.suffix.lower() == ".xlsx":
@@ -326,7 +327,9 @@ def pick_file_interactively(role, files):
             print(f"  '{path.name}' has several sheets:")
             for i, name in enumerate(sheets, 1):
                 print(f"    [{i}] {name}")
-            sheet = sheets[ask_number("  Sheet number: ", len(sheets)) - 1]
+            number = ask_number("  Sheet number: ", len(sheets))
+            assert number is not None
+            sheet = sheets[number - 1]
     return path, sheet
 
 
@@ -475,7 +478,7 @@ def main():
                   "compare curves linearly interpolated at the reference x values; no extrapolation",
                   "compare - reference",
                   "same as the y values of the input files",
-                  datetime.now().strftime("%Y-%m-%d %H:%M")],
+                  datetime.now().astimezone().strftime("%Y-%m-%d %H:%M")],
     }
 
     # --- Step 4: save -----------------------------------------------------------

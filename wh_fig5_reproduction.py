@@ -45,6 +45,7 @@ It takes roughly 1-2 minutes (each point is a 2-D numerical integral).
 
 import warnings
 from datetime import datetime
+from typing import cast
 
 import numpy as np
 from scipy.integrate import IntegrationWarning
@@ -53,10 +54,13 @@ from scipy.optimize import brentq
 from excel_export import save_to_excel
 from solver.applied_field import calculate_applied_field
 from solver.drift import simulate_drift
-from solver.fields import calculate_e_sp, calculate_e_rod_image, calculate_e_plane_image
-from solver.theta_b import solve_theta_b, density_amplitude
-from solver.utilities import calculate_qcs_from_field, double_exponential_parameters, impulse_voltage
-
+from solver.fields import calculate_e_plane_image, calculate_e_rod_image, calculate_e_sp
+from solver.theta_b import density_amplitude, solve_theta_b
+from solver.utilities import (
+    calculate_qcs_from_field,
+    double_exponential_parameters,
+    impulse_voltage,
+)
 
 # =============================================================================
 # 1. INPUTS  (engineering units - edit these)
@@ -65,6 +69,8 @@ from solver.utilities import calculate_qcs_from_field, double_exponential_parame
 # --- Gap geometry (Wang & Haiting, same conditions as Figures 3 and 4) -------
 ROD_TIP_RADIUS_cm        = 0.1     # R     : radius of the hemispherical rod tip
 GAP_LENGTH_cm            = 80.0    # D     : distance rod tip apex -> grounded plane
+ROD_LENGTH_cm            = 400.0   # L_rod : modelled rod length for the applied field (CSM);
+                                   #         not given in the paper, assumed 5 * D
 
 # --- Switching impulse --------------------------------------------------------
 IMPULSE_CREST_kV         = 320.0   # crest value (given in the paper)
@@ -120,6 +126,7 @@ def main():
     # =========================================================================
     R      = ROD_TIP_RADIUS_cm   * CM_TO_M
     D      = GAP_LENGTH_cm       * CM_TO_M
+    L_rod  = ROD_LENGTH_cm       * CM_TO_M
     V_peak = IMPULSE_CREST_kV    * KV_TO_V
     V_inc  = INCEPTION_VOLTAGE_kV * KV_TO_V
     L_cs   = STREAMER_LENGTH_cm  * CM_TO_M
@@ -142,7 +149,7 @@ def main():
     def V(t):
         return impulse_voltage(t, V_peak, alpha, beta, k)
 
-    t_inc = brentq(lambda t: V(t) - V_inc, 0.0, TIME_TO_CREST_us * US_TO_S)
+    t_inc = cast(float, brentq(lambda t: V(t) - V_inc, 0.0, TIME_TO_CREST_us * US_TO_S))
     print(f"          V(t) reaches {INCEPTION_VOLTAGE_kV} kV at t_inc = {t_inc / US_TO_S:.3f} us")
 
     # All time steps: the requested ones plus the inception instant
@@ -154,7 +161,7 @@ def main():
     print("Step 2/6: creating the space charge at inception (solving theta_B) ...")
     theta_B = solve_theta_b(R, D, V_inc, L_cs, E_c, B, C,
                             theta_min=np.radians(THETA_B_MIN_deg),
-                            theta_max=np.radians(THETA_B_MAX_deg))
+                            theta_max=np.radians(THETA_B_MAX_deg), rod_length=L_rod)
     Q_cs = calculate_qcs_from_field(E_c, L_cs_m=L_cs, theta_B_rad=theta_B)
     A = density_amplitude(E_c, L_cs, theta_B, B, C)
     print(f"          theta_B = {np.degrees(theta_B):.3f} deg, Q_cs = {Q_cs * 1e9:.2f} nC")
@@ -164,14 +171,14 @@ def main():
     # =========================================================================
     print("Step 3/6: drifting the space charge under the rising voltage ...")
     drift = simulate_drift(R, D, lambda t_since: V(t_inc + t_since), L_cs, theta_B, A, B, C, mobility,
-                           drift_time=t_search_end - t_inc)
+                           drift_time=t_search_end - t_inc, rod_length=L_rod)
     z_drift_at = drift["z_drift_at"]      # function of the time since inception
 
     # =========================================================================
     # 6. Fields at every time step
     # =========================================================================
     # The applied field is proportional to the voltage, so its shape is computed once.
-    E_ex_per_volt = calculate_applied_field(R, D, 1.0, z)
+    E_ex_per_volt = calculate_applied_field(R, D, 1.0, z, rod_length=L_rod)
     E_ex_tip_per_volt = float(E_ex_per_volt[0])
     E_tip_at_inception = V_inc * E_ex_tip_per_volt   # applied field at the tip when the first streamer starts
 
@@ -207,7 +214,7 @@ def main():
 
     t_second = None
     if tip_field_mismatch(t_search_end) > 0:
-        t_second = brentq(tip_field_mismatch, t_inc * (1 + 1e-9), t_search_end, xtol=1e-9)
+        t_second = cast(float, brentq(tip_field_mismatch, t_inc * (1 + 1e-9), t_search_end, xtol=1e-9))
         print(f"          second streamer would incept at t = {t_second / US_TO_S:.3f} us "
               f"(V = {V(t_second) / KV_TO_V:.2f} kV)")
     else:
@@ -249,6 +256,7 @@ def main():
         ("INPUTS",                                    "",                                   ""),
         ("Rod tip radius R",                          ROD_TIP_RADIUS_cm,                    "cm"),
         ("Gap length D (tip apex to plane)",          GAP_LENGTH_cm,                        "cm"),
+        ("Rod length L_rod (applied field, CSM)",     ROD_LENGTH_cm,                        "cm"),
         ("Impulse crest",                             IMPULSE_CREST_kV,                     "kV"),
         ("Time to crest",                             TIME_TO_CREST_us,                     "us"),
         ("Time to half value (assumed)",              TIME_TO_HALF_VALUE_us,                "us"),
@@ -273,7 +281,7 @@ def main():
         ("Voltage at second-streamer criterion",      V(t_second) / KV_TO_V if t_second is not None else "-", "kV"),
         ("Drift distance at second-streamer criterion",
          float(z_drift_at(t_second - t_inc)) / CM_TO_M if t_second is not None else "-", "cm"),
-        ("Generated on",                              datetime.now().strftime("%Y-%m-%d %H:%M"), ""),
+        ("Generated on",                              datetime.now().astimezone().strftime("%Y-%m-%d %H:%M"), ""),
     ]
     parameters_sheet = {
         "Parameter": [name for name, _, _ in parameters],

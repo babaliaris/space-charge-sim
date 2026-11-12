@@ -12,9 +12,12 @@ impulse (15 to 600 us, gaps of 40 cm and 80 cm).
 
 The whole framework runs in solver/simulation.py. This script:
 
-1. Calibrates the model once on the first streamer of Figure 3 (27.5 kV,
-   L_cs = 2.7 cm, D = 80 cm): the cone angle theta_B and the inception field
-   E_inc at the tip apex.
+1. Sets the two inputs of the model: the cone angle theta_B and the inception
+   field E_inc at the tip apex (E_inc = inception voltage of the first streamer of
+   Figure 3, 27.5 kV, times the applied field per volt at the apex for D = 80 cm).
+   If THETA_B_deg is None, theta_B is recovered once from that first streamer
+   (L_cs = 2.7 cm is given in the paper but theta_B is not); otherwise your value
+   is used and the simulation runs standalone.
 2. For every gap and every front time builds the impulse V(t) (crest from the
    Gallet formula, U50 = 3400 / (1 + 8/d) kV, tail half-value 2500 us; neither
    is given in the paper).
@@ -50,9 +53,9 @@ import numpy as np
 from scipy.integrate import IntegrationWarning
 
 from excel_export import save_to_excel
+from solver.applied_field import calculate_applied_field
 from solver.simulation import GapModel, simulate
 from solver.utilities import double_exponential_parameters, impulse_voltage
-
 
 # =============================================================================
 # 1. INPUTS  (engineering units - edit these)
@@ -65,13 +68,20 @@ DENSITY_EXPONENT_B         = 1.5      # B : rho(r) = A / (r + C)^B
 DENSITY_OFFSET_C_cm        = 0.035    # C
 ION_MOBILITY_cm2_per_kV_us = 1.36e-3  # mu+ : positive ion mobility (given in the paper)
 
-# --- Calibration: the first streamer of Figure 3 (given in the paper) ---------
-CALIBRATION_VOLTAGE_kV     = 27.5     # first-streamer inception voltage
-CALIBRATION_LENGTH_cm      = 2.7      # its length L_cs
+# --- Model inputs: cone angle and inception --------------------------------------
+THETA_B_deg                = None     # theta_B : full cone angle of every cloud.
+                                      #   None = recover it from the Fig. 3 first streamer below
+                                      #   (93.39 deg); or give your own value, e.g. 90.0
+
+# --- First streamer of Figure 3 (given in the paper) ------------------------------
+CALIBRATION_VOLTAGE_kV     = 27.5     # first-streamer inception voltage -> E_inc
+CALIBRATION_LENGTH_cm      = 2.7      # its length L_cs (used only when THETA_B_deg is None)
 CALIBRATION_GAP_cm         = 80.0     # in this gap
+CALIBRATION_ROD_LENGTH_cm  = 400.0    # rod length L_rod of that gap (CSM); not given, 5 * D
 
 # --- Gaps and impulses of Figures 6 to 8 ----------------------------------------
 GAPS_cm                    = [40.0, 80.0]   # Fig. 6 and 7: 40 cm; Fig. 8: 40 and 80 cm
+ROD_LENGTHS_cm             = {40.0: 200.0, 80.0: 400.0}   # L_rod per gap (CSM); not given, 5 * D
 FRONT_TIMES_us             = [15, 20, 30, 50, 75, 100, 150, 200, 300, 400, 500, 600]
 TIME_TO_HALF_VALUE_us      = 2500.0   # tail: not given in the paper (IEC 250/2500 us)
 BURSTS_PER_IMPULSE         = 2        # the paper shows the first and the second streamer
@@ -110,14 +120,21 @@ def main():
     V_ref    = CALIBRATION_VOLTAGE_kV * KV_TO_V
     L_ref    = CALIBRATION_LENGTH_cm * CM_TO_M
     D_ref    = CALIBRATION_GAP_cm * CM_TO_M
+    L_rod_ref = CALIBRATION_ROD_LENGTH_cm * CM_TO_M
     t_half   = TIME_TO_HALF_VALUE_us * US_TO_S
 
     # =========================================================================
     # 3. Calibrate theta_B and E_inc on the first streamer of Figure 3
     # =========================================================================
-    print("Step 1/3: calibrating on the first streamer of Figure 3 ...")
-    calibration = GapModel.calibrated(R, D_ref, E_c, B, C, mobility, V_ref, L_ref, D_ref)
-    theta_B, E_inc = calibration.theta_B, calibration.E_inc
+    if THETA_B_deg is None:
+        print("Step 1/3: recovering theta_B from the first streamer of Figure 3 ...")
+        calibration = GapModel.calibrated(R, D_ref, E_c, B, C, mobility, V_ref, L_ref, D_ref,
+                                          rod_length_ref=L_rod_ref)
+        theta_B, E_inc = calibration.theta_B, calibration.E_inc
+    else:
+        print("Step 1/3: using the given theta_B ...")
+        theta_B = np.radians(THETA_B_deg)
+        E_inc = V_ref * float(calculate_applied_field(R, D_ref, 1.0, 0.0, rod_length=L_rod_ref))
     print(f"          theta_B = {np.degrees(theta_B):.3f} deg, "
           f"E_inc = {E_inc / KV_PER_CM_TO_V_PER_M:.2f} kV/cm")
 
@@ -127,7 +144,8 @@ def main():
     print("Step 2/3: simulating the impulse fronts ...")
     bursts = []        # one dict per burst
     for gap_cm in GAPS_cm:
-        model = GapModel(R, gap_cm * CM_TO_M, theta_B, E_c, E_inc, B, C, mobility)
+        model = GapModel(R, gap_cm * CM_TO_M, theta_B, E_c, E_inc, B, C, mobility,
+                         rod_length=ROD_LENGTHS_cm[gap_cm] * CM_TO_M)
         V_crest = gallet_crest_kV(gap_cm) * KV_TO_V
         for front_us in FRONT_TIMES_us:
             t_crest = front_us * US_TO_S
@@ -193,6 +211,8 @@ def main():
         ("Calibration voltage (Fig. 3)",            CALIBRATION_VOLTAGE_kV,                 "kV"),
         ("Calibration length (Fig. 3)",             CALIBRATION_LENGTH_cm,                  "cm"),
         ("Calibration gap (Fig. 3)",                CALIBRATION_GAP_cm,                     "cm"),
+        ("Rod length of the calibration gap",       CALIBRATION_ROD_LENGTH_cm,              "cm"),
+        ("theta_B given (None = recovered)",        "None" if THETA_B_deg is None else THETA_B_deg, "deg"),
         ("Gaps",                                    ", ".join(f"{g:g}" for g in GAPS_cm),   "cm"),
         ("Times to crest",                          ", ".join(str(f) for f in FRONT_TIMES_us), "us"),
         ("Time to half value (assumed)",            TIME_TO_HALF_VALUE_us,                  "us"),
@@ -200,10 +220,12 @@ def main():
     ] + [
         (f"Crest voltage for D = {g:g} cm",         gallet_crest_kV(g),                     "kV") for g in GAPS_cm
     ] + [
+        (f"Rod length for D = {g:g} cm",            ROD_LENGTHS_cm[g],                      "cm") for g in GAPS_cm
+    ] + [
         ("RESULTS",                                 "",                                     ""),
-        ("Calibrated theta_B",                      np.degrees(theta_B),                    "deg"),
+        ("theta_B used",                            np.degrees(theta_B),                    "deg"),
         ("Calibrated inception field E_inc",        E_inc / KV_PER_CM_TO_V_PER_M,           "kV/cm"),
-        ("Generated on",                            datetime.now().strftime("%Y-%m-%d %H:%M"), ""),
+        ("Generated on",                            datetime.now().astimezone().strftime("%Y-%m-%d %H:%M"), ""),
     ]
     parameters_sheet = {
         "Parameter": [name for name, _, _ in parameters],

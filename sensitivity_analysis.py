@@ -1,10 +1,13 @@
 import matplotlib
+
 matplotlib.use('TkAgg')
 
-import numpy as np
 import matplotlib.pyplot as plt
-from solver.fields import calculate_e_sp, calculate_e_rod_image
-from solver.utilities import calculate_qcs_from_field, calculate_A_from_charge
+import numpy as np
+
+from solver.fields import calculate_e_rod_image, calculate_e_sp
+from solver.utilities import calculate_A_from_charge, calculate_qcs_from_field
+
 
 def run_theta_b_sensitivity(R_m, Lcs_m, B, C_m, z_WH):
     """
@@ -65,7 +68,7 @@ def run_ec_sensitivity(R_m, Lcs_m, B, C_m, z_WH):
     plt.axhline(0, color='gray', linestyle=':', linewidth=0.8)
     plt.xlabel('Z (cm) [Distance from tip apex]')
     plt.ylabel('E_total (kV/cm)')
-    plt.title(f'Sensitivity Analysis: Varying $E_c$ ($\\theta_B$ = 60°)')
+    plt.title('Sensitivity Analysis: Varying $E_c$ ($\\theta_B$ = 60°)')
     plt.grid(True, which='both', linestyle='--', alpha=0.5)
     plt.legend(fontsize=10, loc='lower right')
     plt.xlim(0, 3.5)

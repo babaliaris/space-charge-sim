@@ -1,12 +1,14 @@
 import matplotlib
+
 matplotlib.use('TkAgg')
 
+import matplotlib.pyplot as plt
 import mplcursors
 import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.widgets import Slider, Button
-from solver.fields import calculate_e_sp, calculate_e_rod_image
-from solver.utilities import calculate_qcs_from_field, calculate_A_from_charge
+from matplotlib.widgets import Button, Slider
+
+from solver.fields import calculate_e_rod_image, calculate_e_sp
+from solver.utilities import calculate_A_from_charge, calculate_qcs_from_field
 
 # Setup figure with extra space at the bottom for multiple sliders and buttons
 fig, ax = plt.subplots(figsize=(10, 8.5))
@@ -66,7 +68,7 @@ ax.set_ylim(-55, 10)
 # Status indicator text box on the plot
 status_text = ax.text(0.02, 0.92, 'Ready. Adjust parameters and click Compute.', 
                       transform=ax.transAxes, fontsize=11,
-                      verticalalignment='top', bbox=dict(boxstyle='round', facecolor='lightblue', alpha=0.6))
+                      verticalalignment='top', bbox={'boxstyle': 'round', 'facecolor': 'lightblue', 'alpha': 0.6})
 
 # Add Sliders (stacked vertically)
 ax_R     = plt.axes((0.15, 0.31, 0.55, 0.025))

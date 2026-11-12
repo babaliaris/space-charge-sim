@@ -693,114 +693,10 @@ sideways false
 status open
 
 \begin_layout Plain Layout
-\begin_inset Box Frameless
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
-use_parbox 0
-use_makebox 0
-width "45col%"
-special "none"
-height "1in"
-height_special "totalheight"
-thickness "0.4pt"
-separation "3pt"
-shadowsize "4pt"
-framecolor "default"
-backgroundcolor "none"
-status open
-
-\begin_layout Plain Layout
-\begin_inset Float figure
-placement document
-alignment document
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
 \align center
 \begin_inset Graphics
 	filename assets/v2/greek/space_charge_side_view.pdf
-	scale 45
-
-\end_inset
-
-
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Πλάγια Όψη
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset space \hfill{}
-\end_inset
-
-
-\begin_inset Box Frameless
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
-use_parbox 0
-use_makebox 0
-width "45col%"
-special "none"
-height "1in"
-height_special "totalheight"
-thickness "0.4pt"
-separation "3pt"
-shadowsize "4pt"
-framecolor "default"
-backgroundcolor "none"
-status open
-
-\begin_layout Plain Layout
-\begin_inset Float figure
-placement document
-alignment document
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename assets/v2/greek/space_charge_front_view.pdf
-	scale 45
-
-\end_inset
-
-
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Πρόσοψη του Κώνου (Χωρικό Φορτίο)
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
+	width 95col%
 
 \end_inset
 
@@ -940,13 +836,6 @@ dq
 \vec{P}_{obs}=z\hat{z}
 \end{equation}
 
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage pagebreak
 \end_inset
 
 
@@ -1141,13 +1030,6 @@ r\in\left[0\;,\;L_{cs}\right]\\
 \end_layout
 
 \begin_layout Standard
-\begin_inset Newpage pagebreak
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
 στη συνέχεια εφαρμόζουμε τον νόμο του Coulomb:
 \end_layout
 
@@ -1332,13 +1214,6 @@ tuple "list"
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset Newpage pagebreak
-\end_inset
-
-
-\end_layout
-
 \begin_layout Subsection
 Υπολογισμός του Ηλεκτρικού Πεδίου των Ειδώλων στον Αγωγό της Ακίδας (
 \begin_inset Formula $\vec{E}_{I_{rod}}$
@@ -1395,7 +1270,7 @@ tuple "list"
 
 \begin_layout Standard
 \begin_inset Float figure
-placement H
+placement tbp
 alignment document
 wide false
 sideways false
@@ -1409,7 +1284,7 @@ has_inner_box 1
 inner_pos "t"
 use_parbox 0
 use_makebox 0
-width "45col%"
+width "100col%"
 special "none"
 height "1in"
 height_special "totalheight"
@@ -1432,7 +1307,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename assets/v2/greek/rod_image_space_charge_side_view.pdf
-	scale 45
+	width 95col%
 
 \end_inset
 
@@ -1456,7 +1331,7 @@ status open
 \end_inset
 
 
-\begin_inset space \hfill{}
+\begin_inset Newline newline
 \end_inset
 
 
@@ -1467,7 +1342,7 @@ has_inner_box 1
 inner_pos "t"
 use_parbox 0
 use_makebox 0
-width "45col%"
+width "100col%"
 special "none"
 height "1in"
 height_special "totalheight"
@@ -1490,7 +1365,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename assets/v2/greek/rod_image_space_charge_angles.pdf
-	scale 45
+	width 55col%
 
 \end_inset
 
@@ -1633,13 +1508,6 @@ r_{2}= & \sqrt{\left[R+rcos(\theta)\right]^{2}+\left[rsin(\theta)\right]^{2}}
 \hat{r}_{2}=\frac{\vec{r}_{2}}{r_{2}}=\frac{rsin(\theta)cos(\phi)\hat{x}+rsin(\theta)sin(\phi)\hat{y}+\left[R+rcos(\theta)\right]\hat{z}}{\sqrt{\left[R+rcos(\theta)\right]^{2}+\left[rsin(\theta)\right]^{2}}}
 \end{equation}
 
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage pagebreak
 \end_inset
 
 
@@ -1800,13 +1668,6 @@ cos(\theta_{3})=\frac{\vec{r}_{2}\cdot\hat{z}}{r_{2}}=\frac{R+rcos(\theta)}{r_{2
 \end{array}\label{eq:rod_image_position}
 \end{equation}
 
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage pagebreak
 \end_inset
 
 
@@ -1986,13 +1847,6 @@ r_{4}= & \sqrt{\left[z+R-r_{3}cos(\theta_{3})\right]^{2}+\left[r_{3}sin(\theta_{
 \hat{r}_{4}=\frac{\vec{r}_{4}}{r_{4}}=\frac{-\frac{r_{3}}{r_{2}}rsin(\theta)cos(\phi)\hat{x}-\frac{r_{3}}{r_{2}}rsin(\theta)sin(\phi)\hat{y}-\left\{ \frac{r_{3}}{r_{2}}\left[R+rcos(\theta)\right]-R-z\right\} \hat{z}}{r_{4}}\label{eq:r4_direction}
 \end{equation}
 
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage pagebreak
 \end_inset
 
 
@@ -2206,13 +2060,6 @@ d\vec{E}_{I_{rod}}= & \frac{1}{4\pi\epsilon_{r}\epsilon_{0}}\frac{\frac{R}{r_{2}
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset Newpage pagebreak
-\end_inset
-
-
-\end_layout
-
 \begin_layout Subsubsection
 Συμπέρασμα 
 \end_layout
@@ -2299,13 +2146,6 @@ r_{4}=\sqrt{\left[z+R-r_{3}cos(\theta_{3})\right]^{2}+\left[r_{3}sin(\theta_{3})
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage pagebreak
-\end_inset
-
-
 \end_layout
 
 \begin_layout Subsection
@@ -2569,13 +2409,6 @@ dq'=-\rho(r)r^{2}sin(\theta)drd\theta d\phi
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset Newpage pagebreak
-\end_inset
-
-
-\end_layout
-
 \begin_layout Subsubsection
 Διάνυσμα Μετατόπισης από το Φορτίο-Είδωλο στο Σημείο Παρατήρησης (
 \begin_inset Formula $\vec{r}_{5}$
@@ -2675,13 +2508,6 @@ d\vec{E}_{I_{plane}}= & -\frac{1}{4\pi\epsilon_{r}\epsilon_{0}}\frac{-\rho(r)r^{
 \vec{E}_{I_{plane}}=\frac{1}{2\epsilon_{r}\epsilon_{0}}\int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\frac{\rho(r)r^{2}sin(\theta)}{r^{3}_{5}}\left(2d-rcos(\theta)-z\right)\hat{z}drd\theta
 \]
 
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage pagebreak
 \end_inset
 
 
@@ -3687,13 +3513,6 @@ literal "false"
  κάτι που δεν αλλάζει κανένα από τα συμπεράσματα.
 \end_layout
 
-\begin_layout Standard
-\begin_inset Newpage pagebreak
-\end_inset
-
-
-\end_layout
-
 \begin_layout Subsection
 Υπολογισμός του Πλάτους 
 \begin_inset CommandInset label
@@ -3884,13 +3703,6 @@ Q_{cs}=\epsilon_{0}E_{c}A_{\text{head}}=\pi\epsilon_{0}E_{c}L^{2}_{cs}\tan^{2}\l
 A(E_{c},B,C,L_{cs},\theta_{B})=\frac{\overbrace{\pi\epsilon_{0}E_{c}L^{2}_{cs}\tan^{2}\left(\frac{\theta_{B}}{2}\right)}^{Q_{cs}}}{2\pi\left(1-\cos\left(\frac{\theta_{B}}{2}\right)\right)\int^{L_{cs}}_{0}\frac{r^{2}}{(r+C)^{B}}\,dr}
 \end{equation}
 
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage pagebreak
 \end_inset
 
 
@@ -4090,13 +3902,6 @@ r_{5}=\sqrt{\left[rsin(\theta)\right]^{2}+\left(2d-rcos(\theta)-z\right)^{2}}
 \vec{E}_{I_{plane}}=\frac{1}{2\epsilon_{r}\epsilon_{0}}\int^{\frac{\theta_{B}}{2}}_{0}\int^{L_{cs}}_{0}\frac{\rho(r)r^{2}sin(\theta)}{r^{3}_{5}}\left(2d-rcos(\theta)-z\right)drd\theta\hat{z}
 \end{equation}
 
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage pagebreak
 \end_inset
 
 
@@ -5101,13 +4906,6 @@ name "tab:wh_equivalence"
 
 \end_layout
 
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage pagebreak
 \end_inset
 
 
@@ -9285,6 +9083,89 @@ tuple "list"
 
 \end_layout
 
+\begin_layout Standard
+Στο 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:fw_solver_system"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+ ο ίδιος υπολογισμός φαίνεται ως σύστημα. Η κατάστασή του είναι η λίστα με τις ολισθήσεις των νεφών. Ανάμεσα στα γεγονότα μια συνήθης διαφορική εξίσωση μετακινεί τα νέφη· μια ριπή προσθέτει ένα νέφος και η πλάκα αφαιρεί ένα. Η γωνία του κώνου 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+ και το πεδίο έναυσης 
+\begin_inset Formula $E_{inc}$
+\end_inset
+ είναι είσοδοι, και κάθε μήκος οχετού 
+\begin_inset Formula $L_{k}$
+\end_inset
+, και το πρώτο, είναι έξοδος. Το διακεκομμένο πλαίσιο χρειάζεται μόνο όταν η 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+ δεν είναι γνωστή, όπως στο Σχήμα 3 του 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "wang1988"
+literal "false"
+
+\end_inset
+, που δίνει το 
+\begin_inset Formula $L_{cs}$
+\end_inset
+ αλλά όχι τη 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/v2/greek/solver_system.pdf
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Η προσομοίωση ως σύστημα: οι είσοδοι, τα μεγέθη που υπολογίζονται μία φορά, ο βρόχος γεγονότων πάνω στα νέφη και οι έξοδοι.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:fw_solver_system"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Αναπαραγωγή των Αποτελεσμάτων των Wang & Haiting
 \end_layout
@@ -10327,6 +10208,73 @@ literal "false"
 .
 \end_layout
 
+\begin_layout Standard
+
+\series bold
+Γιατί το πεδίο στην απόληξη είναι αρνητικό.
+\series default
+ Το συνολικό πεδίο στην κορυφή, 
+\begin_inset Formula $-3.6\,\text{kV/cm}$
+\end_inset
+, είναι η διαφορά δύο μεγάλων αριθμών: το εφαρμοζόμενο πεδίο δίνει 
+\begin_inset Formula $+149.4\,\text{kV/cm}$
+\end_inset
+, και το χωρικό φορτίο μαζί με το είδωλό του στην ακίδα δίνει 
+\begin_inset Formula $-152.9\,\text{kV/cm}$
+\end_inset
+ (βλ. 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:repro_fig3_all"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+). Η διαφορά είναι το 
+\begin_inset Formula $2.4\,\%$
+\end_inset
+ του εφαρμοζόμενου πεδίου. Το μοντέλο ορίζει το φορτίο και τη 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+ μόνο στην κεφαλή του οχετού και ποτέ στην απόληξη, οπότε τίποτα δεν κρατά το πεδίο στην απόληξη στο μηδέν, και μικρές αλλαγές κοντά στην κορυφή (στο 
+\begin_inset Formula $C$
+\end_inset
+, στη 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+ ή στο εφαρμοζόμενο πεδίο) μπορούν να αλλάξουν το πρόσημό του.
+\end_layout
+
+\begin_layout Standard
+Σε ένα πραγματικό διάκενο το πεδίο στην άνοδο δεν μπορεί να μείνει αρνητικό. Αρνητικό πεδίο σημαίνει ότι το δυναμικό ακριβώς μπροστά από την απόληξη είναι μεγαλύτερο από 
+\begin_inset Formula $V$
+\end_inset
+, οπότε τα θετικά ιόντα ανάμεσα στην απόληξη και σε αυτό το μέγιστο ολισθαίνουν πίσω προς την ακίδα και εξουδετερώνονται, έως ότου το πεδίο επιστρέψει περίπου στο μηδέν. Το μοντέλο δεν το περιέχει αυτό, επειδή το νέφος διατηρεί το φορτίο του και κινείται ως στερεό σώμα. Η τιμή 
+\begin_inset Formula $-3.6\,\text{kV/cm}$
+\end_inset
+ πρέπει επομένως να διαβάζεται ως «περίπου μηδέν»: πολύ κάτω από το πεδίο έναυσης, που είναι αυτό που μετράει για τον επόμενο οχετό. Μετά από ολίσθηση 
+\begin_inset Formula $0.07\,\text{cm}$
+\end_inset
+ το πεδίο στην απόληξη γίνεται 
+\begin_inset Formula $+42.7\,\text{kV/cm}$
+\end_inset
+ (
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "tab:repro_fig4_tip"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+).
+\end_layout
+
 \begin_layout Subsubsection
 Σύγκριση με τη Δημοσίευση
 \end_layout
@@ -10403,7 +10351,13 @@ literal "false"
 
 \end_inset
 
- (δείκτης wh).
+ (δείκτης wh). Η διακεκομμένη γραμμή δείχνει το πεδίο του οχετού 
+\begin_inset Formula $E_{c}=5\,\text{kV/cm}$
+\end_inset
+, και οι κατακόρυφες διακεκομμένες τη θέση του μέγιστου κάθε 
+\begin_inset Formula $E_{sp}$
+\end_inset
+.
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:repro_fig3_compare"
@@ -10505,8 +10459,7 @@ name "fig:repro_fig3_compare"
 \end_layout
 
 \begin_layout Standard
-Το μέγιστο της δημοσίευσης είναι επίσης πολύ υψηλό.
- Το συνολικό πεδίο είναι το άθροισμα όλων των συνιστωσών,
+Το μέγιστο της δημοσίευσης δείχνει επίσης πώς εφαρμόζει τη συνθήκη της. Το συνολικό πεδίο είναι το άθροισμα όλων των συνιστωσών,
 \end_layout
 
 \begin_layout Standard
@@ -10514,26 +10467,22 @@ name "fig:repro_fig3_compare"
 \begin{equation}
 E_{total}=E_{ex}+E_{sp}+E_{I_{rod}}+E_{I_{plane}},\label{eq:repro_total_sum}
 \end{equation}
-
 \end_inset
 
 
 \end_layout
 
 \begin_layout Standard
-και η δημοσίευση απαιτεί να είναι περίπου 
+και η δημοσίευση ζητά μόνο να είναι περίπου 
 \begin_inset Formula $5\,\text{kV/cm}$
 \end_inset
-
- στην περιοχή του οχετού.
- Το εφαρμοζόμενο πεδίο 
-\begin_inset Formula $E_{ex}$
+ στην περιοχή του οχετού, χωρίς να λέει σε ποιο σημείο. Το δικό μας μοντέλο την επιβάλλει ακριβώς στην κεφαλή, 
+\begin_inset Formula $z=L_{cs}$
 \end_inset
-
- μιας θετικής ακίδας έχει πάντα φορά προς την πλάκα,
- άρα είναι θετικό,
- και τα πεδία των ειδώλων εκεί είναι πολύ μικρά (βλ.
- 
+. Εκεί το εφαρμοζόμενο πεδίο δίνει περίπου 
+\begin_inset Formula $1\,\text{kV/cm}$
+\end_inset
+ και τα πεδία των ειδώλων είναι πολύ μικρά (βλ. 
 \begin_inset CommandInset ref
 LatexCommand formatted
 reference "tab:repro_head_fields"
@@ -10544,38 +10493,62 @@ nolink "false"
 tuple "list"
 
 \end_inset
-
-).
- Αν μόνο το 
+), οπότε το 
 \begin_inset Formula $E_{sp}$
 \end_inset
-
- είναι ήδη 
-\begin_inset Formula $5.3\,\text{kV/cm}$
-\end_inset
-
-,
- το συνολικό πεδίο πρέπει να είναι μεγαλύτερο από 
-\begin_inset Formula $5\,\text{kV/cm}$
-\end_inset
-
-,
- κάτι που έρχεται σε αντίθεση με τη συνθήκη της ίδιας της δημοσίευσης.
- Στο δικό μας μοντέλο το εφαρμοζόμενο πεδίο καλύπτει περίπου 
-\begin_inset Formula $1\,\text{kV/cm}$
-\end_inset
-
- του συνόλου στην κεφαλή,
- οπότε το 
-\begin_inset Formula $E_{sp}$
-\end_inset
-
  μπορεί να φτάσει μόνο περίπου 
 \begin_inset Formula $4\,\text{kV/cm}$
 \end_inset
+. Αν προσθέσουμε το 
+\begin_inset Formula $E_{sp}$
+\end_inset
+ της δημοσίευσης στις υπόλοιπες δικές μας συνιστώσες, παίρνουμε μια εκτίμηση του συνολικού πεδίου της δημοσίευσης (βλ. 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "tab:repro_implied_total"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
 
-.
+\end_inset
+). Είναι περίπου 
+\begin_inset Formula $5.2\,\text{kV/cm}$
+\end_inset
+ στην κεφαλή, κοντά στη δική μας συνθήκη, αλλά περίπου 
+\begin_inset Formula $6.4\,\text{kV/cm}$
+\end_inset
+ στο 
+\begin_inset Formula $z=2.3\,\text{cm}$
+\end_inset
+, όπου το 
+\begin_inset Formula $E_{sp}$
+\end_inset
+ της δημοσίευσης έχει το μέγιστό του. Η εκτίμηση είναι προσεγγιστική, γιατί χρησιμοποιεί το δικό μας εφαρμοζόμενο πεδίο και τα δικά μας είδωλα.
 \end_layout
+
+\begin_layout Standard
+Η καμπύλη της δημοσίευσης επομένως δεν είναι λανθασμένη: κρατά το πεδίο περίπου στα 
+\begin_inset Formula $5\,\text{kV/cm}$
+\end_inset
+ με μια πιο χαλαρή έννοια, με λιγότερο ομοιόμορφο πεδίο από το δικό μας, και η ίδια η δημοσίευση δέχεται τιμές από 
+\begin_inset Formula $4$
+\end_inset
+ έως 
+\begin_inset Formula $5.5\,\text{kV/cm}$
+\end_inset
+ στο Σχήμα 5 της 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "wang1988"
+literal "false"
+
+\end_inset
+. Δεν συμφωνεί όμως με μια ακριβή συνθήκη στην κεφαλή, που είναι αυτή που χρησιμοποιεί το δικό μας μοντέλο.
+\end_layout
+
+
 
 \begin_layout Standard
 \begin_inset Float table
@@ -10783,6 +10756,396 @@ name "tab:repro_head_fields"
 \end_layout
 
 \begin_layout Standard
+\begin_inset Float table
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+
+\begin_inset Formula $z$
+\end_inset
+ [cm]
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+
+\begin_inset Formula $E_{ex}$
+\end_inset
+
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+
+\begin_inset Formula $E_{sp,wh}$
+\end_inset
+
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+
+\begin_inset Formula $E_{total}$
+\end_inset
+ (δημοσίευση, εκτίμηση)
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+
+\begin_inset Formula $E_{total}$
+\end_inset
+ (δικό μας)
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $1.5$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $1.97$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $3.33$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $4.98$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $4.26$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $2.0$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $1.41$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $4.61$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $5.84$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $4.58$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $2.3$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $1.20$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $5.33$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $6.39$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $4.78$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $2.7$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $1.00$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $4.29$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $5.19$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $5.00$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Εκτίμηση του συνολικού πεδίου της δημοσίευσης κατά μήκος του οχετού: το ψηφιοποιημένο 
+\begin_inset Formula $E_{sp,wh}$
+\end_inset
+ συν τα δικά μας 
+\begin_inset Formula $E_{ex}$
+\end_inset
+, 
+\begin_inset Formula $E_{I_{rod}}$
+\end_inset
+ και 
+\begin_inset Formula $E_{I_{plane}}$
+\end_inset
+, σε σύγκριση με το δικό μας συνολικό πεδίο. Όλα τα πεδία σε kV/cm (φύλλο Fields του αρχείου Excel του Σχήματος 3).
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:repro_implied_total"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 Ελέγξαμε επίσης αν οι διαφορές θα μπορούσαν να οφείλονται σε εμάς:
 \end_layout
 
@@ -10829,7 +11192,7 @@ name "tab:repro_head_fields"
 \end_inset
 
 ):
- καμία επιλογή δεν αναπαράγει τις καμπύλες της δημοσίευσης διατηρώντας το πεδίο στην περιοχή του οχετού περίπου στα 
+ με τη δική μας συνθήκη στην κεφαλή, καμία επιλογή δεν αναπαράγει τις καμπύλες της δημοσίευσης διατηρώντας το πεδίο στην περιοχή του οχετού περίπου στα 
 \begin_inset Formula $5\,\text{kV/cm}$
 \end_inset
 
@@ -10844,8 +11207,15 @@ name "tab:repro_head_fields"
 \series default
  Η υλοποίησή μας ακολουθεί τις εξισώσεις της δημοσίευσης (Ενότητα 3) και αναπαράγει τη μορφή και τα κύρια χαρακτηριστικά του Σχήματος 3,
  αλλά όχι τις ακριβείς τιμές του.
- Επειδή η ίδια η καμπύλη της δημοσίευσης δεν ικανοποιεί τη δική της συνθήκη,
- οι διαφορές πιθανότατα οφείλονται σε κάποια λεπτομέρεια του υπολογισμού των συγγραφέων που δεν αναφέρεται στη δημοσίευση.
+ Η δημοσίευση δεν λέει σε ποιο σημείο εφαρμόζει τη συνθήκη των περίπου 
+\begin_inset Formula $5\,\text{kV/cm}$
+\end_inset
+:
+ η καμπύλη της την ικανοποιεί χαλαρά κατά μήκος του οχετού,
+ ενώ εμείς την επιβάλλουμε ακριβώς στην κεφαλή.
+ Αυτό,
+ ή κάποια άλλη λεπτομέρεια του υπολογισμού των συγγραφέων που δεν αναφέρεται στη δημοσίευση,
+ πιθανότατα εξηγεί τις διαφορές.
  Η αναπαραγωγή θεωρείται επομένως ποιοτικά επαληθευμένη.
 \end_layout
 

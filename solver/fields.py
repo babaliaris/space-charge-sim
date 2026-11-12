@@ -22,8 +22,10 @@ Units: everything is SI (metres, radians, C/m^3, V/m).
 
 import numpy as np
 from scipy.integrate import dblquad
-from solver.constants import EPSILON_0
+
 from solver.applied_field import calculate_applied_field
+from solver.constants import EPSILON_0
+
 
 def charge_density(r, A, B, C):
     """
@@ -280,17 +282,19 @@ def calculate_e_plane_image(z, d, R, L_cs, theta_B, A, B, C, epsilon_r=1.0, epsa
     return e_plane_results if isinstance(z, np.ndarray) else e_plane_results[0]
 
 
-def calculate_total_field(z, d, R, L_cs, theta_B, A, B, C, V_applied, epsilon_r=1.0, z_drift=0.0):
+def calculate_total_field(z, d, R, L_cs, theta_B, A, B, C, V_applied, epsilon_r=1.0, z_drift=0.0,
+                          rod_length=None):
     """
     Calculates total electric field along the gap axis including 
     external geometric field, space charge, rod image, and plane image.
     z is measured from the tip apex [m], d is the tip-to-plane gap [m],
     V_applied is the rod voltage [V], z_drift the drift of the charge cone [m]
-    (the applied field does not depend on it). Returns V/m.
+    (the applied field does not depend on it), rod_length the modelled rod length
+    for the applied field [m] (None = 5 * d). Returns V/m.
     """
 
     # 1. External (Laplacian) field from the Charge Simulation Method
-    E_ext = calculate_applied_field(R, d, V_applied, z)
+    E_ext = calculate_applied_field(R, d, V_applied, z, rod_length=rod_length)
 
     # 2. Compute individual space-charge components
     E_sp = calculate_e_sp(z, R, L_cs, theta_B, A, B, C, epsilon_r, z_drift=z_drift)

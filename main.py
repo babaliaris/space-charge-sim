@@ -1,13 +1,16 @@
 import matplotlib
+
 # Try TkAgg or Qt5Agg depending on what's installed on your system
 matplotlib.use('TkAgg')
 
-import numpy as np
-import matplotlib.pyplot as plt
-from solver.fields import calculate_e_sp, calculate_e_rod_image
-from solver.utilities import calculate_qcs_from_field, calculate_A_from_charge
-
 import csv
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+from solver.fields import calculate_e_rod_image, calculate_e_sp
+from solver.utilities import calculate_A_from_charge, calculate_qcs_from_field
+
 
 def export_fields_to_csv(filepath, z_wh_cm, e_sp_kv_cm, e_i_kv_cm):
     """

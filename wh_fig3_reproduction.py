@@ -42,10 +42,9 @@ from scipy.integrate import IntegrationWarning
 
 from excel_export import save_to_excel
 from solver.applied_field import calculate_applied_field
-from solver.fields import calculate_e_sp, calculate_e_rod_image, calculate_e_plane_image
-from solver.theta_b import solve_theta_b, density_amplitude, total_field_at_streamer_tip
+from solver.fields import calculate_e_plane_image, calculate_e_rod_image, calculate_e_sp
+from solver.theta_b import density_amplitude, solve_theta_b, total_field_at_streamer_tip
 from solver.utilities import calculate_qcs_from_field
-
 
 # =============================================================================
 # 1. INPUTS  (engineering units - edit these)
@@ -54,6 +53,8 @@ from solver.utilities import calculate_qcs_from_field
 # --- Gap geometry and voltage (Wang & Haiting benchmark) ---------------------
 ROD_TIP_RADIUS_cm        = 0.1     # R     : radius of the hemispherical rod tip
 GAP_LENGTH_cm            = 80.0    # D     : distance rod tip apex -> grounded plane
+ROD_LENGTH_cm            = 400.0   # L_rod : modelled rod length for the applied field (CSM);
+                                   #         not given in the paper, assumed 5 * D
 APPLIED_VOLTAGE_kV       = 27.5    # V     : rod voltage
 
 # --- Streamer space charge -------------------------------------------------
@@ -94,6 +95,7 @@ def main():
     # =========================================================================
     R   = ROD_TIP_RADIUS_cm   * CM_TO_M
     D   = GAP_LENGTH_cm       * CM_TO_M
+    L_rod = ROD_LENGTH_cm     * CM_TO_M
     V   = APPLIED_VOLTAGE_kV  * KV_TO_V
     L_cs = STREAMER_LENGTH_cm * CM_TO_M
     E_c = STREAMER_FIELD_kV_per_cm * KV_PER_CM_TO_V_PER_M
@@ -110,19 +112,19 @@ def main():
     print("Step 1/3: solving for theta_B ...")
     theta_B = solve_theta_b(R, D, V, L_cs, E_c, B, C,
                             theta_min=np.radians(THETA_B_MIN_deg),
-                            theta_max=np.radians(THETA_B_MAX_deg))
+                            theta_max=np.radians(THETA_B_MAX_deg), rod_length=L_rod)
     print(f"          theta_B = {np.degrees(theta_B):.3f} deg")
 
     # Space-charge model that belongs to this theta_B
     Q_cs = calculate_qcs_from_field(E_c, L_cs_m=L_cs, theta_B_rad=theta_B)
     A = density_amplitude(E_c, L_cs, theta_B, B, C)
-    E_tip_check = total_field_at_streamer_tip(theta_B, R, D, V, L_cs, E_c, B, C)
+    E_tip_check = total_field_at_streamer_tip(theta_B, R, D, V, L_cs, E_c, B, C, L_rod)
 
     # =========================================================================
     # 4. Compute every field component on the z points  (results in V/m)
     # =========================================================================
     print(f"Step 2/3: computing the fields at {len(z)} points ...")
-    E_ex       = calculate_applied_field(R, D, V, z)
+    E_ex       = calculate_applied_field(R, D, V, z, rod_length=L_rod)
     E_sp       = calculate_e_sp(z, R, L_cs, theta_B, A, B, C)
     E_I_rod    = calculate_e_rod_image(z, R, L_cs, theta_B, A, B, C)
     E_I_plane  = calculate_e_plane_image(z, D, R, L_cs, theta_B, A, B, C)
@@ -152,6 +154,7 @@ def main():
         ("INPUTS",                                  "",                               ""),
         ("Rod tip radius R",                        ROD_TIP_RADIUS_cm,                "cm"),
         ("Gap length D (tip apex to plane)",        GAP_LENGTH_cm,                    "cm"),
+        ("Rod length L_rod (applied field, CSM)",   ROD_LENGTH_cm,                    "cm"),
         ("Applied voltage V",                       APPLIED_VOLTAGE_kV,               "kV"),
         ("Streamer length L_cs",                    STREAMER_LENGTH_cm,               "cm"),
         ("Streamer field E_c",                      STREAMER_FIELD_kV_per_cm,         "kV/cm"),
@@ -164,7 +167,7 @@ def main():
         ("Total streamer charge Q_cs",              Q_cs * 1e9,                       "nC"),
         ("Density amplitude A (SI)",                A,                                "C*m^(B-3)"),
         ("Check: E_total at z = L_cs (should = E_c)", to_kV_per_cm(E_tip_check),      "kV/cm"),
-        ("Generated on",                            datetime.now().strftime("%Y-%m-%d %H:%M"), ""),
+        ("Generated on",                            datetime.now().astimezone().strftime("%Y-%m-%d %H:%M"), ""),
     ]
     parameters_sheet = {
         "Parameter": [name for name, _, _ in parameters],

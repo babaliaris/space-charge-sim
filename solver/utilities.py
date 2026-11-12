@@ -1,6 +1,21 @@
+from typing import cast
+
 import numpy as np
 from scipy.integrate import quad
+
 from solver.constants import EPSILON_0
+
+
+def terminal_event(function, direction=1):
+    """Mark function(t, y) as a terminal event for scipy's solve_ivp.
+
+    solve_ivp reads the attributes `terminal` and `direction` from the event
+    function (scipy's documented way). Type checkers do not allow new attributes
+    on a function, hence the ignore comments; this is the only place they are set.
+    """
+    function.terminal = True              # pyright: ignore[reportFunctionMemberAccess]
+    function.direction = direction        # pyright: ignore[reportFunctionMemberAccess]
+    return function
 
 def impulse_voltage(t, V_peak, alpha, beta, k=1.0):
     """
@@ -33,10 +48,13 @@ def double_exponential_parameters(t_crest, t_half):
         alpha, beta = np.exp(log_params)  # logs keep both rates positive
         k = k_factor(alpha, beta)
         t_c = crest_time(alpha, beta)
-        half = brentq(lambda t: k * (np.exp(-alpha * t) - np.exp(-beta * t)) - 0.5, t_c, 100.0 * t_half)
+        half = cast(float, brentq(lambda t: k * (np.exp(-alpha * t) - np.exp(-beta * t)) - 0.5,
+                                  t_c, 100.0 * t_half))
         return [t_c / t_crest - 1.0, half / t_half - 1.0]
 
-    alpha, beta = np.exp(fsolve(mismatch, [np.log(0.7 / t_half), np.log(5.0 / t_crest)], xtol=1e-12))
+    # brentq / fsolve return a tuple only with full_output=True; cast tells the type checker
+    log_rates = cast(np.ndarray, fsolve(mismatch, [np.log(0.7 / t_half), np.log(5.0 / t_crest)], xtol=1e-12))
+    alpha, beta = np.exp(log_rates)
     return alpha, beta, k_factor(alpha, beta)
 
 

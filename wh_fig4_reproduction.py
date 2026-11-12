@@ -48,10 +48,9 @@ from scipy.integrate import IntegrationWarning
 from excel_export import save_to_excel
 from solver.applied_field import calculate_applied_field
 from solver.drift import simulate_drift
-from solver.fields import calculate_e_sp, calculate_e_rod_image, calculate_e_plane_image
-from solver.theta_b import solve_theta_b, density_amplitude
+from solver.fields import calculate_e_plane_image, calculate_e_rod_image, calculate_e_sp
+from solver.theta_b import density_amplitude, solve_theta_b
 from solver.utilities import calculate_qcs_from_field
-
 
 # =============================================================================
 # 1. INPUTS  (engineering units - edit these)
@@ -60,6 +59,8 @@ from solver.utilities import calculate_qcs_from_field
 # --- Gap geometry and voltage (Wang & Haiting benchmark, same as Figure 3) ---
 ROD_TIP_RADIUS_cm        = 0.1     # R     : radius of the hemispherical rod tip
 GAP_LENGTH_cm            = 80.0    # D     : distance rod tip apex -> grounded plane
+ROD_LENGTH_cm            = 400.0   # L_rod : modelled rod length for the applied field (CSM);
+                                   #         not given in the paper, assumed 5 * D
 APPLIED_VOLTAGE_kV       = 27.5    # V     : rod voltage
 
 # --- Streamer space charge (same as Figure 3) -------------------------------
@@ -110,6 +111,7 @@ def main():
     # =========================================================================
     R    = ROD_TIP_RADIUS_cm   * CM_TO_M
     D    = GAP_LENGTH_cm       * CM_TO_M
+    L_rod = ROD_LENGTH_cm      * CM_TO_M
     V    = APPLIED_VOLTAGE_kV  * KV_TO_V
     L_cs = STREAMER_LENGTH_cm  * CM_TO_M
     E_c  = STREAMER_FIELD_kV_per_cm * KV_PER_CM_TO_V_PER_M
@@ -125,7 +127,7 @@ def main():
     print("Step 1/4: solving for theta_B (cloud of Figure 3) ...")
     theta_B = solve_theta_b(R, D, V, L_cs, E_c, B, C,
                             theta_min=np.radians(THETA_B_MIN_deg),
-                            theta_max=np.radians(THETA_B_MAX_deg))
+                            theta_max=np.radians(THETA_B_MAX_deg), rod_length=L_rod)
     Q_cs = calculate_qcs_from_field(E_c, L_cs_m=L_cs, theta_B_rad=theta_B)
     A = density_amplitude(E_c, L_cs, theta_B, B, C)
     print(f"          theta_B = {np.degrees(theta_B):.3f} deg, Q_cs = {Q_cs * 1e9:.2f} nC")
@@ -135,7 +137,7 @@ def main():
     # =========================================================================
     print("Step 2/4: drifting the space charge ...")
     drift = simulate_drift(R, D, V, L_cs, theta_B, A, B, C, mobility,
-                           drift_time=drift_time, drift_distance=drift_distance)
+                           drift_time=drift_time, drift_distance=drift_distance, rod_length=L_rod)
     z_drift = drift["distance"]
     print(f"          drifted {z_drift / CM_TO_M:.4f} cm in {drift['time'] / US_TO_S:.2f} us "
           f"(E_sp zero point moved from {drift['z_c0'] / CM_TO_M:.4f} to "
@@ -150,7 +152,7 @@ def main():
     z = z_cm * CM_TO_M
 
     print(f"Step 3/4: computing the fields at {len(z)} points, before and after the drift ...")
-    E_ex             = calculate_applied_field(R, D, V, z)
+    E_ex             = calculate_applied_field(R, D, V, z, rod_length=L_rod)
     E_sp_before      = calculate_e_sp(z, R, L_cs, theta_B, A, B, C)
     E_sp_after       = calculate_e_sp(z, R, L_cs, theta_B, A, B, C, z_drift=z_drift)
     E_I_rod_before   = calculate_e_rod_image(z, R, L_cs, theta_B, A, B, C)
@@ -195,6 +197,7 @@ def main():
         ("INPUTS",                                    "",                                   ""),
         ("Rod tip radius R",                          ROD_TIP_RADIUS_cm,                    "cm"),
         ("Gap length D (tip apex to plane)",          GAP_LENGTH_cm,                        "cm"),
+        ("Rod length L_rod (applied field, CSM)",     ROD_LENGTH_cm,                        "cm"),
         ("Applied voltage V",                         APPLIED_VOLTAGE_kV,                   "kV"),
         ("Streamer length L_cs",                      STREAMER_LENGTH_cm,                   "cm"),
         ("Streamer field E_c",                        STREAMER_FIELD_kV_per_cm,             "kV/cm"),
@@ -213,11 +216,11 @@ def main():
         ("Drift time",                                drift["time"] / US_TO_S,              "us"),
         ("E_sp zero point before drift z_c0",         drift["z_c0"] / CM_TO_M,              "cm"),
         ("E_sp zero point after drift",               (drift["z_c0"] + z_drift) / CM_TO_M,  "cm"),
-        ("E_sp at rod tip before / after",            f"{to_kV_per_cm(E_sp_before[i_tip]):.2f} / "
-                                                      f"{to_kV_per_cm(E_sp_after[i_tip]):.2f}", "kV/cm"),
-        ("E_total at rod tip before / after",         f"{to_kV_per_cm(E_total_before[i_tip]):.2f} / "
-                                                      f"{to_kV_per_cm(E_total_after[i_tip]):.2f}", "kV/cm"),
-        ("Generated on",                              datetime.now().strftime("%Y-%m-%d %H:%M"), ""),
+        ("E_sp at rod tip before / after",            (f"{to_kV_per_cm(E_sp_before[i_tip]):.2f} / "
+                                                       f"{to_kV_per_cm(E_sp_after[i_tip]):.2f}"), "kV/cm"),
+        ("E_total at rod tip before / after",         (f"{to_kV_per_cm(E_total_before[i_tip]):.2f} / "
+                                                       f"{to_kV_per_cm(E_total_after[i_tip]):.2f}"), "kV/cm"),
+        ("Generated on",                              datetime.now().astimezone().strftime("%Y-%m-%d %H:%M"), ""),
     ]
     parameters_sheet = {
         "Parameter": [name for name, _, _ in parameters],

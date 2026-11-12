@@ -44,15 +44,19 @@ rho_k(r) = A_k / (r + C)^B. Its charge Q_k follows from Gauss's law at its head
 
 5. End. The simulation runs until t_end (or until max_bursts bursts happened).
 
-Calibration (once): theta_B from solve_theta_b for the Fig. 3 case and
-E_inc = V_ref e_ex(0) for that gap. After that every cloud, also the first one,
-gets its length from step 2, so the first burst of the calibration case gives
-back L_ref.
+Inputs and outputs: theta_B and E_inc are INPUTS of the model (GapModel); every
+streamer length L_k, also the first one, is an OUTPUT of step 2. When theta_B is
+not known (the paper gives L_cs = 2.7 cm for Fig. 3 but not theta_B),
+GapModel.calibrated recovers it once by inverting the head condition for a known
+first streamer, and sets E_inc = V_ref e_ex(0); the first burst of that case then
+gives back L_ref.
 
 Units: everything is SI (m, s, V, V/m, C, rad), z measured from the tip apex.
 """
 
+from collections.abc import Callable
 from dataclasses import dataclass, field
+from typing import cast
 
 import numpy as np
 from scipy.integrate import solve_ivp
@@ -60,9 +64,13 @@ from scipy.optimize import brentq
 
 from solver.applied_field import calculate_applied_field
 from solver.drift import find_e_sp_zero
-from solver.fields import calculate_e_sp, calculate_e_rod_image, calculate_e_plane_image
+from solver.fields import calculate_e_plane_image, calculate_e_rod_image, calculate_e_sp
 from solver.theta_b import solve_theta_b
-from solver.utilities import calculate_qcs_from_field, calculate_A_from_charge
+from solver.utilities import (
+    calculate_A_from_charge,
+    calculate_qcs_from_field,
+    terminal_event,
+)
 
 
 @dataclass
@@ -76,17 +84,24 @@ class GapModel:
     B: float          # density exponent
     C: float          # density offset [m]
     mobility: float   # positive ion mobility mu+ [m^2/(V s)]
+    rod_length: float | None = None   # modelled rod length for the applied field [m] (None = 5 * D)
 
     @classmethod
-    def calibrated(cls, R, D, E_c, B, C, mobility, V_ref, L_ref, D_ref):
-        """theta_B and E_inc from a known first streamer (V_ref, L_ref) in a gap D_ref."""
-        theta_B = solve_theta_b(R, D_ref, V_ref, L_ref, E_c, B, C)
-        E_inc = V_ref * float(calculate_applied_field(R, D_ref, 1.0, 0.0))
-        return cls(R, D, theta_B, E_c, E_inc, B, C, mobility)
+    def calibrated(cls, R, D, E_c, B, C, mobility, V_ref, L_ref, D_ref, rod_length=None, rod_length_ref=None):
+        """theta_B and E_inc from a known first streamer (V_ref, L_ref) in a gap D_ref.
+
+        Use this only when theta_B is not known: it inverts the head condition once.
+        Otherwise build GapModel directly with your own theta_B and E_inc.
+        rod_length_ref is the rod length of the reference gap, rod_length that of D
+        (None = 5 * gap).
+        """
+        theta_B = solve_theta_b(R, D_ref, V_ref, L_ref, E_c, B, C, rod_length=rod_length_ref)
+        E_inc = V_ref * float(calculate_applied_field(R, D_ref, 1.0, 0.0, rod_length=rod_length_ref))
+        return cls(R, D, theta_B, E_c, E_inc, B, C, mobility, rod_length)
 
     def applied_per_volt(self, z):
         """Applied field per volt e_ex(z) [1/m]. The applied field is V(t) * e_ex(z)."""
-        return calculate_applied_field(self.R, self.D, 1.0, z)
+        return calculate_applied_field(self.R, self.D, 1.0, z, rod_length=self.rod_length)
 
 
 @dataclass
@@ -99,7 +114,7 @@ class Cloud:
     Q: float           # charge Q_k [C]
     A: float           # density amplitude A_k [C m^(B-3)]
     z_c0: float        # zero of its own E_sp before any drift [m]
-    t_absorbed: float = None   # instant its apex reached the plane [s], None if never
+    t_absorbed: float | None = None   # instant its apex reached the plane [s], None if never
 
 
 def cloud_charge_and_amplitude(model, L):
@@ -154,7 +169,7 @@ def solve_streamer_length(model, V, history, L_min=5e-4, L_max=None, n_scan=60):
     last = above[-1]
     if last == len(lengths) - 1:
         raise RuntimeError(f"The head field stays above E_c up to L = {L_max} m.")
-    L_k = brentq(head_field_minus_E_c, lengths[last], lengths[last + 1], xtol=1e-7)
+    L_k = cast(float, brentq(head_field_minus_E_c, lengths[last], lengths[last + 1], xtol=1e-7))
     Q, A = cloud_charge_and_amplitude(m, L_k)
     return L_k, Q, A
 
@@ -163,7 +178,7 @@ def solve_streamer_length(model, V, history, L_min=5e-4, L_max=None, n_scan=60):
 class SimulationResult:
     """Clouds created during the run plus their drift history."""
     model: GapModel
-    voltage: object                    # V(t) [V]
+    voltage: Callable[[float], float]  # V(t) [V]
     clouds: list = field(default_factory=list)
     t_end: float = 0.0
     _segments: list = field(default_factory=list)   # (t0, t1, solution, cloud numbers)
@@ -233,7 +248,9 @@ def simulate(model, voltage, t_end, max_bursts=None, t_start=0.0, max_step=None,
         live = [c for c in result.clouds if c.t_absorbed is None]
         numbers = [c.number for c in live]
 
-        def drift_velocity(t, y):
+        # live is passed as a default argument so that each function keeps the list
+        # of its own iteration (solve_ivp only calls them within this iteration anyway)
+        def drift_velocity(t, y, live=live):
             V = voltage(t)
             speeds = []
             for i, c in enumerate(live):
@@ -245,22 +262,18 @@ def simulate(model, voltage, t_end, max_bursts=None, t_start=0.0, max_step=None,
                 speeds.append(m.mobility * E)
             return speeds if live else [0.0]
 
-        def tip_minus_E_inc(t, y):
+        def tip_minus_E_inc(t, y, live=live):
             E = voltage(t) * e_tip
             for i, c in enumerate(live):
                 E += cloud_field(m, c.L, c.A, 0.0, y[i])
             return E - m.E_inc
-        tip_minus_E_inc.terminal = True
-        tip_minus_E_inc.direction = 1
 
         def apex_at_plane(i):
             def event(_t, y):
                 return y[i] - m.D
-            event.terminal = True
-            event.direction = 1
-            return event
+            return terminal_event(event)
 
-        events = [tip_minus_E_inc] + [apex_at_plane(i) for i in range(len(live))]
+        events = [terminal_event(tip_minus_E_inc)] + [apex_at_plane(i) for i in range(len(live))]
         y0 = [drifts[n] for n in numbers] if live else [0.0]
         solution = solve_ivp(drift_velocity, (t_now, t_end), y0, events=events, dense_output=True,
                              rtol=1e-6, atol=1e-12, max_step=max_step)

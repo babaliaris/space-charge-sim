@@ -678,7 +678,7 @@ treamer boundary).
 
 \begin_layout Standard
 \begin_inset Float figure
-placement H
+placement tbp
 alignment document
 wide false
 sideways false
@@ -692,7 +692,7 @@ has_inner_box 1
 inner_pos "t"
 use_parbox 0
 use_makebox 0
-width "45col%"
+width "100col%"
 special "none"
 height "1in"
 height_special "totalheight"
@@ -715,7 +715,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename assets/v2/space_charge_side_view.pdf
-	scale 45
+	width 95col%
 
 \end_inset
 
@@ -739,7 +739,7 @@ Side View
 \end_inset
 
 
-\begin_inset space \hfill{}
+\begin_inset Newline newline
 \end_inset
 
 
@@ -750,7 +750,7 @@ has_inner_box 1
 inner_pos "t"
 use_parbox 0
 use_makebox 0
-width "45col%"
+width "100col%"
 special "none"
 height "1in"
 height_special "totalheight"
@@ -773,7 +773,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename assets/v2/space_charge_front_view.pdf
-	scale 45
+	width 55col%
 
 \end_inset
 
@@ -1389,7 +1389,7 @@ sign
 
 \begin_layout Standard
 \begin_inset Float figure
-placement H
+placement tbp
 alignment document
 wide false
 sideways false
@@ -1403,7 +1403,7 @@ has_inner_box 1
 inner_pos "t"
 use_parbox 0
 use_makebox 0
-width "45col%"
+width "100col%"
 special "none"
 height "1in"
 height_special "totalheight"
@@ -1426,7 +1426,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename assets/v2/rod_image_space_charge_side_view.pdf
-	scale 45
+	width 95col%
 
 \end_inset
 
@@ -1450,7 +1450,7 @@ Side View (Vectors)
 \end_inset
 
 
-\begin_inset space \hfill{}
+\begin_inset Newline newline
 \end_inset
 
 
@@ -1461,7 +1461,7 @@ has_inner_box 1
 inner_pos "t"
 use_parbox 0
 use_makebox 0
-width "45col%"
+width "100col%"
 special "none"
 height "1in"
 height_special "totalheight"
@@ -1484,7 +1484,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename assets/v2/rod_image_space_charge_angles.pdf
-	scale 45
+	width 55col%
 
 \end_inset
 
@@ -8530,6 +8530,89 @@ tuple "list"
 
 \end_layout
 
+\begin_layout Standard
+
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:fw_solver_system"
+plural "false"
+caps "true"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+ shows the same calculation as a system. Its state is the list of the drift distances of the clouds. Between events an ordinary differential equation moves the clouds; a burst adds a cloud and the plane removes one. The cone angle 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+ and the inception field 
+\begin_inset Formula $E_{inc}$
+\end_inset
+ are inputs, and every streamer length 
+\begin_inset Formula $L_{k}$
+\end_inset
+, also the first one, is an output. The dashed box is needed only when 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+ is not known, as for Figure 3 of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "wang1988"
+literal "false"
+
+\end_inset
+, which gives 
+\begin_inset Formula $L_{cs}$
+\end_inset
+ but not 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename assets/v2/solver_system.pdf
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+The simulation as a system: inputs, the quantities computed once, the event loop over the clouds, and the outputs.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:fw_solver_system"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Reproducing the Results of Wang & Haiting
 \end_layout
@@ -9499,6 +9582,73 @@ The plane image
  away.
 \end_layout
 
+\begin_layout Standard
+
+\series bold
+Why the tip field is negative.
+\series default
+ The total field at the apex, 
+\begin_inset Formula $-3.6\,\text{kV/cm}$
+\end_inset
+, is the difference of two large numbers: the applied field gives 
+\begin_inset Formula $+149.4\,\text{kV/cm}$
+\end_inset
+, and the space charge together with its rod image gives 
+\begin_inset Formula $-152.9\,\text{kV/cm}$
+\end_inset
+ (see 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:repro_fig3_all"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+). The difference is 
+\begin_inset Formula $2.4\,\%$
+\end_inset
+ of the applied field. The model fixes the charge and 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+ only at the head of the streamer, never at the tip, so nothing holds the tip field at zero, and small changes near the apex (in 
+\begin_inset Formula $C$
+\end_inset
+, 
+\begin_inset Formula $\theta_{B}$
+\end_inset
+ or the applied field) can change its sign.
+\end_layout
+
+\begin_layout Standard
+In a real gap the field at the anode cannot stay negative. A negative field means that the potential just in front of the tip is higher than 
+\begin_inset Formula $V$
+\end_inset
+, so the positive ions between the tip and that maximum drift back into the rod and are neutralized, until the field returns to about zero. The model does not contain this, because the cloud keeps its charge and moves as a rigid body. The value 
+\begin_inset Formula $-3.6\,\text{kV/cm}$
+\end_inset
+ should therefore be read as “about zero”: far below the inception field, which is what matters for the next streamer. After a drift of 
+\begin_inset Formula $0.07\,\text{cm}$
+\end_inset
+ the tip field becomes 
+\begin_inset Formula $+42.7\,\text{kV/cm}$
+\end_inset
+ (
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "tab:repro_fig4_tip"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+).
+\end_layout
+
 \begin_layout Subsubsection
 Comparison with the Paper
 \end_layout
@@ -9569,7 +9719,13 @@ literal "false"
 
 \end_inset
 
- (subscript wh).
+ (subscript wh). The dashed line marks the streamer field 
+\begin_inset Formula $E_{c}=5\,\text{kV/cm}$
+\end_inset
+; the vertical dashed lines mark where each 
+\begin_inset Formula $E_{sp}$
+\end_inset
+ peaks.
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:repro_fig3_compare"
@@ -9646,7 +9802,7 @@ The third difference can be explained without any calculation. In the model the 
 \end_layout
 
 \begin_layout Standard
-The paper's maximum is also too high. The total field is the sum of all components,
+The paper's maximum also shows how the paper applies its condition. The total field is the sum of all components,
 \end_layout
 
 \begin_layout Standard
@@ -9660,13 +9816,16 @@ E_{total}=E_{ex}+E_{sp}+E_{I_{rod}}+E_{I_{plane}},\label{eq:repro_total_sum}
 \end_layout
 
 \begin_layout Standard
-and the paper requires it to be about 
+and the paper only asks for it to be about 
 \begin_inset Formula $5\,\text{kV/cm}$
 \end_inset
- in the streamer region. The applied field 
-\begin_inset Formula $E_{ex}$
+ in the streamer region, without saying at which point. Our model imposes it exactly at the head, 
+\begin_inset Formula $z=L_{cs}$
 \end_inset
- of a positive rod always points towards the plane, so it is positive, and the image fields there are very small (
+. There the applied field gives about 
+\begin_inset Formula $1\,\text{kV/cm}$
+\end_inset
+ and the image fields are very small (
 \begin_inset CommandInset ref
 LatexCommand formatted
 reference "tab:repro_head_fields"
@@ -9677,26 +9836,62 @@ nolink "false"
 tuple "list"
 
 \end_inset
-). If 
-\begin_inset Formula $E_{sp}$
-\end_inset
- alone is already 
-\begin_inset Formula $5.3\,\text{kV/cm}$
-\end_inset
-, the total field must be larger than 
-\begin_inset Formula $5\,\text{kV/cm}$
-\end_inset
-, which contradicts the paper's own condition. In our model the applied field takes about 
-\begin_inset Formula $1\,\text{kV/cm}$
-\end_inset
- of the total at the head, so 
+), so 
 \begin_inset Formula $E_{sp}$
 \end_inset
  can only reach about 
 \begin_inset Formula $4\,\text{kV/cm}$
 \end_inset
-.
+. Adding the paper's 
+\begin_inset Formula $E_{sp}$
+\end_inset
+ to our other components gives an estimate of the paper's total field (
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "tab:repro_implied_total"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+). It is about 
+\begin_inset Formula $5.2\,\text{kV/cm}$
+\end_inset
+ at the head, close to our condition, but about 
+\begin_inset Formula $6.4\,\text{kV/cm}$
+\end_inset
+ at 
+\begin_inset Formula $z=2.3\,\text{cm}$
+\end_inset
+, where the paper's 
+\begin_inset Formula $E_{sp}$
+\end_inset
+ peaks. The estimate is approximate, because it uses our applied and image fields.
 \end_layout
+
+\begin_layout Standard
+The paper's curve is therefore not wrong: it keeps the field at about 
+\begin_inset Formula $5\,\text{kV/cm}$
+\end_inset
+ in a looser sense, with a less uniform field than ours, and the paper itself accepts 
+\begin_inset Formula $4$
+\end_inset
+ to 
+\begin_inset Formula $5.5\,\text{kV/cm}$
+\end_inset
+ in its Figure 5 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "wang1988"
+literal "false"
+
+\end_inset
+. It is, however, not consistent with an exact condition at the head, which is the one our model uses.
+\end_layout
+
+
 
 \begin_layout Standard
 \begin_inset Float table
@@ -9905,6 +10100,396 @@ name "tab:repro_head_fields"
 \end_layout
 
 \begin_layout Standard
+\begin_inset Float table
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+
+\begin_inset Formula $z$
+\end_inset
+ [cm]
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+
+\begin_inset Formula $E_{ex}$
+\end_inset
+
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+
+\begin_inset Formula $E_{sp,wh}$
+\end_inset
+
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+
+\begin_inset Formula $E_{total}$
+\end_inset
+ (paper, estimate)
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+
+\begin_inset Formula $E_{total}$
+\end_inset
+ (ours)
+\series default
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $1.5$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $1.97$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $3.33$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $4.98$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $4.26$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $2.0$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $1.41$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $4.61$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $5.84$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $4.58$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $2.3$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $1.20$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $5.33$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $6.39$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $4.78$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $2.7$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $1.00$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $4.29$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $5.19$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\begin_inset Formula $5.00$
+\end_inset
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Estimate of the paper's total field along the streamer: the digitized 
+\begin_inset Formula $E_{sp,wh}$
+\end_inset
+ plus our 
+\begin_inset Formula $E_{ex}$
+\end_inset
+, 
+\begin_inset Formula $E_{I_{rod}}$
+\end_inset
+ and 
+\begin_inset Formula $E_{I_{plane}}$
+\end_inset
+, compared with our total field. All fields in kV/cm (Fields sheet of the Figure 3 workbook).
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:repro_implied_total"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 We also checked whether the differences could come from our side:
 \end_layout
 
@@ -9941,7 +10526,7 @@ the parameters the paper does not give
 , 
 \begin_inset Formula $C$
 \end_inset
-): no choice reproduces the paper's curves while keeping the field in the streamer region at about 
+): with our condition at the head, no choice reproduces the paper's curves while keeping the field in the streamer region at about 
 \begin_inset Formula $5\,\text{kV/cm}$
 \end_inset
 .
@@ -9952,7 +10537,10 @@ the parameters the paper does not give
 \series bold
 Conclusion.
 \series default
- Our implementation follows the paper's equations (Section 3) and reproduces the shape and the main features of Figure 3, but not its exact values. Since the paper's own curve does not satisfy its own condition, the differences most likely come from a detail of the authors' calculation that the paper does not report. The reproduction is therefore considered qualitatively validated.
+ Our implementation follows the paper's equations (Section 3) and reproduces the shape and the main features of Figure 3, but not its exact values. The paper does not say where it applies its condition of about 
+\begin_inset Formula $5\,\text{kV/cm}$
+\end_inset
+: its curve satisfies it loosely along the streamer, while we impose it exactly at the head. This, or another detail of the authors' calculation that the paper does not report, most likely explains the differences. The reproduction is therefore considered qualitatively validated.
 \end_layout
 
 \begin_layout Subsection

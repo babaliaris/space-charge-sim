@@ -27,7 +27,8 @@ def save_to_excel(file_path, sheets):
     file_path.parent.mkdir(parents=True, exist_ok=True)
 
     workbook = Workbook()
-    workbook.remove(workbook.active)  # drop the empty default sheet
+    if workbook.active is not None:
+        workbook.remove(workbook.active)  # drop the empty default sheet
 
     for sheet_name, columns in sheets.items():
         sheet = workbook.create_sheet(title=sheet_name)
