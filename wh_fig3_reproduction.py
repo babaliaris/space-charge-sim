@@ -141,7 +141,7 @@ def main():
 
     fields_sheet = {
         "z from tip apex [cm]":                  z_cm,
-        "E_ex applied [kV/cm]":                  to_kV_per_cm(E_ex),
+        "E_ex [kV/cm]":                          to_kV_per_cm(E_ex),
         "E_sp space charge [kV/cm]":             to_kV_per_cm(E_sp),
         "E_I,rod rod image [kV/cm]":             to_kV_per_cm(E_I_rod),
         "E_I,plane plane image [kV/cm]":         to_kV_per_cm(E_I_plane),

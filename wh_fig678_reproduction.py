@@ -5,98 +5,87 @@ against the impulse front time
 
 What this script does
 ---------------------
-Figures 6, 7 and 8 of the paper show, for the first and the second corona
-streamer, how the inception voltage (Fig. 6), the streamer length (Fig. 7) and
-the streamer charge (Fig. 8) change with the time to crest of a switching
-impulse (15 to 600 us, gaps of 40 cm and 80 cm).
+Figures 6, 7 and 8 of the paper show, for the first and the second corona streamer,
+how the inception voltage (Fig. 6), the streamer length (Fig. 7) and the streamer
+charge (Fig. 8) change with the time to crest of a switching impulse (15 to 600 us,
+gaps of 40 cm and 80 cm). The whole framework runs in solver/simulation.py:
 
-The whole framework runs in solver/simulation.py. This script:
-
-1. Sets the two inputs of the model: the cone angle theta_B and the inception
-   field E_inc at the tip apex (E_inc = inception voltage of the first streamer of
-   Figure 3, 27.5 kV, times the applied field per volt at the apex for D = 80 cm).
-   If THETA_B_deg is None, theta_B is recovered once from that first streamer
-   (L_cs = 2.7 cm is given in the paper but theta_B is not); otherwise your value
-   is used and the simulation runs standalone.
-2. For every gap and every front time builds the impulse V(t) (crest from the
-   Gallet formula, U50 = 3400 / (1 + 8/d) kV, tail half-value 2500 us; neither
-   is given in the paper).
-3. Simulates the impulse front: burst 1 when the tip field reaches E_inc, its
-   cloud drifts, burst 2 when the tip field reaches E_inc again. Each burst
-   gets its length from the head condition (field at the head = E_c) and its
-   charge from Gauss's law.
-4. Saves everything to an Excel workbook:
-       sheet "Fig6 inception voltage"   front time + V_inc of streamers 1 and 2 per gap
-       sheet "Fig7 streamer length"     same layout with L
-       sheet "Fig8 streamer charge"     same layout with Q            -> plot these
+1. Model inputs: the paper's B and C, the cone angle theta_B (recovered from the paper's
+   Fig. 3 streamer, see wh_fig3_reproduction.py) and the rate-dependent time lag
+   (threshold field E_0 and k, n, fitted by wh_time_lag_fit.py - run that first).
+2. For every gap and front time builds the impulse V(t) (crest from the Gallet formula,
+   U50 = 3400 / (1 + 8/d) kV, tail half-value 2500 us; neither is given in the paper).
+3. Simulates the impulse front: a burst happens when the tip field reaches
+   E_0 + k (dE_tip/dt)^n (dE_tip/dt taken when it first reaches E_0); its length is the
+   largest root of the head condition, its charge comes from Gauss's law over its head
+   minus the older charge inside its cone; all clouds drift between bursts.
+4. Compares with the paper's curves, read from the scanned figures (input/wh_fig678_paper.xlsx):
+   NRMSE = RMS(this work - paper) / RMS(paper) against the measured values.
+5. Saves everything to an Excel workbook:
+       sheets "Fig6", "Fig7", "Fig8a", "Fig8b"   our streamers 1 and 2 (NRMSE in the header)
+                                         next to the paper's calculated and measured curves (+ chart)
+       sheet "Comparison"               NRMSE, largest difference and change over the fronts
+       sheet "Values"                   every point: this work, paper (measured), difference [%]
        sheet "Bursts"                   one row per burst with every detail
-       sheet "Parameters"               every input plus the calibrated values
+       sheet "Parameters"               every input
 
 Units
 -----
 Inputs and outputs use high-voltage engineering units (cm, kV, kV/cm, us, nC).
-The solver works in SI units; the conversion happens only in step 2 (in) and
-step 5 (out). z is measured from the rod tip apex, t from the start of the impulse.
+The solver works in SI units. z is measured from the rod tip apex, t from the start of the impulse.
 
 How to run
 ----------
-    python wh_fig678_reproduction.py
-
-It takes about 10 minutes (each burst and drift step needs 2-D numerical integrals).
+    python wh_time_lag_fit.py         (once)
+    python wh_fig678_reproduction.py  (about 2 minutes, all CPU cores)
 """
 
-import time
 import warnings
+from concurrent.futures import ProcessPoolExecutor
 from datetime import datetime
+from typing import cast
 
 import numpy as np
+from openpyxl import load_workbook
+from openpyxl.chart import Reference, ScatterChart
+from openpyxl.chart.legend import Legend
+from openpyxl.chart.series_factory import SeriesFactory
+from openpyxl.worksheet.worksheet import Worksheet
 from scipy.integrate import IntegrationWarning
 
 from excel_export import save_to_excel
-from solver.applied_field import calculate_applied_field
 from solver.simulation import GapModel, simulate
 from solver.utilities import double_exponential_parameters, impulse_voltage
 
 # =============================================================================
 # 1. INPUTS  (engineering units - edit these)
 # =============================================================================
+ROD_TIP_RADIUS_cm          = 0.1      # R
+ION_MOBILITY_cm2_per_kV_us = 1.36e-3  # mu+ (given in the paper)
+STABILITY_FIELD_kV_per_cm  = 5.0      # E_c
+DENSITY_EXPONENT_B         = 1.5      # B  } the paper's "usual" values
+DENSITY_OFFSET_C_cm        = 0.035    # C  }
+CONE_ANGLE_deg             = 93.39    # theta_B: from the paper's Fig. 3 streamer (wh_fig3_reproduction.py)
+SUBTRACT_ENCLOSED          = True     # Gauss charge of a new cloud minus the older charge inside its cone
+TIME_LAG_FILE              = "output/wh_time_lag_fit.xlsx"   # E_0, k, n (wh_time_lag_fit.py)
 
-# --- Rod and charge model (same as Figures 3 to 5) ----------------------------
-ROD_TIP_RADIUS_cm          = 0.1      # R : radius of the hemispherical rod tip
-STREAMER_FIELD_kV_per_cm   = 5.0      # E_c : field at the streamer head
-DENSITY_EXPONENT_B         = 1.5      # B : rho(r) = A / (r + C)^B
-DENSITY_OFFSET_C_cm        = 0.035    # C
-ION_MOBILITY_cm2_per_kV_us = 1.36e-3  # mu+ : positive ion mobility (given in the paper)
-
-# --- Model inputs: cone angle and inception --------------------------------------
-THETA_B_deg                = None     # theta_B : full cone angle of every cloud.
-                                      #   None = recover it from the Fig. 3 first streamer below
-                                      #   (93.39 deg); or give your own value, e.g. 90.0
-
-# --- First streamer of Figure 3 (given in the paper) ------------------------------
-CALIBRATION_VOLTAGE_kV     = 27.5     # first-streamer inception voltage -> E_inc
-CALIBRATION_LENGTH_cm      = 2.7      # its length L_cs (used only when THETA_B_deg is None)
-CALIBRATION_GAP_cm         = 80.0     # in this gap
-CALIBRATION_ROD_LENGTH_cm  = 400.0    # rod length L_rod of that gap (CSM); not given, 5 * D
-
-# --- Gaps and impulses of Figures 6 to 8 ----------------------------------------
-GAPS_cm                    = [40.0, 80.0]   # Fig. 6 and 7: 40 cm; Fig. 8: 40 and 80 cm
-ROD_LENGTHS_cm             = {40.0: 200.0, 80.0: 400.0}   # L_rod per gap (CSM); not given, 5 * D
+GAPS_cm                    = [40.0, 80.0]
+ROD_LENGTHS_cm             = {40.0: 200.0, 80.0: 400.0}       # L_rod per gap (CSM); not given, 5 * D
 FRONT_TIMES_us             = [15, 20, 30, 50, 75, 100, 150, 200, 300, 400, 500, 600]
-TIME_TO_HALF_VALUE_us      = 2500.0   # tail: not given in the paper (IEC 250/2500 us)
-BURSTS_PER_IMPULSE         = 2        # the paper shows the first and the second streamer
+TIME_TO_HALF_VALUE_us      = 2500.0   # tail: not given in the paper
+BURSTS_PER_IMPULSE         = 2
 
-# --- Output file --------------------------------------------------------------
+PAPER_FILE                 = "input/wh_fig678_paper.xlsx"
 OUTPUT_FILE                = "output/wh_fig678_reproduction.xlsx"
 
+CM_TO_M, KV_TO_V, KV_PER_CM_TO_V_PER_M, US_TO_S, MOBILITY_TO_SI, C_TO_NC = 1e-2, 1e3, 1e5, 1e-6, 1e-1, 1e9
 
-# Unit conversion factors
-CM_TO_M              = 1e-2       # 1 cm      = 0.01 m
-KV_TO_V              = 1e3        # 1 kV      = 1000 V
-KV_PER_CM_TO_V_PER_M = 1e5        # 1 kV/cm   = 100 000 V/m
-US_TO_S              = 1e-6       # 1 us      = 1e-6 s
-MOBILITY_TO_SI       = 1e-1       # 1 cm^2/(kV*us) = 0.1 m^2/(V*s)
-C_TO_NC              = 1e9        # 1 C       = 1e9 nC
+FIGURES = {  # sheet: (quantity, gap, unit, title, y label)
+    "Fig6": ("V", 40.0, "kV", "Inception voltage of the first and second corona streamer (D = 40 cm)", "Inception voltage [kV]"),
+    "Fig7": ("L", 40.0, "cm", "Length of the first and second corona streamer (D = 40 cm)", "Streamer length [cm]"),
+    "Fig8a": ("Q", 40.0, "nC", "Charge of the first and second corona streamer (D = 40 cm)", "Streamer charge [nC]"),
+    "Fig8b": ("Q", 80.0, "nC", "Charge of the first and second corona streamer (D = 80 cm)", "Streamer charge [nC]"),
+}
 
 
 def gallet_crest_kV(gap_cm):
@@ -104,141 +93,169 @@ def gallet_crest_kV(gap_cm):
     return 3400.0 / (1.0 + 8.0 / (gap_cm / 100.0))
 
 
-def main():
-    # Very close to the cone apex scipy cannot always reach its strict tolerance and
-    # warns; the values there are smooth and correct, so these warnings are hidden.
+def read_time_lag(path):
+    """E_0 [kV/cm], k_SI and n of the rate-dependent time lag (Parameters sheet of wh_time_lag_fit.py)."""
+    try:
+        sheet = load_workbook(path, data_only=True)["Parameters"]
+    except FileNotFoundError:
+        raise SystemExit(f"{path} not found: run wh_time_lag_fit.py first.") from None
+    values = {row[0]: row[1] for row in sheet.iter_rows(min_row=2, values_only=True)}
+    keys = ("Threshold field at the tip E0 = V0 e_ex(0)",
+            "Field-form coefficient k_SI (E_req = E0 + k_SI (dE/dt)^n, SI)", "n")
+    return tuple(float(str(values[key])) for key in keys)
+
+
+def run_front(job):
+    """Simulate one gap and front time; returns (gap, front, list of burst dicts)."""
+    gap_cm, front_us, E0, k_SI, n = job
     warnings.simplefilter("ignore", IntegrationWarning)
+    model = GapModel(ROD_TIP_RADIUS_cm * CM_TO_M, gap_cm * CM_TO_M, np.radians(CONE_ANGLE_deg),
+                     STABILITY_FIELD_kV_per_cm * KV_PER_CM_TO_V_PER_M, E0, DENSITY_EXPONENT_B,
+                     DENSITY_OFFSET_C_cm * CM_TO_M, ION_MOBILITY_cm2_per_kV_us * MOBILITY_TO_SI,
+                     rod_length=ROD_LENGTHS_cm[gap_cm] * CM_TO_M, subtract_enclosed=SUBTRACT_ENCLOSED,
+                     overvoltage_k=k_SI, overvoltage_n=n)
+    alpha, beta, k = double_exponential_parameters(front_us * US_TO_S, TIME_TO_HALF_VALUE_us * US_TO_S)
+    crest = gallet_crest_kV(gap_cm) * KV_TO_V
+    result = simulate(model, lambda t: impulse_voltage(t, crest, alpha, beta, k), t_end=front_us * US_TO_S,
+                      max_bursts=BURSTS_PER_IMPULSE)
+    first = result.clouds[0] if result.clouds else None
+    bursts = [{"number": c.number, "t_us": c.t_birth / US_TO_S, "V_kV": c.V_birth / KV_TO_V, "L_cm": c.L / CM_TO_M,
+               "Q_nC": c.Q * C_TO_NC, "dip_cm": c.dip_width / CM_TO_M,
+               "drift1_cm": result.z_drift(first, c.t_birth) / CM_TO_M if first else 0.0} for c in result.clouds]
+    return gap_cm, front_us, bursts
 
-    # =========================================================================
-    # 2. Convert the inputs to SI units for the solver
-    # =========================================================================
-    R        = ROD_TIP_RADIUS_cm * CM_TO_M
-    E_c      = STREAMER_FIELD_kV_per_cm * KV_PER_CM_TO_V_PER_M
-    B        = DENSITY_EXPONENT_B
-    C        = DENSITY_OFFSET_C_cm * CM_TO_M
-    mobility = ION_MOBILITY_cm2_per_kV_us * MOBILITY_TO_SI
-    V_ref    = CALIBRATION_VOLTAGE_kV * KV_TO_V
-    L_ref    = CALIBRATION_LENGTH_cm * CM_TO_M
-    D_ref    = CALIBRATION_GAP_cm * CM_TO_M
-    L_rod_ref = CALIBRATION_ROD_LENGTH_cm * CM_TO_M
-    t_half   = TIME_TO_HALF_VALUE_us * US_TO_S
 
-    # =========================================================================
-    # 3. Calibrate theta_B and E_inc on the first streamer of Figure 3
-    # =========================================================================
-    if THETA_B_deg is None:
-        print("Step 1/3: recovering theta_B from the first streamer of Figure 3 ...")
-        calibration = GapModel.calibrated(R, D_ref, E_c, B, C, mobility, V_ref, L_ref, D_ref,
-                                          rod_length_ref=L_rod_ref)
-        theta_B, E_inc = calibration.theta_B, calibration.E_inc
-    else:
-        print("Step 1/3: using the given theta_B ...")
-        theta_B = np.radians(THETA_B_deg)
-        E_inc = V_ref * float(calculate_applied_field(R, D_ref, 1.0, 0.0, rod_length=L_rod_ref))
-    print(f"          theta_B = {np.degrees(theta_B):.3f} deg, "
-          f"E_inc = {E_inc / KV_PER_CM_TO_V_PER_M:.2f} kV/cm")
+def nrmse(ours, paper):
+    pairs = [(o, p) for o, p in zip(ours, paper) if o is not None and p is not None]
+    if not pairs:
+        return None
+    o, p = np.array(pairs).T
+    return float(np.sqrt(np.mean((o - p) ** 2)) / np.sqrt(np.mean(p**2)) * 100)
 
-    # =========================================================================
-    # 4. Simulate every gap and front time
-    # =========================================================================
+
+def main():
+    warnings.simplefilter("ignore", IntegrationWarning)
+    E0_kV_cm, k_SI, n = read_time_lag(TIME_LAG_FILE)
+    E0 = E0_kV_cm * KV_PER_CM_TO_V_PER_M
+    print(f"Step 1/3: model: B = {DENSITY_EXPONENT_B}, C = {DENSITY_OFFSET_C_cm} cm, theta_B = {CONE_ANGLE_deg} deg, "
+          f"E_0 = {E0_kV_cm:.2f} kV/cm, k_SI = {k_SI:.4g}, n = {n:.4f}")
+
     print("Step 2/3: simulating the impulse fronts ...")
-    bursts = []        # one dict per burst
-    for gap_cm in GAPS_cm:
-        model = GapModel(R, gap_cm * CM_TO_M, theta_B, E_c, E_inc, B, C, mobility,
-                         rod_length=ROD_LENGTHS_cm[gap_cm] * CM_TO_M)
-        V_crest = gallet_crest_kV(gap_cm) * KV_TO_V
-        for front_us in FRONT_TIMES_us:
-            t_crest = front_us * US_TO_S
-            alpha, beta, k = double_exponential_parameters(t_crest, t_half)
+    jobs = [(g, f, E0, k_SI, n) for g in GAPS_cm for f in FRONT_TIMES_us]
+    with ProcessPoolExecutor() as pool:
+        runs = {(g, f): b for g, f, b in pool.map(run_front, jobs)}
+    for (g, f), b in runs.items():
+        print(f"          D = {g:4.0f} cm, front {f:3d} us: "
+              + ", ".join(f"V{x['number']} = {x['V_kV']:.1f} kV, L{x['number']} = {x['L_cm']:.2f} cm" for x in b))
 
-            def V(t, V_crest=V_crest, alpha=alpha, beta=beta, k=k):
-                return impulse_voltage(t, V_crest, alpha, beta, k)
-
-            started = time.time()
-            result = simulate(model, V, t_end=t_crest, max_bursts=BURSTS_PER_IMPULSE)
-            for cloud in result.clouds:
-                first = result.clouds[0]
-                bursts.append({
-                    "gap_cm": gap_cm, "front_us": front_us, "crest_kV": V_crest / KV_TO_V,
-                    "number": cloud.number, "t_us": cloud.t_birth / US_TO_S,
-                    "V_kV": cloud.V_birth / KV_TO_V, "L_cm": cloud.L / CM_TO_M,
-                    "Q_nC": cloud.Q * C_TO_NC,
-                    "drift1_cm": result.z_drift(first, cloud.t_birth) / CM_TO_M,
-                })
-            summary = ", ".join(f"V{c.number} = {c.V_birth / KV_TO_V:.1f} kV, L{c.number} = {c.L / CM_TO_M:.2f} cm"
-                                for c in result.clouds)
-            print(f"          D = {gap_cm:4.0f} cm, front {front_us:3d} us: {summary or 'no burst'}"
-                  f"  ({time.time() - started:.0f} s)")
-
-    # =========================================================================
-    # 5. Convert back to engineering units and save to Excel
-    # =========================================================================
     print("Step 3/3: saving to Excel ...")
-
-    def figure_sheet(key, label, unit):
-        """Front time column + one column per gap and streamer."""
-        sheet = {"time to crest [us]": FRONT_TIMES_us}
-        for gap_cm in GAPS_cm:
-            for number in range(1, BURSTS_PER_IMPULSE + 1):
-                column = []
-                for front_us in FRONT_TIMES_us:
-                    match = [b[key] for b in bursts
-                             if b["gap_cm"] == gap_cm and b["front_us"] == front_us and b["number"] == number]
-                    column.append(match[0] if match else None)
-                sheet[f"{label} streamer {number}, D = {gap_cm:g} cm [{unit}]"] = column
-        return sheet
-
-    bursts_sheet = {
-        "gap D [cm]":                         [b["gap_cm"] for b in bursts],
-        "time to crest [us]":                 [b["front_us"] for b in bursts],
-        "impulse crest (Gallet) [kV]":        [b["crest_kV"] for b in bursts],
-        "burst number k":                     [b["number"] for b in bursts],
-        "burst instant t_k [us]":             [b["t_us"] for b in bursts],
-        "inception voltage V(t_k) [kV]":      [b["V_kV"] for b in bursts],
-        "streamer length L_k [cm]":           [b["L_cm"] for b in bursts],
-        "streamer charge Q_k [nC]":           [b["Q_nC"] for b in bursts],
-        "drift of cloud 1 at t_k [cm]":       [b["drift1_cm"] for b in bursts],
-    }
-
+    paper = load_workbook(PAPER_FILE, data_only=True)
+    key_map = {"V": "V_kV", "L": "L_cm", "Q": "Q_nC"}
+    sheets, comparison, values = {}, [], []
+    for name, (quantity, gap, unit, _title, _ylabel) in FIGURES.items():
+        rows = list(paper[name].iter_rows(values_only=True))
+        cols = {h: dict(zip([r[0] for r in rows[1:]], [r[i] for r in rows[1:]])) for i, h in enumerate(rows[0])}
+        ours = {s: [next((b[key_map[quantity]] for b in runs[(gap, f)] if b["number"] == s), None) for f in FRONT_TIMES_us]
+                for s in (1, 2)}
+        sheet: dict[str, list] = {"time to crest [us]": list(FRONT_TIMES_us)}
+        for s in (1, 2):
+            measured = [cols[f"streamer {s} experimental [{unit}]"].get(f) for f in FRONT_TIMES_us]
+            e = nrmse(ours[s], measured)
+            sheet[f"streamer {s} (this work, RMS {e:.0f} %) [{unit}]"] = ours[s]
+        for s in (1, 2):
+            for kind, label in (("calculated", "calculated"), ("experimental", "measured")):
+                sheet[f"streamer {s}, paper {label} [{unit}]"] = [cols[f"streamer {s} {kind} [{unit}]"].get(f) for f in FRONT_TIMES_us]
+        sheets[name] = sheet
+        for s in (1, 2):
+            theirs = sheet[f"streamer {s}, paper measured [{unit}]"]
+            pairs = [(f, o, p) for f, o, p in zip(FRONT_TIMES_us, ours[s], theirs) if o is not None and p is not None]
+            diffs = [(o - p) / p * 100 for _, o, p in pairs]
+            change_ours = (pairs[-1][1] - pairs[0][1]) / pairs[0][1] * 100
+            change_paper = (pairs[-1][2] - pairs[0][2]) / pairs[0][2] * 100
+            comparison.append((name, gap, s, unit, nrmse(ours[s], theirs), diffs[int(np.argmax(np.abs(diffs)))],
+                               change_ours, change_paper, f"{pairs[0][0]}-{pairs[-1][0]}"))
+            values += [(name, s, f, unit, o, p, (o - p) / p * 100) for f, o, p in pairs]
+    sheets["Comparison"] = {
+        "figure": [c[0] for c in comparison], "gap [cm]": [c[1] for c in comparison], "streamer": [c[2] for c in comparison],
+        "unit": [c[3] for c in comparison], "NRMSE vs measured [%]": [c[4] for c in comparison],
+        "largest difference [%]": [c[5] for c in comparison], "change over the fronts, this work [%]": [c[6] for c in comparison],
+        "change over the fronts, paper [%]": [c[7] for c in comparison], "fronts compared [us]": [c[8] for c in comparison]}
+    sheets["Values"] = {
+        "figure": [v[0] for v in values], "streamer": [v[1] for v in values], "time to crest [us]": [v[2] for v in values],
+        "unit": [v[3] for v in values], "this work": [v[4] for v in values], "paper (measured)": [v[5] for v in values],
+        "difference [%]": [v[6] for v in values]}
+    all_bursts = [(g, f, b) for (g, f), bs in runs.items() for b in bs]
+    sheets["Bursts"] = {
+        "gap D [cm]": [x[0] for x in all_bursts], "time to crest [us]": [x[1] for x in all_bursts],
+        "impulse crest (Gallet) [kV]": [gallet_crest_kV(x[0]) for x in all_bursts],
+        "burst number k": [x[2]["number"] for x in all_bursts], "burst instant t_k [us]": [x[2]["t_us"] for x in all_bursts],
+        "inception voltage V(t_k) [kV]": [x[2]["V_kV"] for x in all_bursts],
+        "streamer length L_k [cm]": [x[2]["L_cm"] for x in all_bursts], "streamer charge Q_k [nC]": [x[2]["Q_nC"] for x in all_bursts],
+        "drift of cloud 1 at t_k [cm]": [x[2]["drift1_cm"] for x in all_bursts],
+        "low-field dip crossed [cm]": [x[2]["dip_cm"] for x in all_bursts]}
     parameters = [
-        # (name, value, unit)
-        ("INPUTS",                                  "",                                     ""),
-        ("Rod tip radius R",                        ROD_TIP_RADIUS_cm,                      "cm"),
-        ("Streamer field E_c",                      STREAMER_FIELD_kV_per_cm,               "kV/cm"),
-        ("Density exponent B",                      DENSITY_EXPONENT_B,                     "-"),
-        ("Density offset C",                        DENSITY_OFFSET_C_cm,                    "cm"),
-        ("Ion mobility mu+",                        ION_MOBILITY_cm2_per_kV_us,             "cm^2/(kV*us)"),
-        ("Calibration voltage (Fig. 3)",            CALIBRATION_VOLTAGE_kV,                 "kV"),
-        ("Calibration length (Fig. 3)",             CALIBRATION_LENGTH_cm,                  "cm"),
-        ("Calibration gap (Fig. 3)",                CALIBRATION_GAP_cm,                     "cm"),
-        ("Rod length of the calibration gap",       CALIBRATION_ROD_LENGTH_cm,              "cm"),
-        ("theta_B given (None = recovered)",        "None" if THETA_B_deg is None else THETA_B_deg, "deg"),
-        ("Gaps",                                    ", ".join(f"{g:g}" for g in GAPS_cm),   "cm"),
-        ("Times to crest",                          ", ".join(str(f) for f in FRONT_TIMES_us), "us"),
-        ("Time to half value (assumed)",            TIME_TO_HALF_VALUE_us,                  "us"),
-        ("Crest voltage rule",                      "Gallet U50 = 3400/(1+8/d), d in m",    "kV"),
-    ] + [
-        (f"Crest voltage for D = {g:g} cm",         gallet_crest_kV(g),                     "kV") for g in GAPS_cm
-    ] + [
-        (f"Rod length for D = {g:g} cm",            ROD_LENGTHS_cm[g],                      "cm") for g in GAPS_cm
-    ] + [
-        ("RESULTS",                                 "",                                     ""),
-        ("theta_B used",                            np.degrees(theta_B),                    "deg"),
-        ("Calibrated inception field E_inc",        E_inc / KV_PER_CM_TO_V_PER_M,           "kV/cm"),
-        ("Generated on",                            datetime.now().astimezone().strftime("%Y-%m-%d %H:%M"), ""),
-    ]
-    parameters_sheet = {
-        "Parameter": [name for name, _, _ in parameters],
-        "Value":     [value for _, value, _ in parameters],
-        "Unit":      [unit for _, _, unit in parameters],
-    }
-
-    save_to_excel(OUTPUT_FILE, {"Fig6 inception voltage": figure_sheet("V_kV", "V_inc", "kV"),
-                                "Fig7 streamer length":   figure_sheet("L_cm", "L", "cm"),
-                                "Fig8 streamer charge":   figure_sheet("Q_nC", "Q", "nC"),
-                                "Bursts":                 bursts_sheet,
-                                "Parameters":             parameters_sheet})
+        ("Rod tip radius R", ROD_TIP_RADIUS_cm, "cm"), ("Stability field E_c", STABILITY_FIELD_kV_per_cm, "kV/cm"),
+        ("Density exponent B (paper)", DENSITY_EXPONENT_B, "-"), ("Density offset C (paper)", DENSITY_OFFSET_C_cm, "cm"),
+        ("Cone angle theta_B", CONE_ANGLE_deg, "deg"), ("Ion mobility mu+", ION_MOBILITY_cm2_per_kV_us, "cm^2/(kV*us)"),
+        ("Charge of later bursts", "Gauss minus the older charge inside the cone" if SUBTRACT_ENCLOSED else "Gauss", ""),
+        ("Streamer length", "largest root of the head condition", ""),
+        ("Time lag: threshold field E_0", E0_kV_cm, "kV/cm"), ("Time lag: k_SI", k_SI, "SI"), ("Time lag: n", n, "-"),
+        ("Gaps", ", ".join(f"{g:g}" for g in GAPS_cm), "cm"), ("Times to crest", ", ".join(map(str, FRONT_TIMES_us)), "us"),
+        ("Time to half value (assumed)", TIME_TO_HALF_VALUE_us, "us"), ("Crest voltage rule", "Gallet U50 = 3400/(1+8/d), d in m", ""),
+        ("Generated on", datetime.now().astimezone().strftime("%Y-%m-%d %H:%M"), "")]
+    sheets["Parameters"] = {"Parameter": [p[0] for p in parameters], "Value": [p[1] for p in parameters],
+                            "Unit": [p[2] for p in parameters]}
+    save_to_excel(OUTPUT_FILE, sheets)
+    add_charts(OUTPUT_FILE, {name: (f[3], f[4]) for name, f in FIGURES.items()})
     print(f"Done. Saved to {OUTPUT_FILE}")
+
+
+def add_charts(path, titles):
+    """One chart per figure sheet: this work solid with circles, the paper's calculated curve dashed,
+    its experimental points as triangles; blue = first streamer, red = second; log time axis."""
+    workbook = load_workbook(path)
+    colours = {1: "1F4E79", 2: "C00000"}
+    for name, (title, y_label) in titles.items():
+        ws = cast(Worksheet, workbook[name])
+        n = ws.max_row
+        chart = ScatterChart()
+        chart.title = title
+        chart.x_axis.title = "Time to crest [us]"
+        chart.y_axis.title = y_label
+        chart.x_axis.axPos = "b"
+        chart.x_axis.scaling.logBase = 10
+        chart.x_axis.scaling.min, chart.x_axis.scaling.max = 10, 700
+        chart.y_axis.scaling.min = 0
+        chart.x_axis.delete = False
+        chart.y_axis.delete = False
+        chart.legend = Legend(legendPos="b")
+        chart.width, chart.height = 22, 13
+        headers = [cell.value for cell in ws[1]]
+        for column, header in enumerate(headers[1:], start=2):
+            number = 1 if "streamer 1" in str(header) else 2
+            series = SeriesFactory(values=Reference(ws, min_col=column, min_row=1, max_row=n),
+                                   xvalues=Reference(ws, min_col=1, min_row=2, max_row=n), title_from_data=True)
+            series.smooth = False
+            line = series.graphicalProperties.line
+            if "this work" in str(header):
+                series.marker.symbol = "circle"
+                series.marker.size = 5
+                line.solidFill = colours[number]
+                line.width = 19050
+            elif "calculated" in str(header):
+                series.marker.symbol = "none"
+                line.solidFill = colours[number]
+                line.width = 12700
+                line.dashStyle = "dash"
+            else:
+                series.marker.symbol = "triangle"
+                series.marker.size = 6
+                series.marker.graphicalProperties.solidFill = colours[number]
+                series.marker.graphicalProperties.line.solidFill = colours[number]
+                line.noFill = True
+            chart.series.append(series)
+        ws.add_chart(chart, "J2")
+    workbook.save(path)
 
 
 if __name__ == "__main__":

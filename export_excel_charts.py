@@ -51,6 +51,15 @@ FIGURE_HEIGHT = "8cm"
 
 # Greek translations of the chart texts (--lang el). Whole axis titles first, then legend phrases.
 GREEK = {
+    "Applied electric field [kV/cm]": "Εφαρμοζόμενο ηλεκτρικό πεδίο [kV/cm]",
+    "Total electric field [kV/cm]": "Συνολικό ηλεκτρικό πεδίο [kV/cm]",
+    "Electric field [kV/cm]": "Ηλεκτρικό πεδίο [kV/cm]",
+    "Distance z from the rod tip [cm]": "Απόσταση z από την κορυφή της ακίδας [cm]",
+    "Time to crest [us]": "Χρόνος μετώπου [us]",
+    "Inception voltage [kV]": "Τάση έναυσης [kV]",
+    "Streamer length [cm]": "Μήκος νηματίου [cm]",
+    "Streamer charge [nC]": "Φορτίο νηματίου [nC]",
+    ", paper measured": ", δημοσίευση: μέτρηση",
     "Applied Electric Field [kV/cm]": "Εφαρμοζόμενο ηλεκτρικό πεδίο [kV/cm]",
     "Total Electric Field [kV/cm]": "Συνολικό ηλεκτρικό πεδίο [kV/cm]",
     "Electric Field [kV/cm]": "Ηλεκτρικό πεδίο [kV/cm]",
@@ -59,17 +68,27 @@ GREEK = {
     "Distance from the rod tip (cm)": "Απόσταση από την κορυφή της ακίδας (cm)",
     "Distance from the rod-tip (z) in cm": "Απόσταση (z) από την κορυφή της ακίδας σε cm",
     "z [cm] from the rod tip": "z [cm] από την κορυφή της ακίδας",
-    " after 2nd-streamer criterion": " μετά το κριτήριο 2ου οχετού",
+    " after 2nd-streamer criterion": " μετά το κριτήριο 2ου νηματίου",
     " before drift": " πριν από την ολίσθηση",
     " after drift": " μετά την ολίσθηση",
     " inception": " έναυση",
     "Time to crest (us)": "Χρόνος μετώπου (us)",
     "Inception voltage (kV)": "Τάση έναυσης (kV)",
-    "Streamer length (cm)": "Μήκος οχετού (cm)",
-    "Streamer charge (nC)": "Φορτίο οχετού (nC)",
-    "first streamer": "πρώτος οχετός",
-    "second streamer": "δεύτερος οχετός",
+    "Streamer length (cm)": "Μήκος νηματίου (cm)",
+    "Streamer charge (nC)": "Φορτίο νηματίου (nC)",
+    "first streamer": "πρώτο νημάτιο",
+    "second streamer": "δεύτερο νημάτιο",
     "max ": "μέγιστο ",
+    "E_ex applied": "E_ex εφαρμοζόμενο",
+    " (this work)": " (αυτή η εργασία)",
+    ", paper calculated": ", δημοσίευση: υπολογισμός",
+    ", paper experimental": ", δημοσίευση: πείραμα",
+    "measured (paper)": "μέτρηση (δημοσίευση)",
+    " (paper)": " (δημοσίευση)",
+    " fit": " προσαρμογή",
+    "this work": "αυτή η εργασία",
+    "streamer 1": "νημάτιο 1",
+    "streamer 2": "νημάτιο 2",
 }
 
 NS = {
@@ -220,6 +239,8 @@ def read_chart(z, path, workbook, accents):
             node = scaling.find(f"c:{key}", NS)
             if node is not None:
                 limits[key] = float(attribute(node, "val"))
+        if scaling.find("c:logBase", NS) is not None:
+            limits["log"] = True
         info["axes"]["x" if pos in ("b", "t") else "y"] = {"label": rich_text(ax.find("c:title", NS)), **limits}
 
     for ser in chart.iter(f"{{{NS['c']}}}ser"):
@@ -240,6 +261,9 @@ def read_chart(z, path, workbook, accents):
         points = [(x, y) for x, y in zip(read_range(workbook, x_ref.text), read_range(workbook, y_ref.text))
                   if isinstance(x, (int, float)) and isinstance(y, (int, float))]
         colour, width, dash = line_style(ser, accents)
+        if colour is None:                         # markers-only series: take the marker's colour
+            fill = ser.find("c:marker/c:spPr/a:solidFill/a:srgbClr", NS)
+            colour = fill.get("val") if fill is not None else None
         marker = ser.find("c:marker/c:symbol", NS)
         info["series"].append({"name": str(name), "points": points, "colour": colour, "width": width,
                                "dash": dash, "marker": marker is not None and marker.get("val") != "none"})
@@ -262,14 +286,14 @@ def latex_text(text, legend=False):
     """Make a chart label safe for LaTeX and typeset field symbols such as E_sp or E_I,rod."""
     text = str(text)
     if legend:                                                  # the unit is already on the axis
-        stripped = re.sub(r"\s*\[kV/cm\]\s*$", "", text)
+        stripped = re.sub(r"\s*\[(kV/cm|kV|cm|nC|us)\]\s*$", "", text)
         text = stripped if not re.fullmatch(r"[0-9.]+", stripped) else stripped + " kV/cm"
     pieces = []
-    for token in re.split(r"(\bE_[A-Za-z0-9,]+|\bE[a-z]+,[a-z,]+\b|(?<![\u0370-\u03ff\u1f00-\u1fff])[Δμθ](?![\u0370-\u03ff\u1f00-\u1fff])|\bus\b)", text):
+    for token in re.split(r"(\b[EVQL]_[A-Za-z0-9,]+|\bE[a-z]+,[a-z,]+\b|(?<![\u0370-\u03ff\u1f00-\u1fff])[Δμθ](?![\u0370-\u03ff\u1f00-\u1fff])|\bus\b)", text):
         if not token:
             continue
-        if token.startswith("E_"):
-            pieces.append(r"$E_{\mathrm{" + token[2:].replace(",", ",\\,") + "}}$")
+        if re.fullmatch(r"[EVQL]_[A-Za-z0-9,]+", token):
+            pieces.append("$" + token[0] + r"_{\mathrm{" + token[2:].replace(",", ",\\,") + "}}$")
         elif re.fullmatch(r"E[a-z]+,[a-z,]+", token):             # e.g. Esp,wh  Ei,rod,wh
             pieces.append(r"$E_{\mathrm{" + token[1:].replace(",", ",\\,") + "}}$")
         elif token in ("Δ", "μ", "θ"):
@@ -299,6 +323,9 @@ def chart_to_tex(info, width, height, lang="en"):
         for key in ("min", "max"):
             if key in spec:
                 options.append(f"{axis}{key}={spec[key]:g}")
+        if spec.get("log"):
+            options.append(f"{axis}mode=log")
+            options.append(f"log ticks with fixed point, {axis}tick={{10,15,20,30,50,100,200,300,500,1000}}")
     if info["legend"] in ("b", None):
         n = len(info["series"])
         options.append(f"legend columns={2 if n > 3 else n}")
@@ -316,13 +343,15 @@ def chart_to_tex(info, width, height, lang="en"):
              r"\begin{document}", r"\begin{tikzpicture}", r"\begin{axis}[" + ",\n  ".join(options) + "]"]
     for i, s in enumerate(info["series"]):
         style = ["mark=*" if s["marker"] else "no markers", f"line width={max(s['width'] * 0.6, 0.4):.2f}pt"]
+        if s["width"] == 0:                        # markers only (line switched off in Excel)
+            style = ["only marks", "mark=triangle*", "line width=0.4pt"]
         if s["colour"]:
             lines.append(rf"\definecolor{{series{i}}}{{HTML}}{{{s['colour'].upper()}}}")
             style.append(f"color=series{i}")
         if s["dash"]:
             style.append(s["dash"])
         if s["marker"]:
-            style.append("mark size=1pt")
+            style.append("mark size=1pt" if s["width"] else "mark size=1.8pt")
         coordinates = " ".join(f"({px:.6g},{py:.6g})" for px, py in s["points"])
         lines.append(rf"\addplot[{', '.join(style)}] coordinates {{{coordinates}}};")
         lines.append(rf"\addlegendentry{{{latex_text(translate(s['name'], lang), legend=True)}}}")

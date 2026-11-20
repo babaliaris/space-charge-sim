@@ -1,0 +1,126 @@
+# Builds the GUI for Windows (installer + portable zip) and Linux (AppImage), checks every package with
+# its --selftest, and publishes them on the GitHub Releases page.
+#
+#   push a tag "v1.2.3"   -> build, test and publish release v1.2.3
+#   Actions tab -> "Run workflow" -> build and test only (packages kept as workflow artifacts)
+#
+# Optional Windows code signing: add the repository secrets WINDOWS_CERT_PFX (the .pfx certificate,
+# base64-encoded) and WINDOWS_CERT_PASSWORD. Without them the packages are built unsigned.
+name: Build and release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHON_VERSION: "3.12"
+  DEPENDENCIES: numpy scipy matplotlib pyqt5 mplcursors openpyxl pillow pyinstaller
+
+jobs:
+  linux:
+    runs-on: ubuntu-22.04          # older glibc: the AppImage then runs on older distributions too
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+      - name: Version from the tag
+        run: echo "VERSION=$( [[ "$GITHUB_REF_TYPE" == tag ]] && echo "${GITHUB_REF_NAME#v}" || echo "dev-${GITHUB_SHA::7}" )" >> "$GITHUB_ENV"
+      - name: Install the dependencies
+        run: python -m pip install --upgrade pip && pip install $DEPENDENCIES
+      - name: Stamp the version
+        run: sed -i "s/^__version__ = .*/__version__ = \"$VERSION\"/" app/__init__.py
+      - name: Build (PyInstaller)
+        run: pyinstaller packaging/space_charge.spec --noconfirm --distpath dist --workpath build/pyinstaller
+      - name: Self-test of the packaged program
+        run: dist/SpaceChargeSimulator/SpaceChargeSimulator --selftest
+      - name: AppImage
+        run: bash packaging/build_appimage.sh "$VERSION"
+      - name: Self-test of the AppImage
+        run: dist/SpaceChargeSimulator-$VERSION-x86_64.AppImage --appimage-extract-and-run --selftest
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux
+          path: dist/*.AppImage
+
+  windows:
+    runs-on: windows-latest
+    env:
+      HAS_CERT: ${{ secrets.WINDOWS_CERT_PFX != '' }}
+      WINDOWS_CERT_PFX: ${{ secrets.WINDOWS_CERT_PFX }}
+      WINDOWS_CERT_PASSWORD: ${{ secrets.WINDOWS_CERT_PASSWORD }}
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+      - name: Version from the tag
+        run: |
+          $v = if ($env:GITHUB_REF_TYPE -eq "tag") { $env:GITHUB_REF_NAME.TrimStart("v") } else { "dev-" + $env:GITHUB_SHA.Substring(0, 7) }
+          "VERSION=$v" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+      - name: Install the dependencies
+        run: |
+          python -m pip install --upgrade pip
+          $deps = $env:DEPENDENCIES -split " "
+          pip install @deps
+      - name: Stamp the version
+        run: (Get-Content app/__init__.py) -replace '^__version__ = .*', "__version__ = `"$env:VERSION`"" | Set-Content app/__init__.py
+      - name: Build (PyInstaller)
+        run: pyinstaller packaging/space_charge.spec --noconfirm --distpath dist --workpath build/pyinstaller
+      - name: Self-test of the packaged program
+        run: |
+          $p = Start-Process dist/SpaceChargeSimulator/SpaceChargeSimulator.exe -ArgumentList "--selftest" -Wait -PassThru
+          if ($p.ExitCode -ne 0) { throw "self-test failed (exit code $($p.ExitCode))" }
+      - name: Sign the executable
+        if: env.HAS_CERT == 'true'
+        run: pwsh packaging/sign.ps1 dist/SpaceChargeSimulator/SpaceChargeSimulator.exe
+      - name: Installer (Inno Setup)
+        run: |
+          if (-not (Get-Command iscc -ErrorAction SilentlyContinue)) {
+            $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+            if (-not (Test-Path $iscc)) { choco install innosetup -y --no-progress }
+            $env:Path += ";${env:ProgramFiles(x86)}\Inno Setup 6"
+          }
+          iscc /DMyAppVersion=$env:VERSION packaging/installer.iss
+      - name: Sign the installer
+        if: env.HAS_CERT == 'true'
+        run: pwsh packaging/sign.ps1 dist/SpaceChargeSimulator-$env:VERSION-windows-setup.exe
+      - name: Portable zip
+        run: Compress-Archive -Path dist/SpaceChargeSimulator -DestinationPath dist/SpaceChargeSimulator-$env:VERSION-windows-portable.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows
+          path: |
+            dist/*-windows-setup.exe
+            dist/*-windows-portable.zip
+
+  release:
+    if: github.ref_type == 'tag'
+    needs: [linux, windows]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: packages
+          merge-multiple: true
+      - name: Checksums
+        run: cd packages && sha256sum * > SHA256SUMS.txt && cat SHA256SUMS.txt
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: packages/*
+          generate_release_notes: true
+          body: |
+            **Windows:** download `…-windows-setup.exe` and run it (no administrator rights needed), or unzip the portable zip and run `SpaceChargeSimulator.exe`.
+            **Linux:** download the `.AppImage`, make it executable (`chmod +x`) and run it.
+            Check a download with `SHA256SUMS.txt`. Free software under the GNU GPL v3.0.

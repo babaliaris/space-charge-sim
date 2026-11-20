@@ -7,8 +7,11 @@ What this script does
 Figure 4 of the paper shows E_sp near the rod tip before and after the space
 charge has drifted towards the plane during the dark period.
 
-1. Builds the same space-charge cloud as Figure 3 (inputs below): solves the
-   cone angle theta_B so that the total field at the streamer tip equals E_c.
+1. Builds the cloud of the first streamer of the paper's Fig. 3 case (80 cm gap) with the
+   final model: the paper's B and C, the cone angle theta_B recovered from Fig. 3, the
+   inception voltage PREDICTED by the time-lag law for the paper's impulse (320 kV, 130 us;
+   read from the workbook of wh_time_lag_fit.py - run that first), the length from the head
+   condition and the charge from Gauss's law.
 2. Drifts the cloud as a RIGID BODY towards the plane (no new ionization, so its
    charge and shape stay the same), using the paper's Eq. (6):
        d z_drift / dt = b * [E_ex + E_I,rod + E_I,plane] at z_c
@@ -43,14 +46,19 @@ import warnings
 from datetime import datetime
 
 import numpy as np
+from openpyxl import load_workbook
 from scipy.integrate import IntegrationWarning
 
 from excel_export import save_to_excel
 from solver.applied_field import calculate_applied_field
+from solver.calibration import (
+    CalibrationProblem,
+    first_streamer_length,
+    gauss_amplitude,
+    gauss_charge,
+)
 from solver.drift import simulate_drift
 from solver.fields import calculate_e_plane_image, calculate_e_rod_image, calculate_e_sp
-from solver.theta_b import density_amplitude, solve_theta_b
-from solver.utilities import calculate_qcs_from_field
 
 # =============================================================================
 # 1. INPUTS  (engineering units - edit these)
@@ -61,13 +69,15 @@ ROD_TIP_RADIUS_cm        = 0.1     # R     : radius of the hemispherical rod tip
 GAP_LENGTH_cm            = 80.0    # D     : distance rod tip apex -> grounded plane
 ROD_LENGTH_cm            = 400.0   # L_rod : modelled rod length for the applied field (CSM);
                                    #         not given in the paper, assumed 5 * D
-APPLIED_VOLTAGE_kV       = 27.5    # V     : rod voltage
+TIME_LAG_FILE            = "output/wh_time_lag_fit.xlsx"   # predicted inception voltage (wh_time_lag_fit.py)
+PAPER_VOLTAGE_kV         = 27.5    # the paper's first-streamer inception voltage for this case (comparison only)
+PAPER_LENGTH_cm          = 2.7     # the paper's first-streamer length for this case (comparison only)
 
-# --- Streamer space charge (same as Figure 3) -------------------------------
-STREAMER_LENGTH_cm       = 2.7     # L_cs  : length of the space-charge cone
-STREAMER_FIELD_kV_per_cm = 5.0     # E_c   : average field in the streamer region
-DENSITY_EXPONENT_B       = 1.5     # B     : charge density rho(r) = A / (r + C)^B
-DENSITY_OFFSET_C_cm      = 0.035   # C     : (r is the distance from the cone apex)
+# --- Charge model (final model) -------------------------------------------------
+STABILITY_FIELD_kV_per_cm = 5.0    # E_c
+DENSITY_EXPONENT_B       = 1.5     # B  } the paper's "usual" values
+DENSITY_OFFSET_C_cm      = 0.035   # C  }
+CONE_ANGLE_deg           = 93.39   # theta_B: from the paper's Fig. 3 streamer (wh_fig3_reproduction.py)
 
 # --- Drift during the dark period --------------------------------------------
 # Set ONE of these two and leave the other as None.
@@ -79,10 +89,6 @@ ION_MOBILITY_cm2_per_kV_us = 1.36e-3   # b : positive ion mobility (value given 
 Z_MAX_cm                 = 1.0     # Figure 4 shows 0 to 0.8 cm
 NUMBER_OF_POINTS         = 300     # points after z = 0 (z = 0 and z = z_drift are always added)
 FIRST_POINT_cm           = 0.001   # geometric spacing from here: dense near the tip
-
-# --- Search range for theta_B (the answer must lie inside it) ----------------
-THETA_B_MIN_deg          = 5.0
-THETA_B_MAX_deg          = 175.0
 
 # --- Output file -------------------------------------------------------------
 OUTPUT_FILE              = "output/wh_fig4_reproduction.xlsx"
@@ -97,6 +103,16 @@ MOBILITY_TO_SI       = 1e-1       # 1 cm^2/(kV*us) = 1e-4 m^2 / (1e3 V * 1e-6 s)
 M_PER_S_TO_CM_PER_US = 1e-4       # 1 m/s     = 1e-4 cm/us
 
 
+def read_predicted_voltage(path):
+    """First-streamer inception voltage [kV] predicted by the time-lag law for the paper's Fig. 3 impulse."""
+    try:
+        sheet = load_workbook(path, data_only=True)["Parameters"]
+    except FileNotFoundError:
+        raise SystemExit(f"{path} not found: run wh_time_lag_fit.py first.") from None
+    values = {row[0]: row[1] for row in sheet.iter_rows(min_row=2, values_only=True)}
+    return float(str(values["Predicted first-streamer inception voltage"]))
+
+
 def main():
     # Very close to the cone apex the observation point touches the start of the
     # charge, so scipy cannot always reach its (very strict) 1e-8 tolerance and
@@ -109,14 +125,21 @@ def main():
     # =========================================================================
     # 2. Convert the inputs to SI units for the solver
     # =========================================================================
+    V_kV = read_predicted_voltage(TIME_LAG_FILE)
+    B, C_cm, theta_B_deg, E_c_kV_cm = DENSITY_EXPONENT_B, DENSITY_OFFSET_C_cm, CONE_ANGLE_deg, STABILITY_FIELD_kV_per_cm
     R    = ROD_TIP_RADIUS_cm   * CM_TO_M
     D    = GAP_LENGTH_cm       * CM_TO_M
     L_rod = ROD_LENGTH_cm      * CM_TO_M
-    V    = APPLIED_VOLTAGE_kV  * KV_TO_V
-    L_cs = STREAMER_LENGTH_cm  * CM_TO_M
-    E_c  = STREAMER_FIELD_kV_per_cm * KV_PER_CM_TO_V_PER_M
-    B    = DENSITY_EXPONENT_B
-    C    = DENSITY_OFFSET_C_cm * CM_TO_M
+    V    = V_kV * KV_TO_V
+    C    = C_cm * CM_TO_M
+    theta_B = np.radians(theta_B_deg)
+    E_c  = E_c_kV_cm * KV_PER_CM_TO_V_PER_M
+    L_found = first_streamer_length(CalibrationProblem(R=R, D=D, V_inc=V, theta_B=theta_B, E_c=E_c, rod_length=L_rod), B, C)
+    if L_found is None:
+        raise SystemExit("No first-streamer length found (head condition).")
+    L_cs = L_found
+    L1_cm = L_cs / CM_TO_M
+    A = gauss_amplitude(E_c, L_cs, theta_B, B, C)
     mobility = ION_MOBILITY_cm2_per_kV_us * MOBILITY_TO_SI
     drift_distance = None if DRIFT_DISTANCE_cm is None else DRIFT_DISTANCE_cm * CM_TO_M
     drift_time     = None if DRIFT_TIME_us is None else DRIFT_TIME_us * US_TO_S
@@ -124,13 +147,9 @@ def main():
     # =========================================================================
     # 3. Build the space-charge cloud of Figure 3 (solve theta_B)
     # =========================================================================
-    print("Step 1/4: solving for theta_B (cloud of Figure 3) ...")
-    theta_B = solve_theta_b(R, D, V, L_cs, E_c, B, C,
-                            theta_min=np.radians(THETA_B_MIN_deg),
-                            theta_max=np.radians(THETA_B_MAX_deg), rod_length=L_rod)
-    Q_cs = calculate_qcs_from_field(E_c, L_cs_m=L_cs, theta_B_rad=theta_B)
-    A = density_amplitude(E_c, L_cs, theta_B, B, C)
-    print(f"          theta_B = {np.degrees(theta_B):.3f} deg, Q_cs = {Q_cs * 1e9:.2f} nC")
+    print("Step 1/4: the first-streamer cloud (final model) ...")
+    Q_cs = gauss_charge(E_c, L_cs, theta_B)
+    print(f"          theta_B = {theta_B_deg:.1f} deg, L_1 = {L1_cm:.3f} cm, Q_cs = {Q_cs * 1e9:.2f} nC")
 
     # =========================================================================
     # 4. Drift the cloud as a rigid body (paper's Eq. 6)
@@ -198,20 +217,23 @@ def main():
         ("Rod tip radius R",                          ROD_TIP_RADIUS_cm,                    "cm"),
         ("Gap length D (tip apex to plane)",          GAP_LENGTH_cm,                        "cm"),
         ("Rod length L_rod (applied field, CSM)",     ROD_LENGTH_cm,                        "cm"),
-        ("Applied voltage V",                         APPLIED_VOLTAGE_kV,                   "kV"),
-        ("Streamer length L_cs",                      STREAMER_LENGTH_cm,                   "cm"),
-        ("Streamer field E_c",                        STREAMER_FIELD_kV_per_cm,             "kV/cm"),
-        ("Density exponent B",                        DENSITY_EXPONENT_B,                   "-"),
-        ("Density offset C",                          DENSITY_OFFSET_C_cm,                  "cm"),
+        ("Stability field E_c",                       E_c_kV_cm,                            "kV/cm"),
+        ("Cone angle theta_B",                        theta_B_deg,                          "deg"),
+        ("Density exponent B (paper)",                B,                                    "-"),
+        ("Density offset C (paper)",                  C_cm,                                 "cm"),
+        ("THIS WORK vs PAPER",                        "",                                   ""),
+        ("Inception voltage, this work (time-lag law)", V_kV,                               "kV"),
+        ("Inception voltage, paper",                  PAPER_VOLTAGE_kV,                     "kV"),
+        ("First-streamer length, this work (head condition)", L1_cm,                        "cm"),
+        ("First-streamer length, paper",              PAPER_LENGTH_cm,                      "cm"),
+        ("Density amplitude A (Gauss)",               A,                                    "C*m^(B-3)"),
         ("Ion mobility b",                            ION_MOBILITY_cm2_per_kV_us,           "cm^2/(kV*us)"),
         ("Drift distance requested",                  DRIFT_DISTANCE_cm if DRIFT_DISTANCE_cm is not None else "-", "cm"),
         ("Drift time requested",                      DRIFT_TIME_us if DRIFT_TIME_us is not None else "-", "us"),
         ("z range (from tip apex)",                   f"0 to {Z_MAX_cm:g}",                 "cm"),
         ("Number of z points",                        len(z_cm),                            "-"),
         ("RESULTS",                                   "",                                   ""),
-        ("Solved theta_B",                            np.degrees(theta_B),                  "deg"),
         ("Total streamer charge Q_cs (unchanged)",    Q_cs * 1e9,                           "nC"),
-        ("Density amplitude A (SI)",                  A,                                    "C*m^(B-3)"),
         ("Drift distance z_drift",                    z_drift / CM_TO_M,                    "cm"),
         ("Drift time",                                drift["time"] / US_TO_S,              "us"),
         ("E_sp zero point before drift z_c0",         drift["z_c0"] / CM_TO_M,              "cm"),

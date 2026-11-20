@@ -1,0 +1,30 @@
+\documentclass[border=3pt]{standalone}
+\usepackage{fontspec}\setmainfont{CMU Serif}\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{patterns,arrows.meta,calc}
+\definecolor{ink}{HTML}{1B1F3B}\definecolor{acc}{HTML}{4B3FA8}\definecolor{org}{HTML}{E08A1E}\definecolor{red}{HTML}{C0392B}
+\begin{document}
+\normalsize
+\begin{tikzpicture}[>={Stealth[length=2.4mm]}]
+\filldraw[fill=gray!12, draw=ink, line width=0.7pt] (-7.6,3) -- (-3,3) arc[start angle=90, end angle=-90, radius=3] -- (-7.6,-3);
+\node[ink, anchor=west] at (-7.5,3.35) {ακίδα (ακίνητη)};
+\draw[->, ink!70] (-8,0) -- (7.0,0) node[right] {$z$};
+\fill[ink] (-3,0) circle (1.8pt) node[below=2pt] {$C$};
+\fill[ink] (0,0) circle (1.6pt) node[below right=-1pt] {$O$};
+\draw[ink!55, dashed] (-3,0) -- (1.028,1.226) node[pos=0.93, above left=-2pt] {$r_{2}(0)$};
+\draw[acc, line width=0.8pt] (-3,0) -- (2.628,1.226) node[pos=0.86, below right=-1pt] {$r_{2}(t)$};
+\fill[ink!50] (1.028,1.226) circle (2.6pt) node[above=3pt, ink!70] {$P_{dq}(0)$};
+\fill[acc] (2.628,1.226) circle (2.6pt) node[above right=1pt] {$P_{dq}(t)$};
+\draw[->, org, line width=1.1pt] ($ (1.028,1.226) + (0.15,0.75) $) -- ($ (2.628,1.226) + (-0.15,0.75) $) node[midway, above] {$z_{d}(t)$};
+\fill[white] (-0.955,0.622) circle (2.6pt); \draw[ink!60, dashed, line width=0.7pt] (-0.955,0.622) circle (2.6pt);
+\draw[ink!50] (-0.955,0.622) -- (-1.75,1.7); \node[ink!70, above, font=\small] at (-1.75,1.7) {$-\tfrac{R}{r_{2}(0)}dq$};
+\fill[red] (-1.473,0.332) circle (2.6pt);
+\draw[red!60] (-1.473,0.332) -- (-2.0,-1.25); \node[red, below, font=\small] at (-2.0,-1.25) {$-\tfrac{R}{r_{2}(t)}dq$};
+\draw[->, red, line width=0.9pt] ($ (-0.955,0.622) + (-0.12,-0.12) $) to[bend left=20] ($ (-1.473,0.332) + (0.12,0.08) $);
+\node[red, align=center, text width=4.2cm, font=\small] at (-5.6,1.5) {το είδωλο πλησιάζει το $C$ και εξασθενεί};
+\draw[red, densely dotted, line width=0.8pt] (-1.473,0.332) -- (6.0,0) node[pos=0.72, below=1pt] {$r_{4}(t)$};
+\fill[ink] (6.0,0) circle (1.8pt) node[below=2pt] {$z$};
+\node[ink, font=\small] at (-4.6,-0.55) {$r_{3}=R^{2}/r_{2}$};
+\node[ink!70, font=\small, anchor=west] at (-7.5,-3.45) {(όχι υπό κλίμακα: η ακτίνα της απόληξης είναι μεγεθυμένη)};
+\end{tikzpicture}
+\end{document}

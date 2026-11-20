@@ -6,3 +6,8 @@ mikropoulos_zoom.txt
 
 # Generated data (xlsx/csv produced by the scripts)
 output/
+
+# Packaging (PyInstaller / AppImage / installer output)
+build/
+dist/
+*.AppImage

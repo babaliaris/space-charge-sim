@@ -1,0 +1,25 @@
+\documentclass[border=3pt]{standalone}
+\usepackage{fontspec}\setmainfont{CMU Serif}\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta}
+\definecolor{ink}{HTML}{1B1F3B}\definecolor{acc}{HTML}{4B3FA8}\definecolor{org}{HTML}{E08A1E}\definecolor{teal}{HTML}{2A8C82}
+\begin{document}
+\small
+\begin{tikzpicture}[>={Stealth[length=2.2mm]},
+ box/.style={draw=ink, rounded corners=2pt, align=center, inner sep=4pt, fill=white, line width=0.5pt},
+ ev/.style={box, draw=org, line width=0.7pt}, arr/.style={->, draw=ink, line width=0.6pt}]
+
+\node[box, text width=31mm] (L) {δοκιμαστικό μήκος $L$\\(από κοντά στην απόληξη)};
+\node[box, text width=66mm, right=7mm of L] (Q) {{\color{acc}\bfseries φορτίο: Gauss\\μείον το παλαιό φορτίο μέσα}\\ \mbox{$Q_k(L)=\pi\epsilon_0E_cL^2\tan^2\tfrac{\theta_B}{2}-\sum_{j<k}Q_j^{in}(L,t_k)$}};
+\node[box, text width=60mm, below=6mm of Q] (A) {{\color{acc}\bfseries συντελεστής\\κανονικοποίησης}\\ \mbox{$A_k(L)=\dfrac{Q_k(L)}{2\pi\left[1-\cos\frac{\theta_B}{2}\right]\int_0^{L}\frac{r^2}{(r+C)^B}dr}$}};
+\node[box, text width=86mm, below=6mm of A] (F) {{\color{acc}\bfseries συνθήκη κεφαλής}\\ \mbox{$F_k(L)=V(t_k)\,e_{ex}(L)+A_k(L)\,g_k(L)+H_k(L,t_k)-E_c$}};
+\node[ev, text width=52mm, below=6mm of F] (R) {τελευταία αλλαγή προσήμου του $F_k$\\$\Rightarrow$ εύρεση ρίζας\\ \mbox{$L_k$: μεγαλύτερη ρίζα της $F_k(L)=0$}};
+\node[box, draw=teal, line width=0.7pt, text width=72mm, below=6mm of R] (O) {{\color{teal}\bfseries ορισμός του νέου νέφους}\\ $Q_k=Q_k(L_k)$,\quad $A_k=A_k(L_k)$,\quad $z_{c,k,0}$};
+\draw[arr] (L) -- (Q);
+\draw[arr] (Q) -- (A);
+\draw[arr] (A) -- (F);
+\draw[arr] (F) -- (R);
+\draw[arr] (R) -- (O);
+\draw[arr, draw=org] (F.west) -| node[pos=0.75, left, text=org, align=right, font=\small] {επόμενο $L$ (σάρωση προς τα έξω)} (L.south);
+\end{tikzpicture}
+\end{document}

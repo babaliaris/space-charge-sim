@@ -1,0 +1,52 @@
+\documentclass[border=3pt]{standalone}
+\usepackage[T1]{fontenc}\usepackage{lmodern}\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{patterns,decorations.pathreplacing,calc}
+\definecolor{ink}{HTML}{1B1F3B}\definecolor{acc}{HTML}{4B3FA8}\definecolor{org}{HTML}{E08A1E}
+\begin{document}
+\normalsize
+\begin{tikzpicture}[newc/.style={fill=acc!8}, ovl/.style={fill=org!45}]
+\filldraw[fill=gray!25, draw=ink] (-2.2,0.35) -- (-0.35,0.35) arc[start angle=90, end angle=-90, radius=0.35] -- (-2.2,-0.35) -- cycle;
+\fill[newc] (0,0) -- ++(46.7:6.0) arc[start angle=46.7, end angle=-46.7, radius=6.0] -- cycle;
+\draw[ink, line width=0.6pt] (0,0) -- ++(46.7:6.0) arc[start angle=46.7, end angle=-46.7, radius=6.0] -- cycle;
+\fill[pattern=north east lines, pattern color=org] (1.5,0) -- ++(46.7:5.5) arc[start angle=46.7, end angle=-46.7, radius=5.5] -- cycle;
+\begin{scope}\clip (0,0) circle (6.0);
+\fill[ovl] (1.5,0) -- ++(46.7:5.5) arc[start angle=46.7, end angle=-46.7, radius=5.5] -- cycle;
+\end{scope}
+\draw[org, line width=0.8pt] (1.5,0) -- ++(46.7:5.5) arc[start angle=46.7, end angle=-46.7, radius=5.5] -- cycle;
+\draw[->, ink!70] (-2.4,0) -- (7.6,0) node[right] {$z$};
+\fill[ink] (0,0) circle (1.6pt) node[below left=-1pt] {$O$};
+\fill[org] (1.5,0) circle (1.6pt) node[above left=-1pt] {$O'$};
+\draw[acc, line width=1.1pt] (1.5,0) -- (5.6753,1.9470) node[pos=0.62, below right=-1pt] {$r_{in}(\theta)$};
+\draw[acc, line width=1.1pt, dashed] (5.6753,1.9470) -- (6.4847,2.3244);
+\fill[acc] (5.6753,1.9470) circle (1.8pt) node[above right=-1pt] {$P$};
+\draw[ink, densely dotted, line width=0.7pt] (0,0) -- (5.6753,1.9470) node[pos=0.3, above=1pt] {$L_k$};
+\draw[decorate, decoration={brace, amplitude=4pt, mirror}, ink] (0,-0.28) -- (1.5,-0.28) node[midway, below=4pt] {$z_{d,j}$};
+\draw[acc] (2.3,0) arc[start angle=0, end angle=25.0, radius=0.8] node[pos=0.5, right=1pt] {$\theta$};
+\node[acc, align=left, font=\normalsize, anchor=west] at (6.585,2.674) {outside the new cloud:\\not subtracted};
+\draw[org] (1.5,0) -- ++(-46.7:5.5) node[pos=0.93, below left=-2pt] {$L_j$};
+\node[ink, font=\normalsize, anchor=west] at (-46.7:6.15) {head of the new cloud ($|OP|=L_k$)};
+\draw[ink] (0.9,0) arc[start angle=0, end angle=46.7, radius=0.9]; \node[ink, font=\small] at (58.7:1.35) {$\theta_B/2$};
+\node[ink, font=\small] at (38.7:4.8) {new cloud $k$};
+\node[org, font=\normalsize, fill=white, inner sep=1pt] at (4.91,-0.55) {older cloud $j$};
+\node[ink, font=\normalsize, fill=white, inner sep=1pt] at (3.81,0.45) {$Q_j^{in}$};
+\node[ink, font=\normalsize, anchor=west] at (-2.4,-4.966636545943262) {(a) $r_{in}(\theta)$ ends on the head of the new cloud};
+\begin{scope}[shift={(12.6,0)}, scale=0.62, every node/.append style={transform shape=false}]
+\filldraw[fill=gray!25, draw=ink] (-2.2,0.35) -- (-0.35,0.35) arc[start angle=90, end angle=-90, radius=0.35] -- (-2.2,-0.35) -- cycle;
+\fill[newc] (0,0) -- ++(46.7:6.0) arc[start angle=46.7, end angle=-46.7, radius=6.0] -- cycle;
+\draw[ink, line width=0.6pt] (0,0) -- ++(46.7:6.0) arc[start angle=46.7, end angle=-46.7, radius=6.0] -- cycle;
+\fill[pattern=north east lines, pattern color=org] (0.8,0) -- ++(46.7:3.0) arc[start angle=46.7, end angle=-46.7, radius=3.0] -- cycle;
+\begin{scope}\clip (0,0) circle (6.0);
+\fill[ovl] (0.8,0) -- ++(46.7:3.0) arc[start angle=46.7, end angle=-46.7, radius=3.0] -- cycle;
+\end{scope}
+\draw[org, line width=0.8pt] (0.8,0) -- ++(46.7:3.0) arc[start angle=46.7, end angle=-46.7, radius=3.0] -- cycle;
+\draw[->, ink!70] (-2.4,0) -- (6.6,0) node[right] {$z$};
+\fill[ink] (0,0) circle (1.6pt) node[below left=-1pt] {$O$};
+\fill[org] (0.8,0) circle (1.6pt) node[above=1pt] {$O'$};
+\node[ink, font=\small] at (38.7:4.8) {new cloud $k$};
+\node[org, font=\normalsize, fill=white, inner sep=1pt] at (2.0,-2.75) {older cloud $j$};
+\node[ink, font=\normalsize, fill=white, inner sep=1pt] at (2.1,0.75) {$Q_j^{in}$};
+\node[ink, font=\normalsize, anchor=west] at (-2.4,-4.966636545943262) {(b) older cloud entirely inside: $r_{in}=L_j$, $Q_j^{in}=Q_j$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

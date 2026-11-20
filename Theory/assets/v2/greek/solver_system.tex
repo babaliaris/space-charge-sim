@@ -17,13 +17,12 @@
 \node[box, align=left, text width=41mm] (in) {%
   {\bfseries\color{acc}Είσοδοι}\\[2pt]
   γεωμετρία: $R$, $d$, $L_{rod}$\\
-  μοντέλο φορτίου: $\theta_B$, $B$, $C$, $E_c$\\
-  έναυση: $E_{inc}=V_{inc}\,e_{ex}(0)$\\
-  ιόντα: $\mu^{+}$\\
+  κώνος και πεδίο: $\theta_B$, $E_c$\\
+  σταθερές σχήματος: $B$, $C$\\
+  έναυση: $V_0$, $k$, $n$\\
+  ευκινησία ιόντων: $\mu^{+}$\\
   κρουστική: $V_p$, $T_{cr}$, $T_h$\\
   εκτέλεση: $t_{end}$, $k_{max}$};
-\node[box, dashed, draw=acc, text width=41mm, below=7mm of in] (cal) {μόνο αν η $\theta_B$ δεν είναι γνωστή (Σχ.\ 3):\\ επίλυση της $E_{total}(L_{cs})=E_c$\\ ως προς $\theta_B$, μία φορά, από\\ γνωστό πρώτο οχετό ($V_{inc}$, $L_{cs}$)};
-\draw[arr, dashed, draw=acc] (cal.north) -- node[right, text=acc]{$\theta_B$} (in.south);
 
 % loop: drift first (position reference)
 \node[box, fill=pale, text width=60mm, right=48mm of in.north east, anchor=north west] (drift) {%
@@ -32,21 +31,24 @@
 
 % precompute: E_ex level with drift, CSM and waveform below it
 \node[box, fill=pale, text width=29mm, left=9mm of drift] (eex) {$E_{ex}(z,t)=$\\ $V(t)\,e_{ex}(z)$};
-\node[box, text width=29mm, below=5mm of eex] (wav) {προσαρμογή κυματομορφής\\ $\alpha,\beta,k \Rightarrow V(t)$};
-\node[box, text width=29mm, below=5mm of wav] (csm) {ΜΠΦ, μία φορά για $V=1$\\ $\Rightarrow e_{ex}(z)$};
+\node[box, text width=29mm, below=5mm of eex] (wav) {προσαρμογή κυματομορφής (Παρ.~Βʹ)\\ $\alpha,\beta,k \Rightarrow V(t)$};
+\node[box, text width=29mm, below=5mm of wav] (csm) {ΜΠΦ (Παρ.~Αʹ), μία φορά για $V=1$\\ $\Rightarrow e_{ex}(z)$};
 \draw[arr] (csm) -- (wav); \draw[arr] (wav) -- (eex);
+\node[box, text width=29mm, below=5mm of csm] (lag) {χρονική υστέρηση\\ (Παρ.~Γʹ), μία φορά:\\ $E_0=V_0\,e_{ex}(0)$\\ $k_{lag}=k\,e_{ex}(0)^{1-n}$};
+\draw[arr] (csm) -- (lag);
 \coordinate (bus) at ($(in.east)+(3mm,0)$);
 \draw[draw=ink, line width=0.6pt] (in.east) -- (bus);
 \draw[arr] (bus) |- (wav.west);
 \draw[arr] (bus) |- (csm.west);
+\draw[arr] (bus) |- (lag.west);
 \draw[arr] (eex.east) -- ($(drift.west)+(0,0)$);
 
 \node[ev, text width=19mm, below=7mm of drift.south west, anchor=north west] (ab) {{\bfseries\color{org}απορρόφηση}\\ $z_{d,k}\ge d$};
-\node[ev, text width=25mm, right=2mm of ab.north east, anchor=north west] (bu) {{\bfseries\color{org}ριπή}\\ $E_{total}(0,t)=E_{inc}$};
+\node[ev, text width=37mm, right=2mm of ab.north east, anchor=north west] (bu) {{\bfseries\color{org}παλμός}\\ \mbox{$E_{tip}=E_0$ στο $t^{*}_k$· ρυθμός $\dot{E}_{tip}$}\\ \mbox{με προς τα πίσω διαφορά·}\\ παλμός όταν\\ \mbox{$E_{tip}=E_0+k_{lag}\,\dot{E}^{\,n}_{tip}(t^{*}_k)$}};
 \node[ev, text width=15mm, right=2mm of bu.north east, anchor=north west] (st) {{\bfseries\color{org}τέλος}\\ $t=t_{end}$ ή\\ $K=k_{max}$};
 \node[box, draw=red, text width=19mm, below=5mm of ab] (rm) {αφαίρεση νέφους $k$, $n-1$};
 \node[box, draw=teal, line width=0.7pt, text width=40mm, below=5mm of bu.south west, anchor=north west] (nc) {%
-  {\bfseries\color{teal}νέο νέφος $k=K+1$}\\[1pt] 1.\ $L_k$: μεγαλύτερη ρίζα της\\ $E_{head}(L)=E_c$\\ 2.\ $Q_k$ (Gauss), $A_k$, $z_{c,k,0}$\\ 3.\ προσθήκη στο $\mathbf{y}$: $n+1$, $K+1$};
+  {\bfseries\color{teal}νέο νέφος $k=K+1$}\\[1pt] 1.\ $L_k$: μεγαλύτερη ρίζα της\\ $E_{head}(L)=E_c$\\ 2.\ $Q_k$: Gauss $-$ παλαιό φορτίο\\ μέσα στον κώνο· $A_k$, $z_{c,k,0}$\\ 3.\ προσθήκη στο $\mathbf{y}$: $n+1$, $K+1$};
 \draw[arr] (drift.south -| bu) -- (bu.north);
 \draw[arr] (drift.south -| ab) -- (ab.north);
 \draw[arr] (drift.south -| st) -- (st.north);
@@ -59,12 +61,13 @@
 \draw[arr, draw=teal] (nc.south) -- ++(0,-2.5mm) -| (fbo) |- ($(drift.west)+(0,-4mm)$);
 \coordinate (lowpt) at ($(nc.south)+(0,-2.5mm)$);
 \begin{scope}[on background layer]
-\node[draw=acc, rounded corners=4pt, line width=0.8pt, fill=acc!3, inner sep=2.5mm, fit=(drift)(bu)(ab)(st)(nc)(rm)(fbo)(lowpt), label={[ttl, anchor=south west, align=left]north west:{βρόχος γεγονότων\\ {\normalfont κατάσταση $\mathbf{y}=[z_{d,k}]$: $n$ ζωντανά νέφη· $K$ ριπές έως τώρα ($n\le K$)}}}] (loop) {};
+\node[draw=acc, rounded corners=4pt, line width=0.8pt, fill=acc!3, inner sep=2.5mm, fit=(drift)(bu)(ab)(st)(nc)(rm)(fbo)(lowpt), label={[ttl, anchor=south west, align=left]north west:{βρόχος γεγονότων\\ {\normalfont κατάσταση $\mathbf{y}=[z_{d,k}]$: $n$ ζωντανά νέφη· $K$ παλμοί έως τώρα ($n\le K$)}}}] (loop) {};
 \end{scope}
+\draw[arr] (lag.east) -- (lag.east -| loop.west);
 
 % outputs (below the loop, right-aligned)
 \node[box, align=left, text width=50mm, below=4mm of loop.south east, anchor=north east] (out) {%
-  {\bfseries\color{acc}Έξοδοι}\\[2pt] ριπές: $t_k$, $V(t_k)$, $L_k$, $Q_k$\\ ολίσθηση $z_{d,k}(t)$\\ πεδία $E_{total}(z,t)$};
+  {\bfseries\color{acc}Έξοδοι}\\[2pt] παλμοί: $t_k$, $V(t_k)$, $L_k$, $Q_k$\\ ολίσθηση $z_{d,k}(t)$\\ πεδία $E_{total}(z,t)$};
 \draw[arr] (st.east) -| ($(loop.east)+(4mm,0)$) |- (out.east);
 \end{tikzpicture}
 \end{document}
