@@ -154,6 +154,24 @@ I would like to warmly thank my supervisor, Professor Pantelis Mikropoulos, for 
 \end_layout
 
 \begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+\backslash
+addsec{Statement on the Use of AI Tools}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The mathematical analysis of the model, the assumptions, the interpretation of the results and the conclusions of this thesis are entirely the author's. The AI model Claude by Anthropic, through the Claude Code tool, was used mainly for developing the simulation code and the graphical interface of the software, and as an assistant in editing the text, the Greek translation and the figures. All content was checked by the author, who takes full responsibility for the thesis.
+\end_layout
+
+\begin_layout Standard
 \begin_inset Newpage pagebreak
 \end_inset
 
