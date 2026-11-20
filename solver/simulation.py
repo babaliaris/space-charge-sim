@@ -28,6 +28,8 @@ Q_k = A_k 2 pi (1 - cos(theta_B/2)) int_0^L_k r^2 / (r + C)^B dr.
        happens when the tip field reaches E_inc + k (dE_tip/dt)^n (GapModel.overvoltage_k,
        overvoltage_n; SI units, field rate in V/(m s)).
    Without either the burst happens at t*. During the lag the clouds keep drifting.
+   If a burst leaves the tip field above E_inc (it does not pull it back below the threshold),
+   the threshold counts as reached at once, at the burst instant, and the next lag starts there.
 
    where e_ex is the applied field per volt and E_j = E_sp + E_I,rod + E_I,plane
    of cloud j. E_inc is the tip field at the first-streamer inception of the
@@ -56,7 +58,11 @@ Q_k = A_k 2 pi (1 - cos(theta_B/2)) int_0^L_k r^2 / (r + C)^B dr.
    (the field integrals stop at the plane). When its apex reaches the plane the
    cloud has been absorbed completely and is dropped.
 
-5. End. The simulation runs until t_end (or until max_bursts bursts happened).
+5. End. The simulation runs until t_end (or until max_bursts bursts happened). It also stops when the
+   older clouds already hold all the Gauss charge of a new cone (with subtract_enclosed): the new
+   cloud would get no charge, the tip field would stay above the threshold and bursts would repeat
+   at the same instant without end; the successive-burst model no longer applies there
+   (SimulationResult.stop_reason says why the run ended).
 
 Inputs and outputs: theta_B, E_inc and the calibrated B, C are INPUTS of the model
 (GapModel); every length L_k, charge Q_k and amplitude A_k, also of the first
@@ -210,6 +216,7 @@ class SimulationResult:
     voltage: Callable[[float], float]  # V(t) [V]
     clouds: list = field(default_factory=list)
     t_end: float = 0.0
+    stop_reason: str = "end time reached"   # or "burst limit reached", or the model limit (see simulate)
     _segments: list = field(default_factory=list)   # (t0, t1, solution, cloud numbers)
 
     def z_drift(self, cloud, t):
@@ -325,62 +332,94 @@ def simulate(model, voltage, t_end, max_bursts=None, t_start=0.0, max_step=None,
                 return y[i] - m.D
             return terminal_event(event)
 
-        # while a burst waits for its time lag, only absorption can interrupt the drift
-        events = ([terminal_event(tip_minus_E_inc)] if pending is None else []) + [apex_at_plane(i) for i in range(len(live))]
-        n_tip = 1 if pending is None else 0
-        t_target = t_end if pending is None else min(pending, t_end)
-        y0 = [drifts[n] for n in numbers] if live else [0.0]
-        if t_target <= t_now:
-            t_target = t_now + 1e-15
-        t_seg0 = t_now
-        solution = solve_ivp(drift_velocity, (t_now, t_target), y0, events=events or None, dense_output=True,
-                             rtol=1e-6, atol=1e-12, max_step=max_step)
-        if not solution.success:
-            raise RuntimeError(f"Drift integration failed: {solution.message}")
-        t_stop = float(solution.t[-1])
-        if live:
-            result._segments.append((t_now, t_stop, solution, numbers))
-            for i, n in enumerate(numbers):
-                drifts[n] = float(solution.y[i, -1])
-        t_now = t_stop
-
-        t_events = solution.t_events if solution.t_events is not None else []
-        absorbed = [i for i in range(len(live)) if len(t_events[n_tip + i]) > 0]
-        for i in absorbed:
-            live[i].t_absorbed = t_now
-            log(f"  cloud {live[i].number} absorbed by the plane at t = {t_now * 1e6:.2f} us")
-
-        if pending is None:
-            if len(t_events[0]) == 0:
-                if not absorbed:
-                    break                # reached t_end
-                continue
-            if m.overvoltage_k > 0 and target is None:   # threshold reached: wait for the overvoltage
-                dt = max(1e-10, 1e-3 * (t_now - t_seg0))
-                if live and t_now - dt >= t_seg0:
-                    rate = (tip_field(t_now, solution.sol(t_now)) - tip_field(t_now - dt, solution.sol(t_now - dt))) / dt
-                else:
-                    rate = (voltage(t_now) - voltage(t_now - dt)) / dt * e_tip
+        # The event below needs an UPWARD crossing of the threshold. When the tip field is already
+        # above it (a burst that did not pull the tip field back below E_inc), it has been reached now.
+        burst_now = False
+        y_now = [drifts[n] for n in numbers] if live else [0.0]
+        if pending is None and tip_field(t_now, y_now) >= (m.E_inc if target is None else target):
+            if m.overvoltage_k > 0 and target is None:   # wait for the overvoltage, from the rate now
+                # fixed 10 ns: much shorter than the field changes, long enough that the quadrature
+                # noise (about 1e-5 of the field) does not enter the difference
+                dt = 1e-8
+                speeds = drift_velocity(t_now, y_now)
+                y_next = [y + v * dt for y, v in zip(y_now, speeds)] if live else y_now
+                rate = (tip_field(t_now + dt, y_next) - tip_field(t_now, y_now)) / dt
                 target = m.E_inc + m.overvoltage_k * max(rate, 0.0) ** m.overvoltage_n
-                log(f"  tip field reached E_inc at t = {t_now * 1e6:.3f} us; burst at {target / 1e5:.2f} kV/cm")
+                log(f"  tip field already above E_inc at t = {t_now * 1e6:.3f} us; burst at {target / 1e5:.2f} kV/cm")
+                continue
+            if target is None and m.time_lag > 0:
+                pending = t_now + m.time_lag
+                log(f"  tip field already above E_inc at t = {t_now * 1e6:.3f} us; burst after {m.time_lag * 1e6:.3f} us")
                 continue
             target = None
-            if m.time_lag > 0:           # threshold reached: the burst follows after the time lag
-                pending = t_now + m.time_lag
-                log(f"  tip field reached E_inc at t = {t_now * 1e6:.3f} us; burst after {m.time_lag * 1e6:.3f} us")
-                continue
-        else:
-            if absorbed and t_now < pending:
-                continue                 # an absorption interrupted the waiting time
-            if t_now < pending:
-                break                    # t_end reached while waiting
-            pending = None
+            burst_now = True
+        if not burst_now:
+            # while a burst waits for its time lag, only absorption can interrupt the drift
+            events = ([terminal_event(tip_minus_E_inc)] if pending is None else []) + [apex_at_plane(i) for i in range(len(live))]
+            n_tip = 1 if pending is None else 0
+            t_target = t_end if pending is None else min(pending, t_end)
+            y0 = [drifts[n] for n in numbers] if live else [0.0]
+            if t_target <= t_now:
+                t_target = t_now + 1e-15
+            t_seg0 = t_now
+            solution = solve_ivp(drift_velocity, (t_now, t_target), y0, events=events or None, dense_output=True,
+                                 rtol=1e-6, atol=1e-12, max_step=max_step)
+            if not solution.success:
+                raise RuntimeError(f"Drift integration failed: {solution.message}")
+            t_stop = float(solution.t[-1])
+            if live:
+                result._segments.append((t_now, t_stop, solution, numbers))
+                for i, n in enumerate(numbers):
+                    drifts[n] = float(solution.y[i, -1])
+            t_now = t_stop
+
+            t_events = solution.t_events if solution.t_events is not None else []
+            absorbed = [i for i in range(len(live)) if len(t_events[n_tip + i]) > 0]
+            for i in absorbed:
+                live[i].t_absorbed = t_now
+                log(f"  cloud {live[i].number} absorbed by the plane at t = {t_now * 1e6:.2f} us")
+
+            if pending is None:
+                if len(t_events[0]) == 0:
+                    if not absorbed:
+                        break                # reached t_end
+                    continue
+                if m.overvoltage_k > 0 and target is None:   # threshold reached: wait for the overvoltage
+                    dt = max(1e-10, 1e-3 * (t_now - t_seg0))
+                    if live and t_now - dt >= t_seg0:
+                        rate = (tip_field(t_now, solution.sol(t_now)) - tip_field(t_now - dt, solution.sol(t_now - dt))) / dt
+                    else:
+                        rate = (voltage(t_now) - voltage(t_now - dt)) / dt * e_tip
+                    target = m.E_inc + m.overvoltage_k * max(rate, 0.0) ** m.overvoltage_n
+                    log(f"  tip field reached E_inc at t = {t_now * 1e6:.3f} us; burst at {target / 1e5:.2f} kV/cm")
+                    continue
+                target = None
+                if m.time_lag > 0:           # threshold reached: the burst follows after the time lag
+                    pending = t_now + m.time_lag
+                    log(f"  tip field reached E_inc at t = {t_now * 1e6:.3f} us; burst after {m.time_lag * 1e6:.3f} us")
+                    continue
+            else:
+                if absorbed and t_now < pending:
+                    continue                 # an absorption interrupted the waiting time
+                if t_now < pending:
+                    break                    # t_end reached while waiting
+                pending = None
 
         # ---- a new burst at t_now --------------------------------------------
         V_now = voltage(t_now)
         older = [(c.L, c.A, drifts[c.number]) for c in result.clouds if c.t_absorbed is None]
         report(t_now, f"burst {len(result.clouds) + 1}: solving the streamer length")
         L, Q, A, dip_width = solve_streamer_length(m, V_now, older, check=check)
+        if m.subtract_enclosed and older and Q <= 1.001e-3 * gauss_charge(m.E_c, L, m.theta_B):
+            # The older clouds already hold all the Gauss charge of the new cone, so the new cloud would get
+            # no charge, would not lower the tip field, and bursts would repeat at the same instant without
+            # end: beyond this point the tip field no longer falls below the threshold between bursts and
+            # the successive-burst model does not apply.
+            result.t_end = t_now
+            result.stop_reason = (f"model limit at t = {t_now * 1e6:.3f} us: the older clouds already fill "
+                                  f"the cone of burst {len(result.clouds) + 1} (no charge left for it)")
+            log("  stopped: " + result.stop_reason)
+            break
         z_c0 = find_e_sp_zero(m.R, L, m.theta_B, A, m.B, m.C)
         cloud = Cloud(number=len(result.clouds) + 1, t_birth=t_now, V_birth=V_now,
                       L=L, Q=Q, A=A, z_c0=z_c0, dip_width=dip_width)
@@ -396,6 +435,7 @@ def simulate(model, voltage, t_end, max_bursts=None, t_start=0.0, max_step=None,
             f"L = {L * 100:.3f} cm, Q = {Q * 1e9:.2f} nC, dip crossed {dip_width * 100:.2f} cm")
         if max_bursts is not None and len(result.clouds) >= max_bursts:
             result.t_end = t_now
+            result.stop_reason = "burst limit reached"
             break
 
     return result

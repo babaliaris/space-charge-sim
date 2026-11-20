@@ -49,6 +49,8 @@ GROUPS = [
               tooltip="Front time of the impulse (time to crest)."),
         Field("half_us", "Time to half value", "µs", 2500.0, minimum=1, maximum=1e6, decimals=1,
               tooltip="Time to half value on the tail."),
+        Field("until_crest", "Simulate the whole front (until the crest)", "", True, kind="bool",
+              tooltip="Run until the time to crest. Untick to choose another end time below."),
         Field("t_end_us", "Simulate until", "µs", 100.0, minimum=0.1, maximum=1e6, decimals=2,
               tooltip="End of the simulated time, measured from the start of the impulse."),
         Field("max_bursts", "Stop after bursts", "", 3, kind="int", minimum=0, maximum=1000, special="no limit",

@@ -6670,7 +6670,7 @@ name "fig:burst_timeline"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\begin{gathered}t_{k}^{*}=\min\left\{ t>t_{k-1}\,:\;E_{tip}(t)=V(t)\,e_{ex}(0)+H_{k}(0,t)=E_{0}\right\} ,\qquad E_{0}=V_{0}\,e_{ex}(0),\label{eq:burst_threshold}
+\begin{gathered}t_{k}^{*}=\min\left\{ t\geq t_{k-1}\,:\;E_{tip}(t)=V(t)\,e_{ex}(0)+H_{k}(0,t)\geq E_{0}\right\} ,\qquad E_{0}=V_{0}\,e_{ex}(0),\label{eq:burst_threshold}
 \end{equation}
 \end_inset
 
@@ -6693,6 +6693,19 @@ t_{k}=\min\left\{ t>t_{k}^{*}\,:\;E_{tip}(t)=E_{0}+k_{lag}\left(\left.\frac{dE_{
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Αν ο παλμός 
+\begin_inset Formula $k-1$
+\end_inset
+ αφήσει το πεδίο στην απόληξη πάνω από το 
+\begin_inset Formula $E_{0}$
+\end_inset
+, το κατώφλι θεωρείται ότι έχει ήδη επιτευχθεί: 
+\begin_inset Formula $t_{k}^{*}=t_{k-1}$
+\end_inset
+.
 \end_layout
 
 \begin_layout Standard
@@ -7274,6 +7287,60 @@ t_{cross}\approx\frac{d}{\mu^{+}\,V/d}=\frac{d^{2}}{\mu^{+}V}.\label{eq:crossing
 σε μεγάλα διάκενα τα νημάτια του μετώπου οδηγούν στην έναυση οχετού (leader),
  την οποία το μοντέλο δεν περιλαμβάνει.
  Το μοντέλο περιγράφει τους παλμούς κορώνα πριν από τον οχετό.
+\end_layout
+
+\begin_layout Standard
+Η προσομοίωση μπορεί επίσης να τελειώσει νωρίτερα, σε ένα όριο του ίδιου του μοντέλου.
+ Ένας παλμός ακολουθείται από σκοτεινή περίοδο μόνο αν το νέφος του επαναφέρει το πεδίο στην απόληξη κάτω από το κατώφλι.
+ Όταν η τάση ανεβαίνει γρήγορα,
+ ένας παλμός μπορεί να αφήσει το πεδίο πάνω από το 
+\begin_inset Formula $E_{0}$
+\end_inset
+·
+ ο επόμενος παλμός ακολουθεί τότε μόνο μετά τη χρονική υστέρηση (
+\begin_inset Formula $t_{k}^{*}=t_{k-1}$
+\end_inset
+ στην 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:burst_threshold"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+),
+ και οι παλμοί πυκνώνουν,
+ ενώ τα παλαιότερα νέφη,
+ που μόλις έχουν μετακινηθεί,
+ γεμίζουν τους κώνους των νέων.
+ Κάποια στιγμή το παλαιότερο φορτίο μέσα στον κώνο ενός νέου παλμού φτάνει όλο το φορτίο του νόμου του Gauss στην κεφαλή του,
+ και το φορτίο 
+\begin_inset Formula $Q_{k}$
+\end_inset
+ του νέου νέφους στην 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:burst_cloud"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+ μηδενίζεται.
+ Ένα νέφος χωρίς φορτίο δεν μειώνει το πεδίο στην απόληξη,
+ οπότε ο επόμενος παλμός θα ακολουθούσε την ίδια στιγμή,
+ πάλι χωρίς φορτίο,
+ επ' άπειρον:
+ το πεδίο στην απόληξη δεν πέφτει πια κάτω από το κατώφλι ανάμεσα στους παλμούς,
+ δεν υπάρχει πια σκοτεινή περίοδος,
+ και η εκκένωση δεν είναι πλέον η ακολουθία χωριστών παλμών που περιγράφει το μοντέλο.
+ Η προσομοίωση σταματά επομένως στον πρώτο παλμό που δεν θα έπαιρνε φορτίο,
+ και διατηρεί τα αποτελέσματα ως εκείνη τη στιγμή.
 \end_layout
 
 \begin_layout Standard
@@ -8234,7 +8301,7 @@ tuple "list"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\begin{gathered}t_{k}^{*}=\min\left\{ t>t_{k-1}\,:\;E_{tip}(t)=V(t)\,e_{ex}(0)+H_{k}(0,t)=E_{0}\right\} ,\\ E_{0}=V_{0}\,e_{ex}(0),\\ t_{k}=\min\left\{ t>t_{k}^{*}\,:\;E_{tip}(t)=E_{0}+k_{lag}\left(\left.\frac{dE_{tip}}{dt}\right|_{t_{k}^{*}}\right)^{n}\right\} .\end{gathered}\end{gathered}\label{eq:fw_burst}\tag{\ref{eq:burst_threshold}, \ref{eq:burst_condition}}
+\begin{gathered}t_{k}^{*}=\min\left\{ t\geq t_{k-1}\,:\;E_{tip}(t)=V(t)\,e_{ex}(0)+H_{k}(0,t)\geq E_{0}\right\} ,\\ E_{0}=V_{0}\,e_{ex}(0),\\ t_{k}=\min\left\{ t>t_{k}^{*}\,:\;E_{tip}(t)=E_{0}+k_{lag}\left(\left.\frac{dE_{tip}}{dt}\right|_{t_{k}^{*}}\right)^{n}\right\} .\end{gathered}\end{gathered}\label{eq:fw_burst}\tag{\ref{eq:burst_threshold}, \ref{eq:burst_condition}}
 \end{equation}
 \end_inset
 
@@ -16730,6 +16797,18 @@ E_{tip}(t)=V(t)\,e_{ex}(0)+\sum_{j<k}E_{j}(0,t),\label{eq:lag_tip_field}
 \begin_inset Formula $t_{k}^{*}$
 \end_inset
  με εύρεση ρίζας.
+ Αν το πεδίο στην απόληξη είναι ήδη πάνω από το 
+\begin_inset Formula $E_{0}$
+\end_inset
+ όταν αρχίζει ένα βήμα ολίσθησης (το άφησε εκεί ο προηγούμενος παλμός),
+ η 
+\begin_inset Formula $t_{k}^{*}$
+\end_inset
+ είναι αυτή η στιγμή,
+ η στιγμή του παλμού 
+\begin_inset Formula $t_{k-1}$
+\end_inset
+.
 \end_layout
 
 \begin_layout Enumerate
@@ -16757,6 +16836,13 @@ E_{tip}(t)=V(t)\,e_{ex}(0)+\sum_{j<k}E_{j}(0,t),\label{eq:lag_tip_field}
 \begin_inset Formula $e_{ex}(0)\,dV/dt$
 \end_inset
 .
+ Όταν 
+\begin_inset Formula $t_{k}^{*}=t_{k-1}$
+\end_inset
+ δεν υπάρχει προηγούμενη ολίσθηση για να κοιτάξει πίσω,
+ και ο ρυθμός υπολογίζεται αντί γι' αυτό με προς τα εμπρός διαφορά,
+ σε σταθερό διάστημα 10 ns (σε μικρότερο διάστημα θα υπεισερχόταν στη διαφορά ο θόρυβος της αριθμητικής ολοκλήρωσης),
+ με τα νέφη μετακινημένα με την ταχύτητα ολίσθησής τους.
  Ένας αρνητικός ρυθμός τίθεται ίσος με μηδέν.
 \end_layout
 

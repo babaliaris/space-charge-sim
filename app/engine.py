@@ -18,6 +18,7 @@ results are converted back to engineering units once, at the end.
 import math
 import multiprocessing
 import time
+import traceback
 import warnings
 from concurrent.futures import FIRST_COMPLETED, ProcessPoolExecutor, wait
 from dataclasses import dataclass, field
@@ -148,7 +149,7 @@ def run(v, name="run", progress=None, message=None, cancel=None):
     B, C = float(v["B"]), v["C_cm"] * CM
     mobility = v["mobility_cm2_Vs"] * 1e-4
     crest, front, half = v["crest_kV"] * KV, v["front_us"] * US, v["half_us"] * US
-    t_end = v["t_end_us"] * US
+    t_end = front if v.get("until_crest", False) else v["t_end_us"] * US
 
     # ---- 1. applied field --------------------------------------------------------------
     stage(0, 0.0, "solving the CSM charges of the rod")
@@ -196,7 +197,7 @@ def run(v, name="run", progress=None, message=None, cancel=None):
         return impulse_voltage(t, crest, alpha, beta, kv)
 
     say(f"Stage 3/4: bursts and drift, {v['crest_kV']:g} kV {v['front_us']:g}/{v['half_us']:g} µs, "
-        f"until {v['t_end_us']:g} µs")
+        f"until {t_end / US:g} µs" + (" (the crest)" if v.get("until_crest", False) else ""))
     bursts = [0]
 
     def on_progress(t, text):
@@ -216,7 +217,7 @@ def run(v, name="run", progress=None, message=None, cancel=None):
     t_stop = sim.t_end
     if not sim.clouds:
         say("  no burst: the tip field never reached the inception condition")
-    if v["max_bursts"] and len(sim.clouds) >= v["max_bursts"]:
+    if sim.stop_reason == "burst limit reached":
         say(f"  stopped after {len(sim.clouds)} burst(s) at t = {t_stop / US:.3f} µs (input 'Stop after bursts')")
     stage(2, 1.0, f"{len(sim.clouds)} burst(s)")
 
@@ -287,7 +288,7 @@ def run(v, name="run", progress=None, message=None, cancel=None):
                "V0 in this gap [kV]": E0 / e_tip / KV, "k_SI (E_req = E0 + k_SI (dE/dt)^n)": k_SI,
                "e_ex(0) (applied field per volt at the tip) [1/cm]": e_tip / 100,
                "rod length used [cm]": rod_length / CM, "impulse alpha [1/µs]": float(alpha) * US,
-               "impulse beta [1/µs]": float(beta) * US, "impulse k [-]": float(kv), "simulated until [µs]": t_stop / US,
+               "impulse beta [1/µs]": float(beta) * US, "impulse k [-]": float(kv), "simulated until [µs]": t_stop / US, "stopped because": sim.stop_reason,
                "bursts": len(sim.clouds)}
     elapsed = time.time() - t_clock
     say(f"Done in {elapsed:.1f} s: {len(sim.clouds)} burst(s)")
@@ -303,3 +304,24 @@ def input_rows(result):
     rows = [(FIELDS[k].label, result.inputs[k], FIELDS[k].unit) for k in FIELDS if k in result.inputs]
     rows += [(k, val, "") for k, val in result.derived.items()]
     return rows
+
+
+def run_in_process(values, name, queue, cancel_event):
+    """Entry point of the separate process the GUI starts for a run: the window stays responsive and
+    Cancel works at once. Sends ("progress", args), ("message", text) and finally one of
+    ("finished", RunResult), ("cancelled", None), ("failed", traceback text) through the queue."""
+    last = [0.0, 0]
+
+    def progress(frac, stage, stage_name, detail):
+        now = time.time()
+        if now - last[0] > 0.1 or stage != last[1] or frac >= 1.0:   # at most 10 updates per second
+            last[0], last[1] = now, stage
+            queue.put(("progress", (frac, stage, stage_name, detail)))
+
+    try:
+        result = run(values, name, progress, lambda text: queue.put(("message", text)), cancel_event.is_set)
+        queue.put(("finished", result))
+    except Cancelled:
+        queue.put(("cancelled", None))
+    except Exception:
+        queue.put(("failed", traceback.format_exc()))

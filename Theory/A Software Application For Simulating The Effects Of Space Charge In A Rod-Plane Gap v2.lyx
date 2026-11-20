@@ -6577,7 +6577,7 @@ time lag
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\begin{gathered}t_{k}^{*}=\min\left\{ t>t_{k-1}\,:\;E_{tip}(t)=V(t)\,e_{ex}(0)+H_{k}(0,t)=E_{0}\right\} ,\qquad E_{0}=V_{0}\,e_{ex}(0),\label{eq:burst_threshold}
+\begin{gathered}t_{k}^{*}=\min\left\{ t\geq t_{k-1}\,:\;E_{tip}(t)=V(t)\,e_{ex}(0)+H_{k}(0,t)\geq E_{0}\right\} ,\qquad E_{0}=V_{0}\,e_{ex}(0),\label{eq:burst_threshold}
 \end{equation}
 \end_inset
 
@@ -6599,6 +6599,19 @@ t_{k}=\min\left\{ t>t_{k}^{*}\,:\;E_{tip}(t)=E_{0}+k_{lag}\left(\left.\frac{dE_{
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+If burst 
+\begin_inset Formula $k-1$
+\end_inset
+ leaves the tip field above 
+\begin_inset Formula $E_{0}$
+\end_inset
+, the threshold counts as reached at once: 
+\begin_inset Formula $t_{k}^{*}=t_{k-1}$
+\end_inset
+.
 \end_layout
 
 \begin_layout Standard
@@ -7102,6 +7115,41 @@ after the crest
 
 \begin_layout Itemize
 in long gaps the streamers on the front lead to the inception of a leader, which the model does not include. The model describes the corona bursts before the leader.
+\end_layout
+
+\begin_layout Standard
+The run can also end earlier, at a limit of the model itself. A burst is followed by a dark period only if its cloud pulls the tip field back below the threshold. When the voltage rises fast, a burst can leave the tip field above 
+\begin_inset Formula $E_{0}$
+\end_inset
+; the next burst then follows after the time lag alone (
+\begin_inset Formula $t_{k}^{*}=t_{k-1}$
+\end_inset
+ in 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:burst_threshold"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+), and the bursts come closer and closer while the older clouds, which have hardly moved, fill the cones of the new ones. Eventually the older charge inside the cone of a new burst reaches the whole Gauss charge of its head, and the charge 
+\begin_inset Formula $Q_{k}$
+\end_inset
+ of the new cloud in 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:burst_cloud"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+ becomes zero. A cloud without charge does not lower the tip field, so the next burst would follow at the same instant, again without charge, without end: the tip field no longer falls below the threshold between bursts, there is no dark period any more, and the discharge is no longer the sequence of separate bursts that the model describes. The simulation therefore stops at the first burst that would get no charge, and keeps the results up to that instant.
 \end_layout
 
 \begin_layout Standard
@@ -8000,7 +8048,7 @@ tuple "list"
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\begin{gathered}t_{k}^{*}=\min\left\{ t>t_{k-1}\,:\;E_{tip}(t)=V(t)\,e_{ex}(0)+H_{k}(0,t)=E_{0}\right\} ,\\ E_{0}=V_{0}\,e_{ex}(0),\\ t_{k}=\min\left\{ t>t_{k}^{*}\,:\;E_{tip}(t)=E_{0}+k_{lag}\left(\left.\frac{dE_{tip}}{dt}\right|_{t_{k}^{*}}\right)^{n}\right\} .\end{gathered}\end{gathered}\label{eq:fw_burst}\tag{\ref{eq:burst_threshold}, \ref{eq:burst_condition}}
+\begin{gathered}t_{k}^{*}=\min\left\{ t\geq t_{k-1}\,:\;E_{tip}(t)=V(t)\,e_{ex}(0)+H_{k}(0,t)\geq E_{0}\right\} ,\\ E_{0}=V_{0}\,e_{ex}(0),\\ t_{k}=\min\left\{ t>t_{k}^{*}\,:\;E_{tip}(t)=E_{0}+k_{lag}\left(\left.\frac{dE_{tip}}{dt}\right|_{t_{k}^{*}}\right)^{n}\right\} .\end{gathered}\end{gathered}\label{eq:fw_burst}\tag{\ref{eq:burst_threshold}, \ref{eq:burst_condition}}
 \end{equation}
 \end_inset
 
@@ -15813,7 +15861,16 @@ While it integrates the drift of the clouds, the solver watches
 . When this changes sign it locates the instant 
 \begin_inset Formula $t_{k}^{*}$
 \end_inset
- by root finding.
+ by root finding. If the tip field is already above 
+\begin_inset Formula $E_{0}$
+\end_inset
+ when a drift step begins (the previous burst left it there), 
+\begin_inset Formula $t_{k}^{*}$
+\end_inset
+ is that instant, the burst instant 
+\begin_inset Formula $t_{k-1}$
+\end_inset
+.
 \end_layout
 
 \begin_layout Enumerate
@@ -15837,7 +15894,10 @@ where the positions of the clouds at
  come from the interpolation of the drift solution. Before the first burst there are no clouds, and the rate is simply 
 \begin_inset Formula $e_{ex}(0)\,dV/dt$
 \end_inset
-. A negative rate is set to zero.
+. When 
+\begin_inset Formula $t_{k}^{*}=t_{k-1}$
+\end_inset
+ there is no earlier drift to look back on, and the rate is a forward difference instead, over a fixed 10 ns, with the clouds moved at their drift velocity (a shorter interval would let the noise of the numerical integration into the difference). A negative rate is set to zero.
 \end_layout
 
 \begin_layout Enumerate

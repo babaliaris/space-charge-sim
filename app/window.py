@@ -1,12 +1,12 @@
 """The main window: inputs on the left, results in tabs on the right, progress at the bottom."""
 
+import multiprocessing
 import os
-import threading
+import queue as queue_module
 import time
-import traceback
 from datetime import datetime
 
-from PyQt5.QtCore import QObject, Qt, QThread, QTimer, pyqtSignal
+from PyQt5.QtCore import QObject, Qt, QTimer, pyqtSignal
 from PyQt5.QtWidgets import (QAbstractItemView, QCheckBox, QComboBox, QDoubleSpinBox, QFileDialog, QFormLayout,
                              QGroupBox, QHBoxLayout, QHeaderView, QLabel, QLineEdit, QListWidget, QListWidgetItem,
                              QMainWindow, QMessageBox, QPlainTextEdit, QProgressBar, QPushButton, QScrollArea,
@@ -22,35 +22,69 @@ from app.inputs import (FIELDS, GROUPS, PRESETS, THETA_SOLVE, defaults, gallet_c
 
 # ----------------------------------------------------------------------------- background run
 class Worker(QObject):
+    """Runs engine.run in a separate process (spawn) and relays its messages as Qt signals.
+    A process, not a thread: the heavy quadratures would otherwise starve the window of the GIL."""
     progress = pyqtSignal(float, int, str, str)
     message = pyqtSignal(str)
     finished = pyqtSignal(object)
     failed = pyqtSignal(str)
     cancelled = pyqtSignal()
 
-    def __init__(self, values, name):
-        super().__init__()
-        self.values, self.name = values, name
-        self._cancel = threading.Event()
-        self._last = (0.0, 0)
+    def __init__(self, values, name, parent=None):
+        super().__init__(parent)
+        ctx = multiprocessing.get_context("spawn")
+        self.queue = ctx.Queue()
+        self.cancel_event = ctx.Event()
+        self.process = ctx.Process(target=engine.run_in_process, args=(values, name, self.queue, self.cancel_event))
+        self.timer = QTimer(self)
+        self.timer.setInterval(100)
+        self.timer.timeout.connect(self._poll)
+        self.done = False
+        self.cancel_requested_at = None
+
+    def start(self):
+        self.process.start()
+        self.timer.start()
+
+    def running(self):
+        return not self.done
 
     def cancel(self):
-        self._cancel.set()
+        self.cancel_event.set()
+        self.cancel_requested_at = time.time()
 
-    def _progress(self, frac, stage, stage_name, detail):
-        now = time.time()
-        if now - self._last[0] > 0.1 or stage != self._last[1] or frac >= 1.0:   # at most 10 updates per second
-            self._last = (now, stage)
-            self.progress.emit(frac, stage, stage_name, detail)
+    def kill(self):
+        if self.process.is_alive():
+            self.process.terminate()
+        self.done = True
+        self.timer.stop()
 
-    def run(self):
-        try:
-            result = engine.run(self.values, self.name, self._progress, self.message.emit, self._cancel.is_set)
-            self.finished.emit(result)
-        except engine.Cancelled:
+    def _poll(self):
+        while True:
+            try:
+                kind, payload = self.queue.get_nowait()
+            except queue_module.Empty:
+                break
+            if kind == "progress":
+                self.progress.emit(*payload)
+            elif kind == "message":
+                self.message.emit(payload)
+            else:
+                self._finish()
+                {"finished": self.finished, "failed": self.failed}.get(kind, self.cancelled).emit(
+                    *(() if kind == "cancelled" else (payload,)))
+                return
+        if self.cancel_requested_at and time.time() - self.cancel_requested_at > 10 and self.process.is_alive():
+            self.kill()                       # a single long quadrature step: stop it the hard way
             self.cancelled.emit()
-        except Exception:
-            self.failed.emit(traceback.format_exc())
+        elif not self.process.is_alive() and self.queue.empty() and not self.done:
+            self._finish()
+            self.failed.emit(f"The simulation process ended unexpectedly (exit code {self.process.exitcode}).")
+
+    def _finish(self):
+        self.done = True
+        self.timer.stop()
+        self.process.join(timeout=5)
 
 
 # ----------------------------------------------------------------------------- helpers
@@ -101,7 +135,6 @@ class MainWindow(QMainWindow):
         self.resize(1500, 920)
         self.widgets = {}
         self.runs = []                 # RunResult list, same order as the runs list widget
-        self.thread = None
         self.worker = None
         self.t_started = 0.0
 
@@ -168,6 +201,8 @@ class MainWindow(QMainWindow):
             form_lay.addWidget(box)
         form_lay.addStretch()
         self.widgets["theta_mode"].currentTextChanged.connect(self._theta_mode_changed)
+        self.widgets["until_crest"].toggled.connect(self._until_crest_changed)
+        self.widgets["front_us"].valueChanged.connect(lambda _: self._until_crest_changed(self.widgets["until_crest"].isChecked()))
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
         scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
@@ -267,6 +302,13 @@ class MainWindow(QMainWindow):
             else:
                 w.setValue(float(v[k]))
         self._theta_mode_changed(self.widgets["theta_mode"].currentText())
+        self._until_crest_changed(self.widgets["until_crest"].isChecked())
+
+    def _until_crest_changed(self, on):
+        """With 'whole front' ticked, the end time follows the time to crest and cannot be edited."""
+        self.widgets["t_end_us"].setEnabled(not on and self.run_btn.isEnabled() if hasattr(self, "run_btn") else not on)
+        if on:
+            self.widgets["t_end_us"].setValue(self.widgets["front_us"].value())
 
     def _theta_mode_changed(self, mode):
         solve = mode == THETA_SOLVE
@@ -382,19 +424,14 @@ class MainWindow(QMainWindow):
             return
         name = f"#{len(self.runs) + 1}  D {v['D_cm']:g} cm · {v['crest_kV']:g} kV · {v['front_us']:g} µs"
         self.log_view.appendPlainText(f"\n===== {name}  ({datetime.now():%H:%M:%S}) =====")
-        self.thread = QThread(self)
-        self.worker = Worker(v, name)
-        self.worker.moveToThread(self.thread)
-        self.thread.started.connect(self.worker.run)
+        self.worker = Worker(v, name, self)
         self.worker.progress.connect(self._on_progress)
         self.worker.message.connect(self.log_view.appendPlainText)
         self.worker.finished.connect(self._on_finished)
         self.worker.failed.connect(self._on_failed)
         self.worker.cancelled.connect(self._on_cancelled)
-        for sig in (self.worker.finished, self.worker.failed, self.worker.cancelled):
-            sig.connect(self.thread.quit)
         self._set_running(True)
-        self.thread.start()
+        self.worker.start()
 
     def cancel_run(self):
         if self.worker:
@@ -409,6 +446,7 @@ class MainWindow(QMainWindow):
             w.setEnabled(not running)
         if not running:
             self._theta_mode_changed(self.widgets["theta_mode"].currentText())
+        self._until_crest_changed(self.widgets["until_crest"].isChecked())
         if running:
             self.progress.setValue(0)
             self.t_started = time.time()
@@ -427,7 +465,14 @@ class MainWindow(QMainWindow):
     def _on_finished(self, result):
         self._set_running(False)
         self.progress.setValue(1000)
-        self.stage_label.setText(f"Finished {result.name} in {result.elapsed_s:.1f} s · {len(result.clouds)} burst(s).")
+        why = result.derived.get("stopped because", "")
+        self.stage_label.setText(f"Finished {result.name} in {result.elapsed_s:.1f} s · {len(result.clouds)} burst(s)"
+                                 + (f" · {why}" if why.startswith("model limit") else "") + ".")
+        if why.startswith("model limit"):
+            QMessageBox.information(self, "Successive-burst model limit", (
+                f"The run stopped at {why[len('model limit at '):]}.\n\nBeyond this point the tip field no longer "
+                "falls below the inception threshold between bursts, so the successive-burst model does not apply. "
+                "The results up to this instant are shown."))
         self.runs.append(result)
         item = QListWidgetItem(result.name)
         item.setFlags(item.flags() | Qt.ItemIsUserCheckable)
@@ -472,10 +517,8 @@ class MainWindow(QMainWindow):
         return saved
 
     def closeEvent(self, event):
-        if self.thread is not None and self.thread.isRunning():
-            self.worker.cancel()
-            self.thread.quit()
-            self.thread.wait(5000)
+        if self.worker is not None and self.worker.running():
+            self.worker.kill()
         event.accept()
 
     # ------------------------------------------------------------------ runs list
