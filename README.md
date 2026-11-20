@@ -59,6 +59,8 @@ Run the whole simulation from a window (from the repository root):
 python -m app
 ```
 
+(or, after `pip install .`, with the command `space-charge-simulator`).
+
 Enter the inputs (or pick a preset), press **Run simulation** and follow the progress bar and the current stage
 (applied field, cone angle, bursts and drift, field profiles). The results appear in tabs (voltage and tip field,
 field profiles E(z) with a time slider, cloud positions, drift and charge, bursts, parameters, log); hover over a
@@ -89,7 +91,12 @@ secrets `WINDOWS_CERT_PFX` (the code-signing certificate `.pfx`, base64: `base64
 Free software under the [GNU General Public License v3.0](LICENSE) (required by PyQt5, which is GPL).
 
 ## Project Structure
-* `main.py` - Core simulation runner.
-* `interactive.py` - Interactive execution module.
-* `sensitivity_analysis.py` - Parameter sensitivity scripts.
-* `solver/` - Core numerical routines, field evaluations, and physical constants.
+* `solver/` - the physics: space-charge field integrals, applied field (Charge Simulation Method), cone angle,
+  drift and the successive-burst simulation. Everything in SI units, z measured from the tip apex.
+* `app/` - the graphical interface (`python -m app`); depends only on `solver/`.
+* `thesis/` - everything specific to the thesis: the scripts (reproductions of the paper's figures, the fits, and
+  the tools that turn their Excel charts into the thesis figures), `input/` (curves digitized from the paper),
+  `excel/` (workbooks with the charts of the thesis), `output/` (what the scripts write, git-ignored) and
+  `Theory/` (the thesis itself, LyX/PDF in English and Greek, its figures, the paper and the presentation).
+  Run the scripts from the repository root as modules, e.g. `python -m thesis.wh_fig3_reproduction`.
+* `packaging/`, `.github/workflows/` - building the Windows and Linux packages.

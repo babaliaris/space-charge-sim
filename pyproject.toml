@@ -13,3 +13,12 @@ dependencies = [
     "mplcursors",
     "openpyxl"
 ]
+
+[project.gui-scripts]
+space-charge-simulator = "app.__main__:main"   # the GUI, after `pip install .`
+
+[tool.setuptools.packages.find]
+include = ["solver*", "app*", "thesis*"]       # data folders (thesis/input, thesis/Theory, ...) have no __init__.py
+
+[tool.setuptools.package-data]
+app = ["icon.png"]

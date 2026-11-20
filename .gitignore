@@ -5,9 +5,13 @@ __pycache__/
 mikropoulos_zoom.txt
 
 # Generated data (xlsx/csv produced by the scripts)
-output/
+thesis/output/
 
 # Packaging (PyInstaller / AppImage / installer output)
 build/
 dist/
 *.AppImage
+
+# LyX backups
+*.lyx~
+*.egg-info/
