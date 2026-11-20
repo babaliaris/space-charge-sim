@@ -9,9 +9,12 @@ def selftest():
     from app import engine
     from app.inputs import defaults
     v = defaults()
-    v.update(t_end_us=6.0, n_time=20, n_snap=2, n_z=12, workers=2)
+    # a fixed end time (not the whole front), so that the check stays short and does not change with the defaults
+    v.update(until_crest=False, t_end_us=6.0, max_bursts=0, n_time=20, n_snap=2, n_z=12, workers=2)
     result = engine.run(v, "selftest", message=print)
-    ok = len(result.clouds) == 2 and abs(result.clouds[0]["Q_nC"] - 9.47) < 0.05
+    expected = [9.47, 5.98]            # burst charges [nC] of the final model in this case (D = 40 cm, 100 us front)
+    charges = [c["Q_nC"] for c in result.clouds]
+    ok = len(charges) == len(expected) and all(abs(q - e) < 0.05 for q, e in zip(charges, expected))
     print("SELFTEST", "PASSED" if ok else "FAILED", [round(c["Q_nC"], 3) for c in result.clouds])
     sys.exit(0 if ok else 1)
 
